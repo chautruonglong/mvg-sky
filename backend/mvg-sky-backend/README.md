@@ -2,14 +2,36 @@
 
 ## SDK - Java 17
 
-## Microservice Backend
+## Microservices Backend
 
-- gateway
-- discovery
-- smtp
-- imap
-- mail
+>#### svc-gateway
+
+- Local Port: ***8080***
+
+>#### svc-discovery
+
+- Local Port: ***8000***
+
+>#### svc-mail
+
+- Local Port: ***8001***
+
+>#### svc-account
+
+- Local Port: ***8002***
+
+>#### svc-smtp
+
+- Local Port: ***8025***
+
+>#### svc-imap
+
+- Local Port: ***8143***
 
 ## Modules Backend
 
-- repository
+>#### mod-repository
+
+- Data Access Layer
+- Entities
+- Constants

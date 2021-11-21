@@ -3,8 +3,6 @@
 **/build
 **/target
 **/.vscode
-**/application.properties
-**/application.yml
-**/application.yaml
 **/.env
 **/.DS_Store
+

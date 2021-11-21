@@ -7,30 +7,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="repository" />
-        <module name="configuration" />
-        <module name="gateway" />
-        <module name="discovery" />
+        <module name="mod-repository" />
+        <module name="svc-gateway" />
+        <module name="svc-discovery" />
+        <module name="svc-configuration" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="configuration" target="17" />
       <module name="demo" target="17" />
-      <module name="discovery" target="17" />
-      <module name="gateway" target="17" />
+      <module name="mod-repository" target="17" />
       <module name="mvg-sky-backend" target="17" />
-      <module name="repository" target="17" />
+      <module name="svc-configuration" target="17" />
+      <module name="svc-discovery" target="17" />
+      <module name="svc-gateway" target="17" />
       <module name="untitled" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="configuration" options="-parameters" />
       <module name="demo" options="-parameters" />
-      <module name="discovery" options="-parameters" />
-      <module name="gateway" options="-parameters" />
+      <module name="mod-repository" options="-parameters" />
       <module name="mvg-sky-backend" options="-parameters" />
-      <module name="repository" options="-parameters" />
+      <module name="svc-configuration" options="-parameters" />
+      <module name="svc-discovery" options="-parameters" />
+      <module name="svc-gateway" options="-parameters" />
       <module name="untitled" options="-parameters" />
     </option>
   </component>

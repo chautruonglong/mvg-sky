@@ -12,10 +12,10 @@
 
 
     <modules>
-        <module>repository</module>
-        <module>gateway</module>
-        <module>discovery</module>
-        <module>configuration</module>
+        <module>mod-repository</module>
+        <module>svc-gateway</module>
+        <module>svc-discovery</module>
+        <module>svc-configuration</module>
     </modules>
 
 
