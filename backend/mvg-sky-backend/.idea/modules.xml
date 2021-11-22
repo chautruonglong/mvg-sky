@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/repository/mod-repository.iml" filepath="$PROJECT_DIR$/repository/mod-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mod-repository/mod-repository.iml" filepath="$PROJECT_DIR$/mod-repository/mod-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvg-sky-backend.iml" filepath="$PROJECT_DIR$/mvg-sky-backend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/configuration/svc-configuration.iml" filepath="$PROJECT_DIR$/configuration/svc-configuration.iml" />
-      <module fileurl="file://$PROJECT_DIR$/discovery/svc-discovery.iml" filepath="$PROJECT_DIR$/discovery/svc-discovery.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gateway/svc-gateway.iml" filepath="$PROJECT_DIR$/gateway/svc-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/svc-configuration/svc-configuration.iml" filepath="$PROJECT_DIR$/svc-configuration/svc-configuration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/svc-discovery/svc-discovery.iml" filepath="$PROJECT_DIR$/svc-discovery/svc-discovery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/svc-gateway/svc-gateway.iml" filepath="$PROJECT_DIR$/svc-gateway/svc-gateway.iml" />
     </modules>
   </component>
 </project>

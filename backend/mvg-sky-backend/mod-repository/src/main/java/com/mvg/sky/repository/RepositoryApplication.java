@@ -1,7 +1,11 @@
 package com.mvg.sky.repository;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class RepositoryApplication {
     public static void main(String[] args) {
-        System.out.println("This is repository module");
+        SpringApplication.run(RepositoryApplication.class, args);
     }
 }
