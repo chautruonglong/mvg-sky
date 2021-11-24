@@ -1,6 +1,6 @@
 package com.mvg.sky.repository.entity;
 
-import com.mvg.sky.repository.constant.MessageType;
+import com.mvg.sky.enumeration.EmailEnumeration;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,21 +21,18 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "messages")
-public class Message extends BaseEntity {
+@Table(name = "emails")
+public class EmailEntity extends BaseEntity {
     @Column(name = "accountId", nullable = false)
     private UUID accountId;
 
-    @Column(name = "roomId", nullable = false)
-    private UUID roomId;
+    @Column(name = "folderId", nullable = false)
+    private UUID folderId;
 
-    @Column(name = "threadId")
-    private UUID threadId;
+    @Column(name = "fileName", nullable = false)
+    private String fileName;
 
-    @Column(name = "content", columnDefinition = "text")
-    private String content;
-
+    @Column(name = "flag")
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private MessageType type;
+    private EmailEnumeration flag;
 }

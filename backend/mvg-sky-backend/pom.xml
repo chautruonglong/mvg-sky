@@ -11,20 +11,22 @@
     <description>mvg-sky-backend</description>
 
 
-    <modules>
-        <module>mod-repository</module>
-        <module>svc-gateway</module>
-        <module>svc-discovery</module>
-        <module>svc-configuration</module>
-    </modules>
-
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.0</version>
         <relativePath/>
     </parent>
+
+
+    <modules>
+        <module>mod-repository</module>
+        <module>mod-enumeration</module>
+        <module>svc-gateway</module>
+        <module>svc-discovery</module>
+        <module>svc-configuration</module>
+        <module>svc-account</module>
+    </modules>
 
 
     <properties>
@@ -105,20 +107,20 @@
 
 
     <build>
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <excludes>
-                <exclude>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                </exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-    </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 

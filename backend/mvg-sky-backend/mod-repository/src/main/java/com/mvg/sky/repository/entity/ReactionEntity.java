@@ -18,11 +18,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "room_accounts")
-public class RoomAccount extends BaseEntity {
-    @Column(name = "roomId", nullable = false)
-    private UUID roomId;
-
+@Table(name = "reactions")
+public class ReactionEntity extends BaseEntity {
     @Column(name = "accountId", nullable = false)
     private UUID accountId;
+
+    @Column(name = "messageId", nullable = false)
+    private UUID messageId;
+
+    @Column(name = "code", nullable = false)
+    private String code;
 }

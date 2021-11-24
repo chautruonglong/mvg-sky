@@ -1,11 +1,8 @@
 package com.mvg.sky.repository.entity;
 
-import com.mvg.sky.repository.constant.EmailFlag;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,18 +18,11 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "emails")
-public class Email extends BaseEntity {
+@Table(name = "room_accounts")
+public class RoomAccountEntity extends BaseEntity {
+    @Column(name = "roomId", nullable = false)
+    private UUID roomId;
+
     @Column(name = "accountId", nullable = false)
     private UUID accountId;
-
-    @Column(name = "folderId", nullable = false)
-    private UUID folderId;
-
-    @Column(name = "fileName", nullable = false)
-    private String fileName;
-
-    @Column(name = "flag")
-    @Enumerated(EnumType.STRING)
-    private EmailFlag flag;
 }

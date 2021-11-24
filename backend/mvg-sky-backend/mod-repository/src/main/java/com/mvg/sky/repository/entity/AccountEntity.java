@@ -1,7 +1,8 @@
 package com.mvg.sky.repository.entity;
 
-import com.mvg.sky.repository.constant.Role;
+import com.mvg.sky.enumeration.RoleEnumeration;
 import com.vladmihalcea.hibernate.type.array.EnumArrayType;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -27,13 +28,16 @@ import org.hibernate.annotations.TypeDefs;
     @TypeDef(
         name = "roles-enum",
         typeClass = EnumArrayType.class,
-        defaultForType = Role[].class,
+        defaultForType = RoleEnumeration[].class,
         parameters = {@Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "text")}
     )
 })
 @Entity
 @Table(name = "accounts")
-public class Account extends BaseEntity {
+public class AccountEntity extends BaseEntity {
+    @Column(name = "domainId", nullable = false)
+    private UUID domainId;
+
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
@@ -46,5 +50,5 @@ public class Account extends BaseEntity {
 
     @Type(type = "roles-enum")
     @Column(name = "roles", columnDefinition = "text[]")
-    private Role[] roles;
+    private RoleEnumeration[] roles;
 }

@@ -5,6 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>mod-repository</artifactId>
+    <packaging>jar</packaging>
 
 
     <parent>
@@ -21,6 +22,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.mvg.sky</groupId>
+            <artifactId>mod-enumeration</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

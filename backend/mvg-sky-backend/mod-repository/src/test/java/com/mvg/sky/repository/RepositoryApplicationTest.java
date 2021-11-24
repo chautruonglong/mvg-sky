@@ -1,7 +1,10 @@
 package com.mvg.sky.repository;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
 public class RepositoryApplicationTest {
-    public static void main(String[] args) {
-        System.out.println("This is repository testing module");
-    }
+    @Test
+    public void contextLoads() {}
 }

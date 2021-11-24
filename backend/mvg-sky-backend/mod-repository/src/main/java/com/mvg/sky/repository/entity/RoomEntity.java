@@ -1,8 +1,10 @@
 package com.mvg.sky.repository.entity;
 
-import java.util.UUID;
+import com.mvg.sky.enumeration.RoomEnumeration;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,14 +20,18 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "folders")
-public class Folder extends BaseEntity {
-    @Column(name = "accountId", nullable = false)
-    private UUID accountId;
-
-    @Column(name = "parentId")
-    private UUID parentId;
-
+@Table(name = "rooms")
+public class RoomEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private RoomEnumeration type;
 }

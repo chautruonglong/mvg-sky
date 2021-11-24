@@ -18,11 +18,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "contacts")
-public class Contact extends BaseEntity {
-    @Column(name = "yourId")
-    private UUID yourId;
+@Table(name = "folders")
+public class FolderEntity extends BaseEntity {
+    @Column(name = "accountId", nullable = false)
+    private UUID accountId;
 
-    @Column(name = "partnerId")
-    private UUID partnerId;
+    @Column(name = "parentId")
+    private UUID parentId;
+
+    @Column(name = "name")
+    private String name;
 }

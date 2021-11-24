@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @Entity
 @Table(name = "profiles")
-public class Profile extends BaseEntity {
+public class ProfileEntity extends BaseEntity {
     @Column(name = "accountId", nullable = false)
     private UUID accountId;
 

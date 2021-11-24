@@ -34,4 +34,10 @@
 
 - Data Access Layer
 - Entities
+- Test Port: *10000*
+
+>#### mod-enumeration
+
 - Constants
+- Role, MessageType, EmailFlag, RoomType, ...
+- Test Port: *10001*

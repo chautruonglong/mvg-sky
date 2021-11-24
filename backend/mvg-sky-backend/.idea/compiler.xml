@@ -9,14 +9,18 @@
         <outputRelativeToContentRoot value="true" />
         <module name="mod-repository" />
         <module name="svc-gateway" />
+        <module name="svc-account" />
         <module name="svc-discovery" />
         <module name="svc-configuration" />
+        <module name="mod-enumeration" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="17" />
+      <module name="mod-enumeration" target="17" />
       <module name="mod-repository" target="17" />
       <module name="mvg-sky-backend" target="17" />
+      <module name="svc-account" target="17" />
       <module name="svc-configuration" target="17" />
       <module name="svc-discovery" target="17" />
       <module name="svc-gateway" target="17" />
@@ -26,8 +30,10 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo" options="-parameters" />
+      <module name="mod-enumeration" options="-parameters" />
       <module name="mod-repository" options="-parameters" />
       <module name="mvg-sky-backend" options="-parameters" />
+      <module name="svc-account" options="-parameters" />
       <module name="svc-configuration" options="-parameters" />
       <module name="svc-discovery" options="-parameters" />
       <module name="svc-gateway" options="-parameters" />
