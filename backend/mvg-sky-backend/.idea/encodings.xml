@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/mod-enumeration/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mod-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mod-repository/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/svc-account/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/svc-configuration/src/main/java" charset="UTF-8" />

@@ -1,6 +1,6 @@
 package com.mvg.sky.repository.entity;
 
-import com.mvg.sky.enumeration.MessageEnumeration;
+import com.mvg.sky.common.enumeration.MessageEnumeration;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;

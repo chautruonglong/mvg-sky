@@ -1,11 +1,11 @@
-package com.mvg.sky.enumeration;
+package com.mvg.sky.common;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EnumerationApplication {
+public class CommonApplication {
     public static void main(String[] args) {
-        SpringApplication.run(EnumerationApplication.class, args);
+        SpringApplication.run(CommonApplication.class, args);
     }
 }

@@ -21,7 +21,7 @@
 
     <modules>
         <module>mod-repository</module>
-        <module>mod-enumeration</module>
+        <module>mod-common</module>
         <module>svc-gateway</module>
         <module>svc-discovery</module>
         <module>svc-configuration</module>

@@ -1,4 +1,4 @@
-package com.mvg.sky.enumeration;
+package com.mvg.sky.common.enumeration;
 
 public enum RoleEnumeration {
     USER,

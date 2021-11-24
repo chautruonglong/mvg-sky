@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>com.mvg.sky</groupId>
-            <artifactId>mod-enumeration</artifactId>
+            <artifactId>mod-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

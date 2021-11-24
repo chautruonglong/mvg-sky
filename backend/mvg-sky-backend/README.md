@@ -20,6 +20,10 @@
 
 - Local Port: ***8002***
 
+>#### svc-configuration
+
+- Local Port: ***8003***
+
 >#### svc-smtp
 
 - Local Port: ***8025***
@@ -36,8 +40,8 @@
 - Entities
 - Test Port: *10000*
 
->#### mod-enumeration
+>#### mod-common
 
-- Constants
-- Role, MessageType, EmailFlag, RoomType, ...
+- Enumerations
+- Exceptions
 - Test Port: *10001*

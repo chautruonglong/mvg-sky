@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/mod-enumeration/mod-enumeration.iml" filepath="$PROJECT_DIR$/mod-enumeration/mod-enumeration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mod-common/mod-common.iml" filepath="$PROJECT_DIR$/mod-common/mod-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/mod-repository/mod-repository.iml" filepath="$PROJECT_DIR$/mod-repository/mod-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvg-sky-backend.iml" filepath="$PROJECT_DIR$/mvg-sky-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/svc-account/svc-account.iml" filepath="$PROJECT_DIR$/svc-account/svc-account.iml" />

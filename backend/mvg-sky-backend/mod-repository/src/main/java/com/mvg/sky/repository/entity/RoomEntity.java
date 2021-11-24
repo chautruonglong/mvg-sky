@@ -1,6 +1,6 @@
 package com.mvg.sky.repository.entity;
 
-import com.mvg.sky.enumeration.RoomEnumeration;
+import com.mvg.sky.common.enumeration.RoomEnumeration;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

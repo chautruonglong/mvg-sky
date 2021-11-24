@@ -1,4 +1,4 @@
-package com.mvg.sky.enumeration;
+package com.mvg.sky.common.enumeration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

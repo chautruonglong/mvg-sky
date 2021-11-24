@@ -1,6 +1,6 @@
 package com.mvg.sky.repository.entity;
 
-import com.mvg.sky.enumeration.RoleEnumeration;
+import com.mvg.sky.common.enumeration.RoleEnumeration;
 import com.vladmihalcea.hibernate.type.array.EnumArrayType;
 import java.util.UUID;
 import javax.persistence.Column;
