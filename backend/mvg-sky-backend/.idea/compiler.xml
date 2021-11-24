@@ -7,37 +7,48 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mod-repository" />
-        <module name="mod-common" />
-        <module name="svc-gateway" />
-        <module name="svc-account" />
-        <module name="svc-discovery" />
-        <module name="svc-configuration" />
+        <module name="service-gateway" />
+        <module name="module-repository" />
+        <module name="module-common" />
+        <module name="service-smtp" />
+        <module name="service-imap" />
+        <module name="admin-portal" />
+        <module name="service-account" />
+        <module name="service-configuration" />
+        <module name="service-chat" />
+        <module name="service-mail" />
+        <module name="service-discovery" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="demo" target="17" />
-      <module name="mod-common" target="17" />
-      <module name="mod-repository" target="17" />
+      <module name="admin-portal" target="17" />
+      <module name="module-common" target="17" />
+      <module name="module-repository" target="17" />
       <module name="mvg-sky-backend" target="17" />
-      <module name="svc-account" target="17" />
-      <module name="svc-configuration" target="17" />
-      <module name="svc-discovery" target="17" />
-      <module name="svc-gateway" target="17" />
-      <module name="untitled" target="17" />
+      <module name="service-account" target="17" />
+      <module name="service-chat" target="17" />
+      <module name="service-configuration" target="17" />
+      <module name="service-discovery" target="17" />
+      <module name="service-gateway" target="17" />
+      <module name="service-imap" target="17" />
+      <module name="service-mail" target="17" />
+      <module name="service-smtp" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="demo" options="-parameters" />
-      <module name="mod-common" options="-parameters" />
-      <module name="mod-repository" options="-parameters" />
+      <module name="admin-portal" options="-parameters" />
+      <module name="module-common" options="-parameters" />
+      <module name="module-repository" options="-parameters" />
       <module name="mvg-sky-backend" options="-parameters" />
-      <module name="svc-account" options="-parameters" />
-      <module name="svc-configuration" options="-parameters" />
-      <module name="svc-discovery" options="-parameters" />
-      <module name="svc-gateway" options="-parameters" />
-      <module name="untitled" options="-parameters" />
+      <module name="service-account" options="-parameters" />
+      <module name="service-chat" options="-parameters" />
+      <module name="service-configuration" options="-parameters" />
+      <module name="service-discovery" options="-parameters" />
+      <module name="service-gateway" options="-parameters" />
+      <module name="service-imap" options="-parameters" />
+      <module name="service-mail" options="-parameters" />
+      <module name="service-smtp" options="-parameters" />
     </option>
   </component>
 </project>
