@@ -5,90 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_jersey_core_1_19_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_jakarta_mail_1_6_7.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_configuration_processor_2_6_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_mail_2_6_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_netflix_eureka_client_3_1_0_RC1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_thymeleaf_extras_thymeleaf_extras_springsecurity5_3_0_4_RELEASE.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/exception/handler/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LoginRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fastRequestCollection.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_contribs_jersey_apache_client4_1_19_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_jersey_core_1_19_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Spring_Security_5_2_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/mod-common.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/CommonApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/enumeration/EmailEnumeration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/enumeration/MessageEnumeration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/enumeration/RoleEnumeration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/enumeration/RoomEnumeration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/exception/RequestException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/exception/RequestExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/java/com/mvg/sky/common/exception/ResponseExceptionEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-common/src/test/java/com/mvg/sky/common/enumeration/EnumerationApplicationTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/mod-repository.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/ContactRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/EmailRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/FolderRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/MessageRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/ProfileRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/ReactionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/RepositoryApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/RoomAccountRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/RoomRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/AccountEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/BaseEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/ContactEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/DomainEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/EmailEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/FolderEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/MessageEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/ProfileEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/ReactionEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/RoomAccountEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/java/com/mvg/sky/repository/entity/RoomEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mod-repository/src/test/java/com/mvg/sky/repository/RepositoryApplicationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-portal/admin-portal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-portal/admin-portal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-portal/src/main/java/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-portal/src/main/resources/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-portal/src/test/java/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/module-common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/module-common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/exception/RequestException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/exception/RequestExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/exception/ResponseExceptionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/exception/entity/ResponseExceptionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/module-repository.iml" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/module-repository.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/test/java/.gitkeep" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/mvg-sky-backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/mvg-sky-backend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/src/main/java/com/mvg/sky/account/AccountApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/src/main/java/com/mvg/sky/account/configuration/BeanScanConfiguration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/src/main/java/com/mvg/sky/account/configuration/SecurityConfiguration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/src/main/java/com/mvg/sky/account/controller/AccountController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/src/test/java/com/mvg/sky/account/AccountApplicationTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-account/svc-account.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-configuration/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-configuration/src/main/java/com/mvg/sky/configuration/ConfigurationApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-configuration/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-configuration/src/test/java/com/mvg/sky/configuration/ConfigurationApplicationTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-configuration/svc-configuration.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-discovery/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-discovery/src/main/java/com/mvg/sky/discovery/DiscoveryApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-discovery/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-discovery/src/test/java/com/mvg/sky/discovery/DiscoveryApplicationTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-discovery/svc-discovery.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-gateway/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-gateway/src/main/java/com/mvg/sky/gateway/GatewayApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-gateway/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-gateway/src/test/java/com/mvg/sky/gateway/GatewayApplicationTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/svc-gateway/svc-gateway.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/service-account.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/service-account.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/configuration/ApplicationConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/configuration/ComponentScanConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/configuration/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/configuration/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/data/request/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/data/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/response/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/exception/CustomAccessDeniedHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/exception/handler/AccessDeniedHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-chat/service-chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/service-chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-configuration/service-configuration.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-configuration/service-configuration.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-configuration/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-configuration/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-discovery/service-discovery.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-discovery/service-discovery.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-discovery/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-discovery/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-gateway/service-gateway.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-gateway/service-gateway.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-imap/service-imap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-imap/service-imap.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-imap/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-imap/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-mail/service-mail.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-mail/service-mail.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-smtp/service-smtp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-smtp/service-smtp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-smtp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-smtp/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../document/mvg_database.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/../../document/mvg_database.drawio" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,6 +58,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FlywayMigrationScript" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -117,15 +76,18 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="JPA Inspector" value="true" />
-        <entry key="JPA Palette" value="true" />
-        <entry key="JPA Structure" value="true" />
+        <entry key="JPA Inspector" value="false" />
+        <entry key="JPA Palette" value="false" />
+        <entry key="JPA Structure" value="false" />
       </map>
     </option>
   </component>
   <component name="KubernetesApiPersistence">
     <option name="context" value="kmsconnect_aks" />
     <option name="namespace" value="kms-video" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="21NEgSwlL9JgJxSoxO7oHPua5ZG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -137,6 +99,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelOrder2" value="2" />
@@ -147,11 +110,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17 (2)" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/service-smtp/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.21403915" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -165,6 +131,7 @@
       <recent name="$PROJECT_DIR$/module-repository/src/main/resources/db" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mvg.sky.admin" />
       <recent name="com.mvg.sky.smtp" />
       <recent name="com.mvg.sky.mail" />
       <recent name="com.mvg.sky.chat" />
@@ -177,7 +144,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Compound.Microservices">
+  <component name="RunManager" selected="Spring Boot.AccountApplication">
     <configuration name="Microservices" type="CompoundRunConfigurationType">
       <toRun name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" />
       <toRun name="SmtpApplication" type="SpringBootApplicationConfigurationType" />
@@ -200,11 +167,27 @@
       <toRun name="ChatApplication" type="SpringBootApplicationConfigurationType" />
       <method v="2" />
     </configuration>
+    <configuration name="RepositoryApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="module-repository" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RepositoryApplicationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AccountApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="service-account" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.account.AccountApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminPortalApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="admin-portal" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.admin.AdminPortalApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -283,7 +266,9 @@
     </configuration>
     <list>
       <item itemvalue="Compound.Microservices" />
+      <item itemvalue="JUnit.RepositoryApplicationTest" />
       <item itemvalue="Spring Boot.AccountApplication" />
+      <item itemvalue="Spring Boot.AdminPortalApplication" />
       <item itemvalue="Spring Boot.ChatApplication" />
       <item itemvalue="Spring Boot.CommonApplication" />
       <item itemvalue="Spring Boot.ConfigurationApplication" />
@@ -295,6 +280,11 @@
       <item itemvalue="Spring Boot.RepositoryApplication" />
       <item itemvalue="Spring Boot.SmtpApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RepositoryApplicationTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -306,7 +296,20 @@
       <updated>1637773257506</updated>
       <workItem from="1637773260695" duration="150000" />
       <workItem from="1637773451642" duration="4919000" />
-      <workItem from="1637778455981" duration="195000" />
+      <workItem from="1637778455981" duration="1503000" />
+      <workItem from="1637783691707" duration="10408000" />
+      <workItem from="1637823876757" duration="16723000" />
+      <workItem from="1637846945856" duration="26000" />
+      <workItem from="1637847217140" duration="152000" />
+      <workItem from="1637847411747" duration="162000" />
+      <workItem from="1637847590363" duration="70000" />
+      <workItem from="1637847677598" duration="54000" />
+      <workItem from="1637847868903" duration="83000" />
+      <workItem from="1637847967775" duration="68000" />
+      <workItem from="1637848093540" duration="39000" />
+      <workItem from="1637855297661" duration="115000" />
+      <workItem from="1637855565044" duration="23000" />
+      <workItem from="1637855763390" duration="65000" />
     </task>
     <servers />
   </component>
@@ -315,5 +318,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

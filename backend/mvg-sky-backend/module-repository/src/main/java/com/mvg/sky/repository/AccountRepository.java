@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
 
-    @Query("SELECT a FROM AccountEntity a INNER JOIN DomainEntity d ON a.domainId = d.id")
-    AccountEntity findAccountByEmail(String email);
+    @Query("""
+        select account
+        from AccountEntity account
+        inner join DomainEntity domain on domain.id = account.domainId
+        where account.username = :username and domain.name = :domain
+            and domain.isDeleted = false and account.isDeleted = false and account.isActive = true
+    """)
+    AccountEntity findAccountByEmail(String username, String domain);
 }
