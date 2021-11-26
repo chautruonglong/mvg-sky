@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "com.mvg.sky.service-account.secret",
+      "type": "java.lang.String",
+      "description": "service-account jwt secret token."
+    },
+    {
+      "name": "com.mvg.sky.service-account.access.expiration",
+      "type": "java.lang.Long",
+      "description": "service-account access token expiration time."
+    },
+    {
+      "name": "com.mvg.sky.service-account.refresh.expiration",
+      "type": "java.lang.Long",
+      "description": "service-account refresh token expiration time."
+    }
+  ]
+}

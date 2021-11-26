@@ -2,33 +2,30 @@ package com.mvg.sky.account.service.account;
 
 import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.entity.AccountEntity;
+import com.mvg.sky.repository.entity.SessionEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
+    private final AuthenticationManager authenticationManager;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public SessionEntity authenticate(String email, String password) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         return null;
     }
 
     @Override
-    public AccountEntity authenticate(String email, String password) {
-        int at = email.indexOf('@');
-        String username = email.substring(0, at);
-        String domain = email.substring(at + 1);
-
-        AccountEntity accountEntity = accountRepository.findAccountByEmail(username, domain);
-
-        if(accountEntity == null || !accountEntity.getPassword().equals(password)) {
-            throw new RuntimeException("User do not exists or unactivated");
-        }
-
-        return accountEntity;
+    public AccountEntity createAccount(AccountEntity accountEntity) {
+        return null;
     }
 }

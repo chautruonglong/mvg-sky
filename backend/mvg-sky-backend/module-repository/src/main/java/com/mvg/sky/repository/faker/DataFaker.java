@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.andreinc.mockneat.MockNeat;
 import org.springframework.stereotype.Component;
 
