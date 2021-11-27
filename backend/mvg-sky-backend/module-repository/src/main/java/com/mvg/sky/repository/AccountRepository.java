@@ -2,8 +2,11 @@ package com.mvg.sky.repository;
 
 import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,11 +25,10 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
 
     @Transactional
     @Modifying
-    @Query(value = """
-        insert into accounts(username, password, roles, domainid)
-        values(:username, :password, (:roles), (
-            select domains.id from domains where domains.name = :domain and domains.isdeleted = false)
-        )
-    """, nativeQuery = true)
-    void createAccount(String username, String password, String roles, String domain);
+    @Query("update AccountEntity a set a.isDeleted = true where a.id = :accountId and a.isDeleted = false")
+    Integer deleteByIdAndIsDeletedFalse(UUID accountId);
+
+    List<AccountEntity> findAllByDomainIdInAndIsDeletedFalse(Collection<UUID> domainsIds, Pageable pageable);
+
+    List<AccountEntity> findAllByIsDeletedFalse(Pageable pageable);
 }

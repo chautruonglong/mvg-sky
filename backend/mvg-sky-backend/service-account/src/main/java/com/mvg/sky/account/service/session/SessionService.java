@@ -10,7 +10,9 @@ public interface SessionService {
 
     String createRefreshToken(AccountDomainDto accountDomainDto);
 
-    boolean validateToken(String token);
+    String renewAccessToken(String refreshToken);
+
+    void validateToken(String token);
 
     Collection<SessionEntity> getAllSessions(List<String> accountIds,
                                              List<String> sorts,
@@ -19,7 +21,7 @@ public interface SessionService {
 
     SessionEntity getSessionById(String sessionId);
 
-    void deleteSessionById(String sessionId);
+    Integer deleteSessionById(String sessionId);
 
-    void clearSessionTable(List<String> accountIds);
+    Integer clearSessionTable(List<String> accountIds);
 }

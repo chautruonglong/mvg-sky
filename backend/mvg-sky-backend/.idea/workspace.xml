@@ -5,17 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/mvg-sky.srokVQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/mvg-sky.srokVQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/mvg-sky.srokVQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca9934af-c11a-483c-bc5b-69311e521eb6/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-portal/admin-portal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/admin-portal/admin-portal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/module-common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/module-common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/response/SimpleResponseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/response/SimpleResponseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/module-repository.iml" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/module-repository.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/AccountCreationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LoginRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LogoutRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/response/LoginResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/SessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/SessionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/dto/query/AccountDomainDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/dto/query/AccountDomainDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvg-sky-backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/mvg-sky-backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/service-account.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/service-account.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/SessionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/SessionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/AccountCreationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/AccountCreationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LogoutRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LogoutRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/response/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/validator/EnumValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/validator/EnumValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/validator/EnumValidatorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/validator/EnumValidatorImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-chat/service-chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/service-chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-configuration/service-configuration.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-configuration/service-configuration.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-discovery/service-discovery.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-discovery/service-discovery.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-gateway/service-gateway.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-gateway/service-gateway.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-imap/service-imap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-imap/service-imap.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-mail/service-mail.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-mail/service-mail.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-smtp/service-smtp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-smtp/service-smtp.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,6 +318,7 @@
       <workItem from="1637875414937" duration="1554000" />
       <workItem from="1637876990802" duration="17704000" />
       <workItem from="1637910540453" duration="40001000" />
+      <workItem from="1638037679045" duration="15537000" />
     </task>
     <servers />
   </component>

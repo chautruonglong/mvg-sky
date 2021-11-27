@@ -20,4 +20,5 @@ public class LoginResponse {
     private DomainEntity domainEntity;
     private String accessToken;
     private String refreshToken;
+    private String tokenType;
 }

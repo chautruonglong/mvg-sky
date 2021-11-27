@@ -3,19 +3,25 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
+      <profile name="Annotation profile for mvg-sky-backend" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.4.2.Final/mapstruct-processor-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
         <module name="service-gateway" />
         <module name="module-repository" />
         <module name="module-common" />
         <module name="service-smtp" />
         <module name="service-imap" />
         <module name="admin-portal" />
-        <module name="service-account" />
-        <module name="service-configuration" />
         <module name="service-chat" />
+        <module name="service-configuration" />
+        <module name="service-account" />
         <module name="service-mail" />
         <module name="service-discovery" />
       </profile>
@@ -40,7 +46,7 @@
       <module name="admin-portal" options="-parameters" />
       <module name="module-common" options="-parameters" />
       <module name="module-repository" options="-parameters" />
-      <module name="mvg-sky-backend" options="-parameters" />
+      <module name="mvg-sky-backend" options="" />
       <module name="service-account" options="-parameters" />
       <module name="service-chat" options="-parameters" />
       <module name="service-configuration" options="-parameters" />

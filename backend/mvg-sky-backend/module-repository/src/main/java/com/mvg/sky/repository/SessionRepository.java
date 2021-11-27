@@ -4,6 +4,7 @@ import com.mvg.sky.repository.entity.SessionEntity;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import javax.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,15 +22,28 @@ public interface SessionRepository extends JpaRepository<SessionEntity, UUID> {
 
     SessionEntity findByTokenAndIsDeletedFalse(String token);
 
+    @Transactional
     @Modifying
-    @Query("update SessionEntity s set s.isDeleted = true where s.id = :id")
-    void deleteById(@NonNull UUID id);
+    @Query("update SessionEntity s set s.isDeleted = true where s.accountId = :accountId and s.token = :token and s.isDeleted = false")
+    Integer deleteByAccountIdAndTokenAndIsDeletedFalse(UUID accountId, String token);
 
+    @Transactional
     @Modifying
-    @Query("update SessionEntity s set s.isDeleted = true where s.id in :accountIds")
-    void deleteAllByAccountIds(Collection<UUID> accountIds);
+    @Query("update SessionEntity s set s.isDeleted = true where s.accountId = :accountId and s.isDeleted = false")
+    Integer deleteAllByAccountIdAndIsDeletedFalse(UUID accountId);
 
+    @Transactional
     @Modifying
-    @Query("update SessionEntity s set s.isDeleted = true")
-    void deleteAll();
+    @Query("update SessionEntity s set s.isDeleted = true where s.id = :id and s.isDeleted = false")
+    Integer deleteByIdAndIsDeletedFalse(@NonNull UUID id);
+
+    @Transactional
+    @Modifying
+    @Query("update SessionEntity s set s.isDeleted = true where s.id in :accountIds and s.isDeleted = false")
+    Integer deleteAllByAccountIdInAndIsDeletedFalse(Collection<UUID> accountIds);
+
+    @Transactional
+    @Modifying
+    @Query("update SessionEntity s set s.isDeleted = true where s.isDeleted = false")
+    Integer deleteAllAndIsDeletedFalse();
 }

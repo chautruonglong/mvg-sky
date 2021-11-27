@@ -1,11 +1,15 @@
 package com.mvg.sky.account.controller;
 
 import com.mvg.sky.account.dto.request.AccountCreationRequest;
+import com.mvg.sky.account.dto.request.AccountUpdateRequest;
 import com.mvg.sky.account.dto.request.LoginRequest;
+import com.mvg.sky.account.dto.request.LogoutRequest;
 import com.mvg.sky.account.service.account.AccountService;
 import com.mvg.sky.common.exception.RequestException;
+import com.mvg.sky.common.response.SimpleResponseEntity;
 import com.mvg.sky.repository.entity.AccountEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.URI;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -18,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,9 +44,26 @@ public class AccountController {
         }
     }
 
-    @DeleteMapping("/accounts/logout")
-    public ResponseEntity<?> logoutApi(Object logoutRequestEntity) {
-        return ResponseEntity.ok("ok");
+    @DeleteMapping("/accounts/{accountId}/logout")
+    public ResponseEntity<?> logoutApi(@PathVariable String accountId,
+                                       @RequestBody LogoutRequest logoutRequest,
+                                       @Nullable @RequestParam Boolean all) {
+        try {
+            int num = accountService.logoutAccount(accountId, logoutRequest.getRefreshToken(), all);
+
+            return ResponseEntity.ok(
+                SimpleResponseEntity.builder()
+                    .message("logout successfully")
+                    .recordsChanged(num)
+                    .status(HttpStatus.OK.name())
+                    .code(HttpStatus.OK.value())
+                    .build()
+           );
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/accounts")
@@ -52,7 +72,8 @@ public class AccountController {
             AccountEntity accountEntity = accountService.createAccount(accountCreationRequest.getEmail(),
                                                                        accountCreationRequest.getPassword(),
                                                                        accountCreationRequest.getRoles());
-            return ResponseEntity.ok(accountEntity);
+
+            return ResponseEntity.created(URI.create("/api/accounts/" + accountEntity.getId())).body(accountEntity);
         }
         catch(Exception exception) {
             log.info(exception.getMessage());
@@ -61,31 +82,51 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public ResponseEntity<?> getAllAccountsApi(@Nullable @RequestParam("accountId") List<String> accountIds,
+    public ResponseEntity<?> getAllAccountsApi(@Nullable @RequestParam("domainId") List<String> domainsIds,
                                                @Nullable @RequestParam("sort") List<String> sorts,
                                                @Nullable @RequestParam("offset") Integer offset,
                                                @Nullable @RequestParam("limit") Integer limit) {
         try {
-            return ResponseEntity.ok("ok");
+            sorts = sorts == null ? List.of("id") : sorts;
+            offset = offset == null ? 0 : offset;
+            limit = limit == null ? Integer.MAX_VALUE : limit;
+
+            return ResponseEntity.ok(accountService.getAllAccounts(domainsIds, sorts, offset, limit));
         }
         catch(Exception exception) {
-            log.info(exception.getMessage());
+            log.error(exception.getMessage());
             throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/accounts/{accountId}")
-    public ResponseEntity<?> updateAccountApi(@PathVariable String accountId, @RequestBody Object putAccountRequestEntity)  {
-        return ResponseEntity.ok("ok");
-    }
-
     @PatchMapping("/accounts/{accountId}")
-    public ResponseEntity<?> patchAccountApi(@PathVariable String accountId, @RequestBody Object patchAccountRequestEntity) {
-        return ResponseEntity.ok("ok");
+    public ResponseEntity<?> patchAccountApi(@PathVariable String accountId, @RequestBody AccountUpdateRequest accountUpdateRequest) {
+        try {
+            return ResponseEntity.ok(accountService.updatePartialAccount(accountId, accountUpdateRequest));
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/accounts/{accountId}")
     public ResponseEntity<?> deleteAccountApi(@PathVariable String accountId) {
-        return ResponseEntity.ok("ok");
+        try {
+            int num = accountService.deleteAccountById(accountId);
+
+            return ResponseEntity.ok(
+                SimpleResponseEntity.builder()
+                    .message("delete account successfully")
+                    .recordsChanged(num)
+                    .status(HttpStatus.OK.name())
+                    .code(HttpStatus.OK.value())
+                    .build()
+                );
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

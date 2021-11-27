@@ -1,10 +1,11 @@
 package com.mvg.sky.account.controller;
 
+import com.mvg.sky.account.dto.request.RefreshTokenRequest;
+import com.mvg.sky.account.dto.response.RefreshTokenResponse;
 import com.mvg.sky.account.service.session.SessionService;
 import com.mvg.sky.common.exception.RequestException;
 import com.mvg.sky.common.response.SimpleResponseEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Session API")
 public class SessionController {
     private final SessionService sessionService;
+
+    @PostMapping("/sessions/refresh")
+    public ResponseEntity<?> refreshAccessToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        try {
+            String accessToken = sessionService.renewAccessToken(refreshTokenRequest.getRefreshToken());
+            return ResponseEntity.ok(new RefreshTokenResponse(accessToken, "Bearer"));
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/sessions")
     public ResponseEntity<?> getAllSessions(@Nullable @RequestParam("accountId") List<String> accountIds,
@@ -34,11 +49,7 @@ public class SessionController {
             offset = offset == null ? 0 : offset;
             limit = limit == null ? Integer.MAX_VALUE : limit;
 
-            return ResponseEntity.ok(
-                sessionService.getAllSessions(accountIds, sorts, offset, limit)
-                    .stream()
-                    .toList()
-            );
+            return ResponseEntity.ok(sessionService.getAllSessions(accountIds, sorts, offset, limit));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -60,8 +71,15 @@ public class SessionController {
     @GetMapping("/sessions/{token}/validate")
     public ResponseEntity<?> validateSessionApi(@PathVariable String token) {
         try {
-            boolean isValid = sessionService.validateToken(token);
-            return ResponseEntity.ok(Collections.singletonMap("isValid", isValid));
+            sessionService.validateToken(token);
+
+            return ResponseEntity.ok(
+                SimpleResponseEntity.builder()
+                    .message("Token is valid")
+                    .status(HttpStatus.OK.name())
+                    .code(HttpStatus.OK.value())
+                    .build()
+            );
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -72,11 +90,12 @@ public class SessionController {
     @DeleteMapping("/sessions")
     public ResponseEntity<?> deleteAllSessionsApi(@Nullable @RequestParam("accountId") List<String> accountIds) {
         try {
-            sessionService.clearSessionTable(accountIds);
+            int num = sessionService.clearSessionTable(accountIds);
 
             return ResponseEntity.ok(
                 SimpleResponseEntity.builder()
                      .message("Delete all sessions successfully")
+                     .recordsChanged(num)
                      .status(HttpStatus.OK.name())
                      .code(HttpStatus.OK.value())
                      .build()
@@ -91,11 +110,12 @@ public class SessionController {
     @DeleteMapping("/sessions/{sessionId}")
     public ResponseEntity<?> deleteSessionApi(@PathVariable String sessionId) {
         try {
-            sessionService.deleteSessionById(sessionId);
+            int num = sessionService.deleteSessionById(sessionId);
 
             return ResponseEntity.ok(
                 SimpleResponseEntity.builder()
                     .message("Delete session " + sessionId + " successfully")
+                    .recordsChanged(num)
                     .status(HttpStatus.OK.name())
                     .code(HttpStatus.OK.value())
                     .build()

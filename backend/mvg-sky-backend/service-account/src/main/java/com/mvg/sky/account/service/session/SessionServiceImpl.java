@@ -1,10 +1,17 @@
 package com.mvg.sky.account.service.session;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mvg.sky.account.dto.jwt.JwtRefreshTokenBody;
+import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.SessionRepository;
 import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
 import com.mvg.sky.repository.entity.DomainEntity;
 import com.mvg.sky.repository.entity.SessionEntity;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Collection;
@@ -27,6 +34,8 @@ import org.springframework.stereotype.Service;
 public class SessionServiceImpl implements SessionService {
     @NonNull
     private final SessionRepository sessionRepository;
+    @NonNull
+    private final AccountRepository accountRepository;
 
     @Value("${com.mvg.sky.service-account.secret}")
     private String secretKey;
@@ -76,21 +85,33 @@ public class SessionServiceImpl implements SessionService {
             .claim("domain", domainEntity.getName())
             .compact();
 
-        SessionEntity sessionEntity = SessionEntity.builder()
-            .token(refreshToken)
-            .accountId(accountEntity.getId())
-            .build();
-
         log.info("{} sign new refreshToken: {}", accountEntity.getUsername(), refreshToken);
         return refreshToken;
     }
 
     @Override
-    public boolean validateToken(String token) {
+    public String renewAccessToken(String refreshToken) {
+        SessionEntity sessionEntity = sessionRepository.findByTokenAndIsDeletedFalse(refreshToken);
+
+        if(sessionEntity == null) {
+            log.info("Refresh token is not in database");
+            throw new RuntimeException("Refresh token is not in database");
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Jws<Claims> jwtRefreshToken = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(refreshToken);
+        JwtRefreshTokenBody jwtRefreshTokenBody = objectMapper.convertValue(jwtRefreshToken.getBody(), JwtRefreshTokenBody.class);
+        AccountDomainDto accountDomainDto = accountRepository.findAccountByEmail(jwtRefreshTokenBody.getUsername(), jwtRefreshTokenBody.getDomain());
+
+        log.info("renew accessToken {}", accountDomainDto);
+        return createAccessToken(accountDomainDto);
+    }
+
+    @Override
+    public void validateToken(String token) {
         Jwts.parser().setSigningKey(secretKey).parse(token);
 
         log.info("Token is valid");
-        return true;
     }
 
     @Override
@@ -123,19 +144,24 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void deleteSessionById(String sessionId) {
-        sessionRepository.deleteById(UUID.fromString(sessionId));
-        log.info("delete session {} successfully", sessionId);
+    public Integer deleteSessionById(String sessionId) {
+        int num = sessionRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(sessionId));
+
+        log.info("delete session {} successfully, {} records updated", sessionId, num);
+        return num;
     }
 
     @Override
-    public void clearSessionTable(List<String> accountIds) {
+    public Integer clearSessionTable(List<String> accountIds) {
+        int num;
         if(accountIds == null) {
-            sessionRepository.deleteAll();
+            num = sessionRepository.deleteAllAndIsDeletedFalse();
         }
         else {
-            sessionRepository.deleteAllByAccountIds(accountIds.stream().map(UUID::fromString).collect(Collectors.toList()));
+            num = sessionRepository.deleteAllByAccountIdInAndIsDeletedFalse(accountIds.stream().map(UUID::fromString).collect(Collectors.toList()));
         }
-        log.info("clear records in session table successfully");
+
+        log.info("clear records in session table successfully, {} records updated", num);
+        return num;
     }
 }

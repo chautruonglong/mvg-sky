@@ -22,4 +22,5 @@ public @interface EnumValidator {
     String message() default "value must be any of enum {enumClass}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+    boolean allowNull() default true;
 }
