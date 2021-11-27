@@ -19,6 +19,8 @@ public interface SessionRepository extends JpaRepository<SessionEntity, UUID> {
 
     SessionEntity findByIdAndIsDeletedFalse(UUID id);
 
+    SessionEntity findByTokenAndIsDeletedFalse(String token);
+
     @Modifying
     @Query("update SessionEntity s set s.isDeleted = true where s.id = :id")
     void deleteById(@NonNull UUID id);

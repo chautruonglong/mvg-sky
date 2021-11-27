@@ -23,6 +23,6 @@ public class SessionEntity extends BaseEntity {
     @Column(name = "accountId", nullable = false, columnDefinition = "uuid")
     private UUID accountId;
 
-    @Column(name = "token", nullable = false, columnDefinition = "text")
+    @Column(name = "token", nullable = false, unique = true, columnDefinition = "text")
     private String token;
 }

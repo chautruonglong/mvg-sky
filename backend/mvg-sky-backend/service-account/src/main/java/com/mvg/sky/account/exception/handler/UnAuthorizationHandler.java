@@ -1,6 +1,6 @@
 package com.mvg.sky.account.exception.handler;
 
-import com.mvg.sky.account.exception.util.ResponseException;
+import com.mvg.sky.account.util.response.ResponseException;
 import com.mvg.sky.common.exception.entity.ResponseExceptionEntity;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.mvg.sky.account.exception.util;
+package com.mvg.sky.account.util.response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mvg.sky.common.exception.entity.ResponseExceptionEntity;

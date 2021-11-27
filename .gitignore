@@ -5,4 +5,5 @@
 **/.vscode
 **/.env
 **/.DS_Store
+**/out
 

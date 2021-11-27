@@ -10,12 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -71,8 +69,6 @@ public class SessionServiceImpl implements SessionService {
             .accountId(accountEntity.getId())
             .build();
 
-        sessionRepository.save(sessionEntity);
-
         log.info("{} sign new refreshToken: {}", accountEntity.getUsername(), refreshToken);
         return refreshToken;
     }
@@ -90,6 +86,7 @@ public class SessionServiceImpl implements SessionService {
                                                     List<String> sorts,
                                                     Integer offset,
                                                     Integer limit) {
+
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
         Collection<SessionEntity> sessionEntities;

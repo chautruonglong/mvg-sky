@@ -1,10 +1,13 @@
 package com.mvg.sky.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
 import com.vladmihalcea.hibernate.type.array.EnumArrayType;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +44,7 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "username", nullable = false, unique = true, columnDefinition = "text")
     private String username;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false, columnDefinition = "text")
     private String password;
 
@@ -48,6 +52,7 @@ public class AccountEntity extends BaseEntity {
     @Column(name = "isActive", columnDefinition = "boolean default true")
     private Boolean isActive = true;
 
+    @Enumerated(EnumType.STRING)
     @Type(type = "roles-enum")
     @Column(name = "roles", columnDefinition = "text[]")
     private RoleEnumeration[] roles;
