@@ -7,6 +7,7 @@ import com.mvg.sky.common.exception.RequestException;
 import com.mvg.sky.common.response.SimpleResponseEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class SessionController {
     private final SessionService sessionService;
 
     @PostMapping("/sessions/refresh")
-    public ResponseEntity<?> refreshAccessToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+    public ResponseEntity<?> refreshAccessToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         try {
             String accessToken = sessionService.renewAccessToken(refreshTokenRequest.getRefreshToken());
             return ResponseEntity.ok(new RefreshTokenResponse(accessToken, "Bearer"));

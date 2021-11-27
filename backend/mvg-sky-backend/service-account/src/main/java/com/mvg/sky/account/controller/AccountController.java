@@ -46,7 +46,7 @@ public class AccountController {
 
     @DeleteMapping("/accounts/{accountId}/logout")
     public ResponseEntity<?> logoutApi(@PathVariable String accountId,
-                                       @RequestBody LogoutRequest logoutRequest,
+                                       @Valid @RequestBody LogoutRequest logoutRequest,
                                        @Nullable @RequestParam Boolean all) {
         try {
             int num = accountService.logoutAccount(accountId, logoutRequest.getRefreshToken(), all);
@@ -100,7 +100,7 @@ public class AccountController {
     }
 
     @PatchMapping("/accounts/{accountId}")
-    public ResponseEntity<?> patchAccountApi(@PathVariable String accountId, @RequestBody AccountUpdateRequest accountUpdateRequest) {
+    public ResponseEntity<?> patchAccountApi(@PathVariable String accountId, @Valid @RequestBody AccountUpdateRequest accountUpdateRequest) {
         try {
             return ResponseEntity.ok(accountService.updatePartialAccount(accountId, accountUpdateRequest));
         }
@@ -122,7 +122,7 @@ public class AccountController {
                     .status(HttpStatus.OK.name())
                     .code(HttpStatus.OK.value())
                     .build()
-                );
+            );
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
