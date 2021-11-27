@@ -1,8 +1,7 @@
 package com.mvg.sky.repository;
 
-import com.mvg.sky.common.enumeration.RoleEnumeration;
+import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
-import java.util.Collection;
 import java.util.UUID;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,13 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
     @Query("""
-        select account
-        from AccountEntity account
-        inner join DomainEntity domain on domain.id = account.domainId
-        where account.username = :username and domain.name = :domain
-            and domain.isDeleted = false and account.isDeleted = false and account.isActive = true
+        select new com.mvg.sky.repository.dto.query.AccountDomainDto(a, d)
+        from AccountEntity a
+        inner join DomainEntity d on d.id = a.domainId
+        where a.username = :username and d.name = :domain
+            and d.isDeleted = false and a.isDeleted = false and a.isActive = true
     """)
-    AccountEntity findAccountByEmail(String username, String domain);
+    AccountDomainDto findAccountByEmail(String username, String domain);
 
     @Transactional
     @Modifying

@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="" />
+    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/AccountCreationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/request/LogoutRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/dto/response/LoginResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +84,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.21403915" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />

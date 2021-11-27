@@ -7,10 +7,10 @@ import com.mvg.sky.common.enumeration.RoleEnumeration;
 import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.DomainRepository;
 import com.mvg.sky.repository.SessionRepository;
+import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
 import com.mvg.sky.repository.entity.DomainEntity;
 import com.mvg.sky.repository.entity.SessionEntity;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,19 +35,20 @@ public class AccountServiceImpl implements AccountService {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, password);
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        AccountEntity accountEntity = userPrincipal.accountEntity();
-        String accessToken = sessionService.createAccessToken(accountEntity);
-        String refreshToken = sessionService.createRefreshToken(accountEntity);
+        AccountDomainDto accountDomainDto = userPrincipal.accountDomainDto();
+        String accessToken = sessionService.createAccessToken(accountDomainDto);
+        String refreshToken = sessionService.createRefreshToken(accountDomainDto);
 
         sessionRepository.save(SessionEntity.builder()
            .token(refreshToken)
-           .accountId(accountEntity.getId())
+           .accountId(accountDomainDto.getAccountEntity().getId())
            .build()
         );
 
-        log.info("user {} login successfully", accountEntity);
+        log.info("user {} login successfully", accountDomainDto.getAccountEntity());
         return LoginResponse.builder()
-            .accountEntity(accountEntity)
+            .accountEntity(accountDomainDto.getAccountEntity())
+            .domainEntity(accountDomainDto.getDomainEntity())
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .build();

@@ -1,7 +1,9 @@
 package com.mvg.sky.account.service.session;
 
 import com.mvg.sky.repository.SessionRepository;
+import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
+import com.mvg.sky.repository.entity.DomainEntity;
 import com.mvg.sky.repository.entity.SessionEntity;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,15 +38,20 @@ public class SessionServiceImpl implements SessionService {
     private Long refreshTokenExpiration;
 
     @Override
-    public String createAccessToken(AccountEntity accountEntity) {
+    public String createAccessToken(AccountDomainDto accountDomainDto) {
+        AccountEntity accountEntity = accountDomainDto.getAccountEntity();
+        DomainEntity domainEntity = accountDomainDto.getDomainEntity();
+
         String accessToken = Jwts.builder()
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .setHeaderParam("typ", "JWT")
             .setIssuer("com.mvg.sky.service-account")
             .setIssuedAt(new Date())
             .setExpiration(new Date(new Date().getTime() + accessTokenExpiration))
-            .setId(accountEntity.getId().toString())
-            .setSubject(accountEntity.getUsername())
+            .setId(accountEntity.getId().toString() + "@" + domainEntity.getId())
+            .setSubject(accountEntity.getUsername() + "@" + domainEntity.getName())
+            .claim("username", accountEntity.getUsername())
+            .claim("domain", domainEntity.getName())
             .claim("roles", accountEntity.getRoles())
             .compact();
 
@@ -53,15 +60,20 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public String createRefreshToken(AccountEntity accountEntity) {
+    public String createRefreshToken(AccountDomainDto accountDomainDto) {
+        AccountEntity accountEntity = accountDomainDto.getAccountEntity();
+        DomainEntity domainEntity = accountDomainDto.getDomainEntity();
+
         String refreshToken = Jwts.builder()
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .setHeaderParam("typ", "JWT")
             .setIssuer("com.mvg.sky.service-account")
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
-            .setId(accountEntity.getId().toString())
-            .setSubject(accountEntity.getUsername())
+            .setId(accountEntity.getId().toString() + "@" + domainEntity.getId())
+            .setSubject(accountEntity.getUsername() + "@" + domainEntity.getName())
+            .claim("username", accountEntity.getUsername())
+            .claim("domain", domainEntity.getName())
             .compact();
 
         SessionEntity sessionEntity = SessionEntity.builder()

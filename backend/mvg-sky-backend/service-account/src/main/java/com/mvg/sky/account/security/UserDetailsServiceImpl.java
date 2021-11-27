@@ -1,7 +1,7 @@
 package com.mvg.sky.account.security;
 
 import com.mvg.sky.repository.AccountRepository;
-import com.mvg.sky.repository.entity.AccountEntity;
+import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,14 +19,13 @@ public record UserDetailsServiceImpl(AccountRepository accountRepository) implem
         String username = email.substring(0, at);
         String domain = email.substring(at + 1);
 
-        AccountEntity accountEntity = accountRepository.findAccountByEmail(username, domain);
+        AccountDomainDto accountDomainDto = accountRepository.findAccountByEmail(username, domain);
 
-        log.info("Query account result {}", accountEntity);
-
-        if(accountEntity == null) {
+        if(accountDomainDto == null) {
             throw new UsernameNotFoundException("User do not exists or unactivated");
         }
 
-        return new UserPrincipal(accountEntity);
+        log.info("Query account result {}", accountDomainDto.getAccountEntity());
+        return new UserPrincipal(accountDomainDto);
     }
 }

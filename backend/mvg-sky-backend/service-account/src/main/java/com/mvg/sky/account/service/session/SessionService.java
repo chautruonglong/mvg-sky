@@ -1,14 +1,14 @@
 package com.mvg.sky.account.service.session;
 
-import com.mvg.sky.repository.entity.AccountEntity;
+import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.SessionEntity;
 import java.util.Collection;
 import java.util.List;
 
 public interface SessionService {
-    String createAccessToken(AccountEntity accountEntity);
+    String createAccessToken(AccountDomainDto accountDomainDto);
 
-    String createRefreshToken(AccountEntity accountEntity);
+    String createRefreshToken(AccountDomainDto accountDomainDto);
 
     boolean validateToken(String token);
 
