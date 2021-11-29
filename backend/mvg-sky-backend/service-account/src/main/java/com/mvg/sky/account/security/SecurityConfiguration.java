@@ -45,24 +45,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-            .antMatchers("/document/**", "/swagger-ui/**")
+            .antMatchers("/accounts/document/**", "/accounts/swagger-ui/**", "/accounts/api-docs/**")
             .permitAll();
         http.authorizeRequests()
             .antMatchers("/accounts/login")
             .permitAll();
         http.authorizeRequests()
-            .anyRequest().permitAll();
+            .anyRequest().authenticated();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
-    }
-
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring()
-            .antMatchers("/swagger-ui/**", "/v3/api-docs/**");
     }
 
     @Bean
