@@ -21,9 +21,9 @@ services:
         volumes:
             - ./database:/docker-entrypoint-initdb.d/
         environment:
+            - POSTGRES_USER=${PG_USERNAME}
             - POSTGRES_PASSWORD=${PG_PASSWORD}
             - POSTGRES_DB=${PG_DB}
-            - POSTGRES_USER=${PG_USER}
 
     mvg-sky-service-account:
         container_name: mvg-sky-service-account

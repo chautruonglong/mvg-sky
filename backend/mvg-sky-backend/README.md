@@ -55,3 +55,10 @@
 - Enumerations
 - Exception Handlers
 - Test Port: *10001*
+
+## Build system
+
+```shell
+$ chmod +x ./build.sh
+$ ./build.sh
+```
