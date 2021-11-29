@@ -9,6 +9,7 @@ module.exports = {
         discord_blurple: "#7289da",
         discord_purple: "#5865f2",
         discord_green: "#3ba55c",
+        app_white: "#4d4b4b"
       },
     },
   },

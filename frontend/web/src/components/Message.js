@@ -18,7 +18,7 @@ function Message({ id, message, timestamp, name, email, photoURL }) {
             {name}
           </span>
           <span className="text-[#72767d] text-xs">
-            {moment(timestamp?.toDate().getTime()).format("lll")}
+            {timestamp}
           </span>
         </h4>
         <p className="text-sm text-[#dcddde]">{message}</p>

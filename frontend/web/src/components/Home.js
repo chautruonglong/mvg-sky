@@ -1,26 +1,72 @@
-import { ServerIcon } from "./ServerIcon"
+
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/outline"
 import Channel from "../components/Channel";
 import { Chat } from "./Chat";
+import { useState } from "react";
+import { Profile } from  "./Profile"
 // ../../public/logo.png
 export const Home = () => {
+  const [channels, setChannels] = useState([
+    {
+      id: 123,
+      channelName:'Khánh Toàn'
+    },
+    {
+      id: 234,
+      channelName:'Phước QuốC'
+    },
+    {
+      id: 456,
+      channelName:'Trường Long'
+    },
+  ])
+  const settings = [ 
+      {
+        id: 123,
+        channelName:'Profile'
+      },
+      {
+        id: 123,
+        channelName:'Change Password'
+      }
+  ]
+  const mockData = [ 
+    {
+      id: 123,
+      channelName:'Khánh Toàn'
+    },
+    {
+      id: 234,
+      channelName:'Phước QuốC'
+    },
+    {
+      id: 456,
+      channelName:'Trường Long'
+    },
+]
+
     return (
         <>
         <div className="flex h-screen">
         <div className="flex flex-col space-y-3 bg-[#202225] p-3 min-w-max">
-          <div className="server-default hover:bg-discord_purple">
+          <div className="server-default hover:bg-app_white">
             <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/p206x206/259344100_221240166797176_7169315392320620239_n.png?_nc_cat=111&ccb=1-5&_nc_sid=aee45a&_nc_ohc=zqPNQwwlklYAX9X-JZH&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=5530f23c2869d704388b1f8249a048f8&oe=61C022C4" alt="" className="h-12 cursor-pointer rounded-full transition-all duration-100 ease-out hover:rounded-2xl" />
           </div>
           <hr className=" border-gray-700 border w-8 mx-auto" />
-          <div className="server-default hover:bg-discord_purple">
-            <img src="https://cdn-icons-png.flaticon.com/512/2190/2190510.png" alt="" className="h-9 w-9" />
+          <div className="server-default hover:bg-app_white">
+            <img src="https://www.nicepng.com/png/full/128-1284530_chat-icon-png-white-chat-icon-white-png.png" alt="" className="h-7 w-9" onClick={()=> setChannels(mockData)}/>
           </div>
-          <div className="server-default hover:bg-discord_purple">
-            <img src="https://cdn-icons-png.flaticon.com/512/855/855502.png" alt="" className="h-9 w-9" />
+          <div className="server-default hover:bg-app_white">
+            <img src="https://roeleke.com/wp-content/uploads/2019/06/pngkey.com-email-icon-white-png-9311379.png" alt="" className="h-7 w-9" />
+          </div>
+          <div className="server-default hover:bg-app_white ">
+            <img src="https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg" alt="" className="h-9 w-9 rounded-full" 
+            onClick={()=> setChannels(settings)}/>
           </div>
         </div>
+        
 
-        <div className=" w-1/4 bg-[#2f3136] flex flex-col ">
+        <div className=" w-1/5 bg-[#2f3136] flex flex-col ">
           <h2 className="flex text-white font-bold text-sm items-center justify-between border-b border-gray-800 p-4 hover:bg-[#34373C] cursor-pointer ">
             WORKPLACE MESSENGER
           </h2>
@@ -33,20 +79,21 @@ export const Home = () => {
               />
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
-            <Channel  
-                id='123'
-                channelName='chanel '
-            />
-            <Channel  
-                id='234'
-                channelName='chanel 2'
-            />
+              {
+                channels?.map(channel => (
+                  <Channel  
+                  id={channel.id}
+                  channelName={channel.channelName}
+                />
+                ))
+              }
             </div>
           </div>
           
         </div>
         <div className="bg-[#36393f] flex-grow">
-          <Chat />
+          {/* <Chat /> */}
+          <Profile />
         </div>
       </div>
       </>
