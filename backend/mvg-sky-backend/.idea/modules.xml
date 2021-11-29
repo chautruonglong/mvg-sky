@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/discovery/discovery.iml" filepath="$PROJECT_DIR$/discovery/discovery.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin-portal/admin-portal.iml" filepath="$PROJECT_DIR$/admin-portal/admin-portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-common/module-common.iml" filepath="$PROJECT_DIR$/module-common/module-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-repository/module-repository.iml" filepath="$PROJECT_DIR$/module-repository/module-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvg-sky-backend.iml" filepath="$PROJECT_DIR$/mvg-sky-backend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/repository/repository.iml" filepath="$PROJECT_DIR$/repository/repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-account/service-account.iml" filepath="$PROJECT_DIR$/service-account/service-account.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-chat/service-chat.iml" filepath="$PROJECT_DIR$/service-chat/service-chat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-configuration/service-configuration.iml" filepath="$PROJECT_DIR$/service-configuration/service-configuration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-discovery/service-discovery.iml" filepath="$PROJECT_DIR$/service-discovery/service-discovery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-gateway/service-gateway.iml" filepath="$PROJECT_DIR$/service-gateway/service-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-imap/service-imap.iml" filepath="$PROJECT_DIR$/service-imap/service-imap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-mail/service-mail.iml" filepath="$PROJECT_DIR$/service-mail/service-mail.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-smtp/service-smtp.iml" filepath="$PROJECT_DIR$/service-smtp/service-smtp.iml" />
     </modules>
   </component>
 </project>
