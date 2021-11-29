@@ -1,7 +1,6 @@
 package com.mvg.sky.account.service.contact;
 
 import com.mvg.sky.repository.ContactRepository;
-import com.mvg.sky.repository.entity.ContactEntity;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;

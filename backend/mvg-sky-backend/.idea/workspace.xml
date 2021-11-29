@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/SecurityConfiguration.java" afterDir="false" />
-    </list>
+    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -103,11 +101,11 @@
       <recent name="com.mvg.sky.repository" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mvg.sky.account.configuration" />
+      <recent name="com.mvg.sky.gateway.configuration" />
       <recent name="com.mvg.sky.account.security" />
       <recent name="com.mvg.sky.admin" />
       <recent name="com.mvg.sky.smtp" />
-      <recent name="com.mvg.sky.mail" />
-      <recent name="com.mvg.sky.chat" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -340,7 +338,7 @@
       <workItem from="1638188551759" duration="6076000" />
       <workItem from="1638194654827" duration="117000" />
       <workItem from="1638194792081" duration="4078000" />
-      <workItem from="1638199184605" duration="5314000" />
+      <workItem from="1638199184605" duration="14862000" />
     </task>
     <servers />
   </component>

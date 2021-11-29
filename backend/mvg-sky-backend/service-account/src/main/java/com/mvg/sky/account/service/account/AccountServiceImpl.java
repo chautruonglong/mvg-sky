@@ -5,7 +5,6 @@ import com.mvg.sky.account.dto.request.AccountUpdateRequest;
 import com.mvg.sky.account.dto.response.AccountProfileCreationResponse;
 import com.mvg.sky.account.dto.response.LoginResponse;
 import com.mvg.sky.account.security.UserPrincipal;
-import com.mvg.sky.account.service.profile.ProfileService;
 import com.mvg.sky.account.service.session.SessionService;
 import com.mvg.sky.account.util.mapper.MapperUtil;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
