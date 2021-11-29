@@ -2,7 +2,6 @@ package com.mvg.sky.account.dto.request;
 
 import com.mvg.sky.account.util.validator.EnumValidator;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
-import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

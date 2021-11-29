@@ -16,8 +16,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
-    private AccountEntity accountEntity;
-    private DomainEntity domainEntity;
+    private AccountEntity account;
+    private DomainEntity domain;
     private String accessToken;
     private String refreshToken;
     private String tokenType;

@@ -1,9 +1,11 @@
 package com.mvg.sky.account.controller;
 
 import com.mvg.sky.account.dto.request.AccountCreationRequest;
+import com.mvg.sky.account.dto.request.AccountProfileCreationRequest;
 import com.mvg.sky.account.dto.request.AccountUpdateRequest;
 import com.mvg.sky.account.dto.request.LoginRequest;
 import com.mvg.sky.account.dto.request.LogoutRequest;
+import com.mvg.sky.account.dto.response.AccountProfileCreationResponse;
 import com.mvg.sky.account.service.account.AccountService;
 import com.mvg.sky.common.exception.RequestException;
 import com.mvg.sky.common.response.SimpleResponseEntity;
@@ -74,6 +76,19 @@ public class AccountController {
                                                                        accountCreationRequest.getRoles());
 
             return ResponseEntity.created(URI.create("/api/accounts/" + accountEntity.getId())).body(accountEntity);
+        }
+        catch(Exception exception) {
+            log.info(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/accounts-profiles")
+    public ResponseEntity<?> createAccountProfileApi(@Valid @RequestBody AccountProfileCreationRequest accountProfileCreationRequest) {
+        try {
+            AccountProfileCreationResponse accountProfileCreationResponse = accountService.createAccountProfile(accountProfileCreationRequest);
+
+            return ResponseEntity.created(URI.create("/api/accounts/" + accountProfileCreationResponse.getAccount().getId())).body(accountProfileCreationResponse);
         }
         catch(Exception exception) {
             log.info(exception.getMessage());

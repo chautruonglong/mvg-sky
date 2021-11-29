@@ -24,7 +24,7 @@ public class ContactController {
     private final ContactService contactService;
 
     @GetMapping("/contacts")
-    public ResponseEntity<?> getAllContactsApi(@Nullable @RequestParam("accountId") List<String> accountIds,
+    public ResponseEntity<?> getAllContactsApi(@Nullable @RequestParam("profileId") List<String> profileIds,
                                                @Nullable @RequestParam("sort") List<String> sorts,
                                                @Nullable @RequestParam("offset") Integer offset,
                                                @Nullable @RequestParam("limit") Integer limit) {
@@ -43,16 +43,37 @@ public class ContactController {
 
     @PostMapping("/contacts")
     public ResponseEntity<?> createContactApi() {
-        return ResponseEntity.ok("ok");
+        try {
+
+            return ResponseEntity.ok("ok");
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/contacts")
     public ResponseEntity<?> deleteAllContactsApi(@Nullable @RequestParam("contactId") List<String> contactIds) {
-        return ResponseEntity.ok("ok");
+        try {
+
+            return ResponseEntity.ok("ok");
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/contacts/{contactId}")
     public ResponseEntity<?> deleteContactApi(@PathVariable String contactId) {
-        return ResponseEntity.ok("ok");
+        try {
+
+            return ResponseEntity.ok("ok");
+        }
+        catch(Exception exception) {
+            log.error(exception.getMessage());
+            throw new RequestException(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

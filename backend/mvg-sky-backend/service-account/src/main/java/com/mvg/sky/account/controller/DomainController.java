@@ -4,7 +4,9 @@ import com.mvg.sky.account.dto.request.DomainModifyRequest;
 import com.mvg.sky.account.service.domain.DomainService;
 import com.mvg.sky.common.exception.RequestException;
 import com.mvg.sky.common.response.SimpleResponseEntity;
+import com.mvg.sky.repository.entity.DomainEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.URI;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -32,7 +34,9 @@ public class DomainController {
     @PostMapping("/domains")
     public ResponseEntity<?> createDomainApi(@Valid @RequestBody DomainModifyRequest domainModifyRequest) {
         try {
-            return ResponseEntity.ok(domainService.createDomain(domainModifyRequest.getName()));
+            DomainEntity domainEntity = domainService.createDomain(domainModifyRequest.getName());
+
+            return ResponseEntity.created(URI.create("/api/domains/" + domainEntity.getId())).body(domainEntity);
         }
         catch(Exception exception) {
             log.error(exception.getMessage());

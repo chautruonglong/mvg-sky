@@ -1,8 +1,11 @@
 package com.mvg.sky.account.service.account;
 
+import com.mvg.sky.account.dto.request.AccountProfileCreationRequest;
 import com.mvg.sky.account.dto.request.AccountUpdateRequest;
+import com.mvg.sky.account.dto.response.AccountProfileCreationResponse;
 import com.mvg.sky.account.dto.response.LoginResponse;
 import com.mvg.sky.account.security.UserPrincipal;
+import com.mvg.sky.account.service.profile.ProfileService;
 import com.mvg.sky.account.service.session.SessionService;
 import com.mvg.sky.account.util.mapper.MapperUtil;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
@@ -12,6 +15,7 @@ import com.mvg.sky.repository.SessionRepository;
 import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
 import com.mvg.sky.repository.entity.DomainEntity;
+import com.mvg.sky.repository.entity.ProfileEntity;
 import com.mvg.sky.repository.entity.SessionEntity;
 import java.util.Collection;
 import java.util.List;
@@ -72,8 +76,8 @@ public class AccountServiceImpl implements AccountService {
 
         log.info("user {} login successfully", accountDomainDto.getAccountEntity());
         return LoginResponse.builder()
-            .accountEntity(accountDomainDto.getAccountEntity())
-            .domainEntity(accountDomainDto.getDomainEntity())
+            .account(accountDomainDto.getAccountEntity())
+            .domain(accountDomainDto.getDomainEntity())
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .tokenType("Bearer")
@@ -109,7 +113,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountEntity updatePartialAccount(String accountId, AccountUpdateRequest accountUpdateRequest) {
         AccountEntity accountEntity = accountRepository.findById(UUID.fromString(accountId))
             .orElseThrow(() -> new RuntimeException("Account do not exists"));
-        mapperUtil.updateAccountFromDto(accountUpdateRequest, accountEntity);
+        mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
         AccountEntity savedAccountEntity = accountRepository.save(accountEntity);
 
         log.info("update account {}", savedAccountEntity);
@@ -158,5 +162,26 @@ public class AccountServiceImpl implements AccountService {
 
         log.info("delete account successfully, {} records updated", num);
         return num;
+    }
+
+    @Override
+    public AccountProfileCreationResponse createAccountProfile(AccountProfileCreationRequest accountProfileCreationRequest) {
+        AccountEntity accountEntity = createAccount(
+            accountProfileCreationRequest.getAccount().getEmail(),
+            accountProfileCreationRequest.getAccount().getPassword(),
+            accountProfileCreationRequest.getAccount().getRoles()
+        );
+
+        ProfileEntity profileEntity = new ProfileEntity();
+        profileEntity.setAccountId(accountEntity.getId());
+
+        mapperUtil.updateFullProfileFromDto(accountProfileCreationRequest.getProfile(), profileEntity);
+
+        AccountProfileCreationResponse accountProfileCreationResponse = new AccountProfileCreationResponse();
+        accountProfileCreationResponse.setAccount(accountEntity);
+        accountProfileCreationResponse.setProfile(profileEntity);
+
+        log.info("create account with profile {}", accountProfileCreationResponse);
+        return accountProfileCreationResponse;
     }
 }

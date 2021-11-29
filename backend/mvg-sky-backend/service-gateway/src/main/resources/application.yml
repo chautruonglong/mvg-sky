@@ -1,0 +1,18 @@
+spring:
+    cloud:
+        gateway:
+            routes:
+                -   id: service-account
+                    uri: lb://SERVICE-ACCOUNT
+                    predicates:
+                        - Path=/api/accounts/**, /api/profiles/**, /api/sessions/**, /api/domains/**, /api/contacts/**
+
+                -   id: service-chat
+                    uri: lb://SERVICE-CHAT
+                    predicates:
+                        - Path=/api/chats/**
+
+                -   id: service-mail
+                    uri: lb://SERVICE-MAIL
+                    predicates:
+                        - Path=/api/mails/**

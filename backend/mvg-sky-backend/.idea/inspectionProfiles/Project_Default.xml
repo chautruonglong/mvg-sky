@@ -6,6 +6,7 @@
         <language minSize="84" name="Java" />
       </Languages>
     </inspection_tool>
+    <inspection_tool class="HttpUrlsUsage" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="JavaDoc" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="TOP_LEVEL_CLASS_OPTIONS">
         <value>

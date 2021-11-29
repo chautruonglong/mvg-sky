@@ -11,12 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContactRepository extends JpaRepository<ContactEntity, UUID> {
-    /**
-     * Get all your partner's profile by your profileId
-     * @param profileIds
-     * @param pageable
-     * @return
-     */
     @Query("""
         select c, p
         from ContactEntity c

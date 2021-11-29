@@ -1,6 +1,8 @@
 package com.mvg.sky.account.service.account;
 
+import com.mvg.sky.account.dto.request.AccountProfileCreationRequest;
 import com.mvg.sky.account.dto.request.AccountUpdateRequest;
+import com.mvg.sky.account.dto.response.AccountProfileCreationResponse;
 import com.mvg.sky.account.dto.response.LoginResponse;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
 import com.mvg.sky.repository.entity.AccountEntity;
@@ -22,4 +24,6 @@ public interface AccountService  {
     Integer logoutAccount(String accountId, String refreshToken, Boolean all);
 
     Integer deleteAccountById(String accountId);
+
+    AccountProfileCreationResponse createAccountProfile(AccountProfileCreationRequest accountProfileCreationRequest);
 }

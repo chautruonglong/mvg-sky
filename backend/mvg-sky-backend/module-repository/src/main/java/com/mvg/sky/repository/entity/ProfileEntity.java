@@ -1,13 +1,11 @@
 package com.mvg.sky.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,10 +38,9 @@ public class ProfileEntity extends BaseEntity {
     @Column(name = "mobile", columnDefinition = "text")
     private String mobile;
 
-    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birthday", columnDefinition = "date")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Builder.Default
     @Column(name = "location", columnDefinition = "text default 'Danang/Vietnam'")
