@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="FlywayMigrationScript" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="JPA Inspector" value="true" />
+        <entry key="JPA Palette" value="true" />
+        <entry key="JPA Structure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="JPA Inspector" value="false" />
+        <entry key="JPA Palette" value="false" />
+        <entry key="JPA Structure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="KubernetesApiPersistence">
+    <option name="context" value="kmsconnect_aks" />
+    <option name="namespace" value="kms-video" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="21NEgSwlL9JgJxSoxO7oHPua5ZG" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="postgresql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="jdk.selected.JAVA_MODULE" value="17 (2)" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/service-smtp" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.21403915" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/service-smtp" />
+      <recent name="$PROJECT_DIR$/service-mail" />
+      <recent name="$PROJECT_DIR$/service-imap" />
+      <recent name="$PROJECT_DIR$/service-gateway" />
+      <recent name="$PROJECT_DIR$/service-chat" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/module-repository/src/main/resources/db" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.mvg.sky.repository" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mvg.sky.account.security" />
+      <recent name="com.mvg.sky.admin" />
+      <recent name="com.mvg.sky.smtp" />
+      <recent name="com.mvg.sky.mail" />
+      <recent name="com.mvg.sky.chat" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.AccountApplication">
+    <configuration name="Microservices" type="CompoundRunConfigurationType">
+      <toRun name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="SmtpApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="ImapApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="MailApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="ConfigurationApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="GatewayApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="AccountApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="ChatApplication" type="SpringBootApplicationConfigurationType" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="CompoundRunConfigurationType">
+      <toRun name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="SmtpApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="ImapApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="MailApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="ConfigurationApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="GatewayApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="AccountApplication" type="SpringBootApplicationConfigurationType" />
+      <toRun name="ChatApplication" type="SpringBootApplicationConfigurationType" />
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="DiscoveryApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="service-discovery" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mvg.sky.discovery.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mvg.sky.discovery" />
+      <option name="MAIN_CLASS_NAME" value="com.mvg.sky.discovery.DiscoveryApplicationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="service-gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mvg.sky.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mvg.sky.gateway" />
+      <option name="MAIN_CLASS_NAME" value="com.mvg.sky.gateway.GatewayApplicationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RepositoryApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="module-repository" />
+      <option name="PACKAGE_NAME" value="com.mvg.sky.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.mvg.sky.repository.RepositoryApplicationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AccountApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-account" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.account.AccountApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminPortalApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="admin-portal" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.admin.AdminPortalApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-chat" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.chat.ChatApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommonApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="module-common" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.common.CommonApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConfigurationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-configuration" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.configuration.ConfigurationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-discovery" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.discovery.DiscoveryApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImapApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-imap" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.imap.ImapApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MailApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-mail" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.mail.MailApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MailApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-mail" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.imap.MailApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MvgSkyBackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="mvg-sky-backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.backend.MvgSkyBackendApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RepositoryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="module-repository" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.repository.RepositoryApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SmtpApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-smtp" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.smtp.SmtpApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Compound.Microservices" />
+      <item itemvalue="HTTP Request.generated-requests#1" />
+      <item itemvalue="JUnit.RepositoryApplicationTest" />
+      <item itemvalue="JUnit.GatewayApplicationTest" />
+      <item itemvalue="JUnit.DiscoveryApplicationTest" />
+      <item itemvalue="Spring Boot.AccountApplication" />
+      <item itemvalue="Spring Boot.AdminPortalApplication" />
+      <item itemvalue="Spring Boot.ChatApplication" />
+      <item itemvalue="Spring Boot.CommonApplication" />
+      <item itemvalue="Spring Boot.ConfigurationApplication" />
+      <item itemvalue="Spring Boot.DiscoveryApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.ImapApplication" />
+      <item itemvalue="Spring Boot.MailApplication" />
+      <item itemvalue="Spring Boot.MvgSkyBackendApplication" />
+      <item itemvalue="Spring Boot.RepositoryApplication" />
+      <item itemvalue="Spring Boot.SmtpApplication" />
+      <item itemvalue="Spring Boot.MailApplication (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.GatewayApplicationTest" />
+        <item itemvalue="JUnit.DiscoveryApplicationTest" />
+        <item itemvalue="HTTP Request.generated-requests#1" />
+        <item itemvalue="JUnit.RepositoryApplicationTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="" />
+      <created>1637773257506</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1637773257506</updated>
+      <workItem from="1637773260695" duration="150000" />
+      <workItem from="1637773451642" duration="4919000" />
+      <workItem from="1637778455981" duration="1503000" />
+      <workItem from="1637783691707" duration="10408000" />
+      <workItem from="1637823876757" duration="16723000" />
+      <workItem from="1637846945856" duration="26000" />
+      <workItem from="1637847217140" duration="152000" />
+      <workItem from="1637847411747" duration="162000" />
+      <workItem from="1637847590363" duration="70000" />
+      <workItem from="1637847677598" duration="54000" />
+      <workItem from="1637847868903" duration="83000" />
+      <workItem from="1637847967775" duration="68000" />
+      <workItem from="1637848093540" duration="39000" />
+      <workItem from="1637855297661" duration="115000" />
+      <workItem from="1637855565044" duration="23000" />
+      <workItem from="1637855763390" duration="65000" />
+      <workItem from="1637855843931" duration="18452000" />
+      <workItem from="1637875414937" duration="1554000" />
+      <workItem from="1637876990802" duration="17704000" />
+      <workItem from="1637910540453" duration="40001000" />
+      <workItem from="1638037679045" duration="20091000" />
+      <workItem from="1638094494203" duration="10328000" />
+      <workItem from="1638151397522" duration="20000000" />
+      <workItem from="1638188551759" duration="6076000" />
+      <workItem from="1638194654827" duration="117000" />
+      <workItem from="1638194792081" duration="4078000" />
+      <workItem from="1638199184605" duration="4609000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

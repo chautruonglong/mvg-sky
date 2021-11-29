@@ -1,1 +1,9 @@
-# MVG Sky - Communication Application
+# *MVG Sky - Communication Application for Business*
+
+### Email Communication
+
+### Chat Communication
+
+### Video Communication
+ 
+
