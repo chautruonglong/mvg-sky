@@ -25,4 +25,5 @@ export PG_PASSWORD=Ctlbi@0775516337
 docker-compose build --no-cache
 docker-compose up -d
 
+# shellcheck disable=SC2046
 docker rmi $(docker images -f "dangling=true" -aq)
