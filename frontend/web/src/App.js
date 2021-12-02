@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import { Login } from './components/login/Login';
 import { Home  } from './components/Home';
 
@@ -15,8 +15,11 @@ function App() {
           <Home/>
         </Route>
 
-        <Route exact path ="/channels/:id">
-          <Home/>
+        <Route exact path ="/channels/chat">
+          <Home status="chat"/>
+        </Route>
+        <Route exact path ="/channels/profile">
+          <Home status="profile"/>
         </Route>
       </Switch>
     </Router>

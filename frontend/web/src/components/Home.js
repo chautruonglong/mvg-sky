@@ -2,34 +2,49 @@
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/outline"
 import Channel from "../components/Channel";
 import { Chat } from "./Chat";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Profile } from  "./Profile"
-// ../../public/logo.png
-export const Home = () => {
-  const [channels, setChannels] = useState([
-    {
-      id: 123,
-      channelName:'Khánh Toàn'
-    },
-    {
-      id: 234,
-      channelName:'Phước QuốC'
-    },
-    {
-      id: 456,
-      channelName:'Trường Long'
-    },
-  ])
-  const settings = [ 
-      {
-        id: 123,
-        channelName:'Profile'
-      },
-      {
-        id: 123,
-        channelName:'Change Password'
+import { useHistory } from "react-router";
+
+export const Home = (status) => {
+  const [subChannel, setSubChannel] = useState(1)
+  const [channels, setChannels] = useState([])
+  const history = useHistory()
+
+  useEffect(()=>{
+    console.log(channels);
+      if(status.status === 'chat'){
+        setChannels([
+          {
+            id: 123,
+            channelName:'Khánh Toàn'
+          },
+          {
+            id: 234,
+            channelName:'Phước QuốC'
+          },
+          {
+            id: 456,
+            channelName:'Trường Long'
+          },
+        ])
       }
-  ]
+    
+      if(status.status === 'profile'){
+        setChannels([ 
+          {
+            id: 1234,
+            channelName:'Profile'
+          },
+          {
+            id: 123,
+            channelName:'Change Password'
+          }
+        ])
+    }
+   
+  },[status])
+  
   const mockData = [ 
     {
       id: 123,
@@ -54,14 +69,14 @@ export const Home = () => {
           </div>
           <hr className=" border-gray-700 border w-8 mx-auto" />
           <div className="server-default hover:bg-app_white">
-            <img src="https://www.nicepng.com/png/full/128-1284530_chat-icon-png-white-chat-icon-white-png.png" alt="" className="h-7 w-9" onClick={()=> setChannels(mockData)}/>
+            <img src="https://www.nicepng.com/png/full/128-1284530_chat-icon-png-white-chat-icon-white-png.png" alt="" className="h-7 w-9" onClick={()=> history.push('/channels/chat')}/>
           </div>
           <div className="server-default hover:bg-app_white">
             <img src="https://roeleke.com/wp-content/uploads/2019/06/pngkey.com-email-icon-white-png-9311379.png" alt="" className="h-7 w-9" />
           </div>
           <div className="server-default hover:bg-app_white ">
             <img src="https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg" alt="" className="h-9 w-9 rounded-full" 
-            onClick={()=> setChannels(settings)}/>
+            onClick={()=> history.push('/channels/profile')}/>
           </div>
         </div>
         
@@ -84,6 +99,7 @@ export const Home = () => {
                   <Channel  
                   id={channel.id}
                   channelName={channel.channelName}
+                  setSubChannel={setSubChannel}
                 />
                 ))
               }
@@ -92,8 +108,9 @@ export const Home = () => {
           
         </div>
         <div className="bg-[#36393f] flex-grow">
-          {/* <Chat /> */}
-          <Profile />
+          {
+            subChannel === 1 ? ( <Chat /> ) : (<Profile />)
+          }   
         </div>
       </div>
       </>

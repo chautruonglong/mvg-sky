@@ -4,14 +4,18 @@ import { useState } from "react";
 // import { useHistory } from "react-router-dom";
 // import { setChannelInfo } from "../features/channelSlice";
 
-function Channel({ id, channelName }) {
+function Channel({ id, channelName, setSubChannel }) {
   // const dispatch = useDispatch();
   // const history = useHistory();
   const [channel, setChannel] = useState('')
 
   const HandleOnClick = () => {
     console.log(Math.random());
-
+    if(id === 1234){
+      setSubChannel(2)
+    } else {
+      setSubChannel(1)
+    }
   }
   // const setChannel = () => {
   //   dispatch(

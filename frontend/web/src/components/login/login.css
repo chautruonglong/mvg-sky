@@ -85,13 +85,8 @@ body {
   color: #fff;
 }
 
-.form .input_wrap .btn.disabled {
+.form .input_wrap .btn {
   background: #44a5f5;
-}
-
-.form .input_wrap .btn.enabled {
-  background: #1dbf73;
-  cursor: pointer;
 }
 
 .form .input_wrap .error_msg {

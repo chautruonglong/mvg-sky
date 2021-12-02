@@ -10,7 +10,7 @@ import {
 import Message from "./Message";
 import {  useRef, useState } from "react";
 
-export const Profile = () => {
+export const Profile = ({subChannel}) => {
   const inputRef = useRef("");
   const time = '10/12/2000'
   const chatRef = useRef(null);
@@ -37,9 +37,9 @@ export const Profile = () => {
                 <div className="" style={{display: "flex", alignItems: "center",justifyContent: "center"}}>
                     <img src="https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg" alt="" className="rounded-full" width="150" height="150"/> 
                 </div>
-                <div className="p-3" style={{display: "flex",flexDirection: "column",justifyContent: "center", paddingLeft: "450px"}}>
+                <div className="p-3" style={{display: "flex",flexDirection: "column",justifyContent: "center", paddingLeft: "300px"}}>
                     <div style={{ display: "flex", justifyContent: "space-between"}}>
-                        <h4 className="text-white ">FullName:</h4> 
+                        <h4 className="text-white" >FullName:</h4> 
                         <input
                         type="text"
                         value="    Huynh Tran Khanh Toan"
