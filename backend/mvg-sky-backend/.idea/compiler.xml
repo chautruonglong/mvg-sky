@@ -16,13 +16,13 @@
         <module name="service-gateway" />
         <module name="module-repository" />
         <module name="module-common" />
-        <module name="service-smtp" />
         <module name="service-imap" />
+        <module name="service-smtp" />
         <module name="admin-portal" />
-        <module name="service-chat" />
-        <module name="service-configuration" />
-        <module name="service-account" />
         <module name="service-mail" />
+        <module name="service-account" />
+        <module name="service-configuration" />
+        <module name="service-chat" />
         <module name="service-discovery" />
       </profile>
     </annotationProcessing>

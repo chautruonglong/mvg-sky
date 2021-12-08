@@ -5,16 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/nginx-ssl.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/entity/SessionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/entity/SessionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/SessionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/SessionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/filter/ContactApiFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/filter/ContactApiFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/security/UserDetailsServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../document/mvg_database.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/../../document/mvg_database.drawio" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../document/mvg_micorservices.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/../../document/mvg_micorservices.drawio" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -43,6 +56,9 @@
         <entry key="JPA Inspector" value="true" />
         <entry key="JPA Palette" value="true" />
         <entry key="JPA Structure" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
     <option name="myId2Visible">
@@ -50,6 +66,9 @@
         <entry key="JPA Inspector" value="false" />
         <entry key="JPA Palette" value="false" />
         <entry key="JPA Structure" value="false" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
     </option>
   </component>
@@ -59,6 +78,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="21NEgSwlL9JgJxSoxO7oHPua5ZG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -82,12 +104,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17 (2)" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/service-smtp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.21403915" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -284,9 +306,9 @@
     <list>
       <item itemvalue="Compound.Microservices" />
       <item itemvalue="HTTP Request.generated-requests#1" />
-      <item itemvalue="JUnit.RepositoryApplicationTest" />
-      <item itemvalue="JUnit.GatewayApplicationTest" />
       <item itemvalue="JUnit.DiscoveryApplicationTest" />
+      <item itemvalue="JUnit.GatewayApplicationTest" />
+      <item itemvalue="JUnit.RepositoryApplicationTest" />
       <item itemvalue="Spring Boot.AccountApplication" />
       <item itemvalue="Spring Boot.AdminPortalApplication" />
       <item itemvalue="Spring Boot.ChatApplication" />
@@ -295,18 +317,18 @@
       <item itemvalue="Spring Boot.DiscoveryApplication" />
       <item itemvalue="Spring Boot.GatewayApplication" />
       <item itemvalue="Spring Boot.ImapApplication" />
+      <item itemvalue="Spring Boot.MailApplication (1)" />
       <item itemvalue="Spring Boot.MailApplication" />
       <item itemvalue="Spring Boot.MvgSkyBackendApplication" />
       <item itemvalue="Spring Boot.RepositoryApplication" />
       <item itemvalue="Spring Boot.SmtpApplication" />
-      <item itemvalue="Spring Boot.MailApplication (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RepositoryApplicationTest" />
         <item itemvalue="JUnit.GatewayApplicationTest" />
         <item itemvalue="JUnit.DiscoveryApplicationTest" />
         <item itemvalue="HTTP Request.generated-requests#1" />
-        <item itemvalue="JUnit.RepositoryApplicationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -348,7 +370,20 @@
       <workItem from="1638217353258" duration="349000" />
       <workItem from="1638238307496" duration="1219000" />
       <workItem from="1638259750858" duration="832000" />
-      <workItem from="1638374387763" duration="9209000" />
+      <workItem from="1638374387763" duration="9739000" />
+      <workItem from="1638413826339" duration="1363000" />
+      <workItem from="1638435287938" duration="1399000" />
+      <workItem from="1638546949088" duration="44000" />
+      <workItem from="1638596263249" duration="3494000" />
+      <workItem from="1638891450929" duration="3000" />
+      <workItem from="1638943916858" duration="218000" />
+      <workItem from="1638944170626" duration="66000" />
+      <workItem from="1638944254115" duration="84000" />
+      <workItem from="1638944356355" duration="83000" />
+      <workItem from="1638944458820" duration="263000" />
+      <workItem from="1638945127923" duration="96000" />
+      <workItem from="1638945242707" duration="93000" />
+      <workItem from="1638945369880" duration="5400000" />
     </task>
     <servers />
   </component>
