@@ -1,11 +1,11 @@
-import { HashtagIcon, PlusCircleIcon } from "@heroicons/react/outline";
+import { HashtagIcon, ChatIcon } from "@heroicons/react/outline";
 import Message from "./Message";
 import {  useRef, useState } from "react";
 
 export const Chat = () => {
   const inputRef = useRef("");
-  const time = '10/12/2000'
   const chatRef = useRef(null);
+ 
   const [messages, setMessages] = useState([
     {
       data: {
@@ -38,6 +38,37 @@ export const Chat = () => {
       }
     }
   ])
+
+    const scrollToBottom = () => {
+      chatRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
+
+    const handleSendMessage = (e) => { 
+      e.preventDefault()
+
+      if(inputRef.current.value !== "") {
+        setMessages([
+          ...messages,
+          {
+            data: {
+              id: 123,
+              message: inputRef.current.value ,
+              timestamp: '9:08:25 AM',
+              name: 'Khánh Toàn',
+              email: 'khanhtoan@gmail.com',
+              photoURL: 'https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg'
+            }
+          }
+        ])
+      }
+
+      inputRef.current.value = ""
+      scrollToBottom()
+    }
+    
     return (
       <>
         <div className="flex flex-col h-screen">
@@ -47,11 +78,6 @@ export const Chat = () => {
                 <h4 className="text-white font-semibold">Phước Quốc</h4>
               </div>
               <div className="flex space-x-3">
-                {/* <BellIcon className="icon" />
-                <ChatIcon className="icon" />
-                <UsersIcon className="icon" />
-                <InboxIcon className="icon" />
-                <QuestionMarkCircleIcon className="icon" /> */}
               </div>
             </header>
             <main className="flex-grow overflow-y-scroll scrollbar-hide">
@@ -73,23 +99,17 @@ export const Chat = () => {
         <div ref={chatRef} className="pb-16" />
       </main>
       <div className="flex items-center p-2.5 bg-[#40444b] mx-5 mb-7 rounded-lg">
-        <PlusCircleIcon className="icon mr-4" />
+        <ChatIcon className="icon mr-4" />
         <form className="flex-grow">
           <input
             type="text"
-            // disabled={!channelId}
-            // placeholder={
-            //   channelId ? `Message #${channelName}` : "Select a channel"
-            // }
             className="bg-transparent focus:outline-none text-[#dcddde] w-full placeholder-[#72767d] text-sm"
-            // ref={inputRef}
+            ref={inputRef}
           />
-          <button hidden type="submit" >
+          <button hidden type="submit" onClick={e=> handleSendMessage(e)}>
             Send
           </button>
         </form>
-        {/* <GiftIcon className="icon mr-2" />
-        <EmojiHappyIcon className="icon" /> */}
       </div>
           </div>
          

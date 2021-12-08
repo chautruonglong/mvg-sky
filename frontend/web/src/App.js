@@ -21,6 +21,9 @@ function App() {
         <Route exact path ="/channels/profile">
           <Home status="profile"/>
         </Route>
+        <Route exact path ="/channels/email">
+          <Home status="email"/>
+        </Route>
       </Switch>
     </Router>
   );

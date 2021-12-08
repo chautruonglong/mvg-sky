@@ -4,6 +4,7 @@ import Channel from "../components/Channel";
 import { Chat } from "./Chat";
 import { useEffect, useState } from "react";
 import { Profile } from  "./Profile"
+import { Email } from  "./Email"
 import { useHistory } from "react-router";
 
 export const Home = (status) => {
@@ -12,7 +13,6 @@ export const Home = (status) => {
   const history = useHistory()
 
   useEffect(()=>{
-    console.log(channels);
       if(status.status === 'chat'){
         setChannels([
           {
@@ -41,7 +41,20 @@ export const Home = (status) => {
             channelName:'Change Password'
           }
         ])
-    }
+      } 
+
+      if(status.status === 'email'){
+        setChannels([ 
+          {
+            id: 1234,
+            channelName:'khanhtoanmail'
+          },
+          {
+            id: 123,
+            channelName:'testmail'
+          }
+        ])
+      } 
    
   },[status])
   
@@ -72,11 +85,16 @@ export const Home = (status) => {
             <img src="https://www.nicepng.com/png/full/128-1284530_chat-icon-png-white-chat-icon-white-png.png" alt="" className="h-7 w-9" onClick={()=> history.push('/channels/chat')}/>
           </div>
           <div className="server-default hover:bg-app_white">
-            <img src="https://roeleke.com/wp-content/uploads/2019/06/pngkey.com-email-icon-white-png-9311379.png" alt="" className="h-7 w-9" />
+            <img src="https://roeleke.com/wp-content/uploads/2019/06/pngkey.com-email-icon-white-png-9311379.png" alt="" className="h-7 w-9"
+             onClick={()=> history.push('/channels/email')} />
           </div>
           <div className="server-default hover:bg-app_white ">
             <img src="https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg" alt="" className="h-9 w-9 rounded-full" 
             onClick={()=> history.push('/channels/profile')}/>
+          </div>
+          <div className="server-default hover:bg-app_white ">
+            <img src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.15752-9/263177761_4496565693754875_1252249884928258089_n.png?_nc_cat=104&cb=c578a115-c1c39920&ccb=1-5&_nc_sid=ae9488&_nc_ohc=aUaqbzVrzNwAX9RSqvK&tn=yBHw_zearwumtjmw&_nc_ht=scontent.fdad1-3.fna&oh=7578b3e9ac382e691a599e17dbc4d4e1&oe=61D6F022" alt="" className="h-9 w-9 rounded-full" 
+            onClick={()=> history.push('/channels/logout')}/>
           </div>
         </div>
         
@@ -98,6 +116,7 @@ export const Home = (status) => {
                 channels?.map(channel => (
                   <Channel  
                   id={channel.id}
+                  status={status}
                   channelName={channel.channelName}
                   setSubChannel={setSubChannel}
                 />
@@ -109,7 +128,8 @@ export const Home = (status) => {
         </div>
         <div className="bg-[#36393f] flex-grow">
           {
-            subChannel === 1 ? ( <Chat /> ) : (<Profile />)
+            subChannel === 1 ? ( <Chat /> ) : (subChannel === 2 ? (<Profile />) : (<Email />) )       
+            
           }   
         </div>
       </div>
