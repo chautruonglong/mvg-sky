@@ -46,7 +46,7 @@
       <module name="admin-portal" options="-parameters" />
       <module name="module-common" options="-parameters" />
       <module name="module-repository" options="-parameters" />
-      <module name="mvg-sky-backend" options="" />
+      <module name="mvg-sky-backend" options="-parameters" />
       <module name="service-account" options="-parameters" />
       <module name="service-chat" options="-parameters" />
       <module name="service-configuration" options="-parameters" />

@@ -1,6 +1,6 @@
 package com.mvg.sky.account.exception.handler;
 
-import com.mvg.sky.account.util.response.ResponseException;
+import com.mvg.sky.account.util.response.ResponseExceptionSender;
 import com.mvg.sky.common.exception.entity.ResponseExceptionEntity;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class UnAuthorizationHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException authenticationException) throws IOException {
-        ResponseException.send(httpServletRequest, httpServletResponse, authenticationException, service);
+        ResponseExceptionSender.send(httpServletRequest, httpServletResponse, authenticationException, service);
     }
 
     @ExceptionHandler({AuthenticationException.class, UsernameNotFoundException.class})

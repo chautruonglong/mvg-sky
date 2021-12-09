@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
     servers = {
-        @Server(url = "http://api.mvg-sky.com/api"), // unsecure gateway domain
-        @Server(url = "https://api.mvg-sky.com/api"), // secure gateway domain
-        @Server(url = "http://localhost:8080/api"), // unsecure gateway localhost
-        @Server(url = "http://localhost:8002/api") // unsecure directly service-account localhost
+        @Server(url = "http://api.mvg-sky.com/api"),
+        @Server(url = "https://api.mvg-sky.com/api"),
+        @Server(url = "http://localhost:8080/api"),
+        @Server(url = "http://localhost:8002/api")
     },
     info = @Info(title = "Account Service", version = "v1.0", description = "Authentication & Authorization - Local Port: 8002")
 )
