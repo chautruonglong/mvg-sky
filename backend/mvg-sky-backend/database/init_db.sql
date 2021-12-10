@@ -62,15 +62,16 @@ create table folders
 
 create table messages
 (
-    id        uuid      default uuid_generate_v4() not null,
-    createdAt timestamp default now(),
-    isDeleted boolean   default false,
-    updatedAt timestamp default now(),
-    accountId uuid                                 not null,
-    content   text,
-    roomId    uuid                                 not null,
-    threadId  uuid,
-    type      text,
+    id           uuid      default uuid_generate_v4() not null,
+    createdAt    timestamp default now(),
+    isDeleted    boolean   default false,
+    updatedAt    timestamp default now(),
+    accountId    uuid                                 not null,
+    content      text,
+    isInSchedule boolean   default false,
+    roomId       uuid                                 not null,
+    threadId     uuid,
+    type         text,
     primary key (id)
 );
 
@@ -81,24 +82,13 @@ create table profiles
     isDeleted boolean   default false,
     updatedAt timestamp default now(),
     accountId uuid                                 not null,
+    avatar    text,
     birthday  date,
     firstName text,
     lastName  text,
     location  text      default 'Danang/Vietnam',
     mobile    text,
     title     text,
-    primary key (id)
-);
-
-create table reactions
-(
-    id        uuid      default uuid_generate_v4() not null,
-    createdAt timestamp default now(),
-    isDeleted boolean   default false,
-    updatedAt timestamp default now(),
-    accountId uuid                                 not null,
-    code      text                                 not null,
-    messageId uuid                                 not null,
     primary key (id)
 );
 
@@ -142,6 +132,3 @@ alter table accounts
 
 alter table domains
     add constraint UK_tk9464twe96cda0qy7xej44bj unique (name);
-
-alter table sessions
-    add constraint UK_nr21vuswfbmr91q57xdbnou5f unique (token);

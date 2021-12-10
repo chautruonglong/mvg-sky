@@ -4,8 +4,10 @@ import com.mvg.sky.repository.entity.RoomEntity;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import javax.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +23,9 @@ public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
     List<RoomEntity> findAllByAccountIdInAndIsDeletedFalse(Collection<UUID> accountIds, Pageable pageable);
 
     List<RoomEntity> findAllByIsDeletedFalse(Pageable pageable);
+
+    @Transactional
+    @Modifying
+    @Query("update RoomEntity r set r.isDeleted = true where r.id = :id and r.isDeleted = false")
+    Integer deleteByIdAndIsDeletedFalse(UUID id);
 }

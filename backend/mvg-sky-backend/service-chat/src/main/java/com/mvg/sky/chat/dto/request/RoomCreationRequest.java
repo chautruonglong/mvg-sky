@@ -1,9 +1,9 @@
-package com.mvg.sky.chat.dto;
+package com.mvg.sky.chat.dto.request;
 
 import com.mvg.sky.common.enumeration.RoomEnumeration;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class RoomCreationRequest {
@@ -12,8 +12,8 @@ public class RoomCreationRequest {
 
     private String description;
 
-    private MultipartFile avatar;
-
     @NotNull
     private RoomEnumeration type;
+
+    private List<String> accountIds;
 }

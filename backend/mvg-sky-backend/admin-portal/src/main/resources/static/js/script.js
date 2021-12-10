@@ -13,7 +13,7 @@ const connect = (event) => {
         const chatPage = document.querySelector('#chat-page')
         chatPage.classList.remove('hide')
 
-        const socket = new SockJS('http://localhost:8001/api/chats/ws')
+        const socket = new SockJS('http://api.mvg-sky.com/api/chats/ws')
         stompClient = Stomp.over(socket)
         stompClient.connect({}, onConnected, onError)
     }
@@ -21,11 +21,7 @@ const connect = (event) => {
 }
 
 const onConnected = () => {
-    stompClient.subscribe('/rooms/public', onMessageReceived)
-    stompClient.send("/app/chat.send",
-        {},
-        JSON.stringify({content: 'hello'})
-    )
+    stompClient.subscribe('/room/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d', onMessageReceived)
     const status = document.querySelector('#status')
     status.className = 'hide'
 }
@@ -38,16 +34,17 @@ const onError = (error) => {
 
 const sendMessage = (event) => {
     const messageInput = document.querySelector('#message')
-    const messageContent = messageInput.value.trim()
+    const [messageContent, delay] = messageInput.value.trim().split("$")
 
     if (messageContent && stompClient) {
         const chatMessage = {
-            sender: username,
-            content: messageInput.value,
-            type: 'CHAT',
-            time: moment().calendar()
+            accountId: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+            content: messageContent,
+            threadId: null,
+            type: "TEXT",
+            delay
         }
-        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage))
+        stompClient.send("/chat/send-message/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", {}, JSON.stringify(chatMessage))
         messageInput.value = ''
     }
     event.preventDefault();
@@ -55,7 +52,7 @@ const sendMessage = (event) => {
 
 
 const onMessageReceived = (payload) => {
-    const message = JSON.parse(payload.body);
+    const message = JSON.parse(payload.body).data;
 
     const chatCard = document.createElement('div')
     chatCard.className = 'card-body'
@@ -69,34 +66,25 @@ const onMessageReceived = (payload) => {
 
     flexBox.appendChild(messageElement)
 
-    if (message.type === 'CONNECT') {
-        messageElement.classList.add('event-message')
-        message.content = message.sender + ' connected!'
-    } else if (message.type === 'DISCONNECT') {
-        messageElement.classList.add('event-message')
-        message.content = message.sender + ' left!'
-    } else {
-        messageElement.classList.add('chat-message')
+    messageElement.classList.add('chat-message')
 
-        const avatarContainer = document.createElement('div')
-        avatarContainer.className = 'img_cont_msg'
-        const avatarElement = document.createElement('div')
-        avatarElement.className = 'circle user_img_msg'
-        const avatarText = document.createTextNode(message.sender[0])
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender)
-        avatarContainer.appendChild(avatarElement)
+    const avatarContainer = document.createElement('div')
+    avatarContainer.className = 'img_cont_msg'
+    const avatarElement = document.createElement('div')
+    avatarElement.className = 'circle user_img_msg'
+    const avatarText = document.createTextNode(message.accountId[0])
+    avatarElement.appendChild(avatarText);
+    avatarElement.style['background-color'] = getAvatarColor(message.accountId)
+    avatarContainer.appendChild(avatarElement)
 
-        messageElement.style['background-color'] = getAvatarColor(message.sender)
+    messageElement.style['background-color'] = getAvatarColor(message.accountId)
 
-        flexBox.appendChild(avatarContainer)
+    flexBox.appendChild(avatarContainer)
 
-        const time = document.createElement('span')
-        time.className = 'msg_time_send'
-        time.innerHTML = message.time
-        messageElement.appendChild(time)
-
-    }
+    const time = document.createElement('span')
+    time.className = 'msg_time_send'
+    time.innerHTML = message.createdAt
+    messageElement.appendChild(time)
 
     messageElement.innerHTML = message.content
 

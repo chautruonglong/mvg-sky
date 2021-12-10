@@ -39,16 +39,22 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
     @NonNull
     private final AccountRepository accountRepository;
+
     @NonNull
     private final SessionRepository sessionRepository;
+
     @NonNull
     private final DomainRepository domainRepository;
+
     @NonNull
     private final SessionService sessionService;
+
     @NonNull
     private final AuthenticationManager authenticationManager;
+
     @NonNull
     private final PasswordEncoder passwordEncoder;
+
     @NonNull
     private final MapperUtil mapperUtil;
 
@@ -112,11 +118,12 @@ public class AccountServiceImpl implements AccountService {
     public AccountEntity updatePartialAccount(String accountId, AccountUpdateRequest accountUpdateRequest) {
         AccountEntity accountEntity = accountRepository.findById(UUID.fromString(accountId))
             .orElseThrow(() -> new RuntimeException("Account do not exists"));
-        mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
-        AccountEntity savedAccountEntity = accountRepository.save(accountEntity);
 
-        log.info("update account {}", savedAccountEntity);
-        return savedAccountEntity;
+        mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
+        accountEntity = accountRepository.save(accountEntity);
+
+        log.info("update account {}", accountEntity);
+        return accountEntity;
     }
 
     @Override

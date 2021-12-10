@@ -15,7 +15,8 @@ services:
         networks:
             - mvg-sky-net
         volumes:
-            - ./database:/docker-entrypoint-initdb.d/
+            - ./database:/docker-entrypoint-initdb.d
+            - ${EXTERNAL_RESOURCES}/postgres:/var/lib/postgresql/data
         environment:
             - POSTGRES_USER=${PG_USERNAME}
             - POSTGRES_PASSWORD=${PG_PASSWORD}
@@ -29,11 +30,14 @@ services:
             - "8002:8002"
         networks:
             - mvg-sky-net
+        volumes:
+            - ${EXTERNAL_RESOURCES}/account:${DOCKER_EXTERNAL_RESOURCES}/account
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
             - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
+            - COM_MVG_SKY_SERVICEACCOUNT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/account/
 
     mvg-sky-service-chat:
         container_name: mvg-sky-service-chat
@@ -43,11 +47,14 @@ services:
             - "8001:8001"
         networks:
             - mvg-sky-net
+        volumes:
+            - ${EXTERNAL_RESOURCES}/chat:${DOCKER_EXTERNAL_RESOURCES}/chat
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
             - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
+            - COM_MVG_SKY_SERVICECHAT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/chat/
 
     mvg-sky-service-smtp:
         container_name: mvg-sky-service-smtp

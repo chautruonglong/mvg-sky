@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "com.mvg.sky.service-chat.external-resource",
+      "type": "java.lang.String",
+      "description": "External resource."
+    }
+  ] }

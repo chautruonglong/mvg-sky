@@ -1,23 +1,30 @@
 package com.mvg.sky.account.configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ComponentScan("com.mvg.sky")
 public class ApplicationConfiguration implements WebMvcConfigurer {
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
-        "classpath:/META-INF/resources/", "classpath:/resources/",
-        "classpath:/static/", "classpath:/public/" };
+    private final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"};
+
+    @Value("${com.mvg.sky.service-account.external-resource}")
+    private String externalResources;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        List<String> resources = new ArrayList<>(List.of(CLASSPATH_RESOURCE_LOCATIONS));
+        resources.add(externalResources);
+
         registry.addResourceHandler("/**")
-            .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+            .addResourceLocations(resources.toArray(String[]::new));
     }
 
     @Bean

@@ -5,12 +5,12 @@ spring:
                 -   id: service-account
                     uri: lb://SERVICE-ACCOUNT
                     predicates:
-                        - Path=/api/accounts/**, /api/profiles/**, /api/sessions/**, /api/domains/**, /api/contacts/**
+                        - Path=/api/accounts/**, /api/profiles/**, /api/sessions/**, /api/domains/**, /api/contacts/**, /api/accounts-resources/**
 
                 -   id: service-chat
                     uri: lb://SERVICE-CHAT
                     predicates:
-                        - Path=/api/chats/**
+                        - Path=/api/chats/**, /api/rooms/**, /api/messages/**, /api/members/**, /api/chats-resources/**
 
                 -   id: service-mail
                     uri: lb://SERVICE-MAIL
