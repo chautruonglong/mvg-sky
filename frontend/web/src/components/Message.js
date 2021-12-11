@@ -2,9 +2,14 @@ import { TrashIcon } from "@heroicons/react/solid";
 import moment from "moment";
 
 
-function Message({ id, message, timestamp, name, email, photoURL }) {
+function Message({ id, message, timestamp, photoURL }) {
+  let name 
 
-
+  if(id === '5d0d018d-bee1-4533-aed8-41a980792ebc'){
+    name = 'Khanh Toan'
+  } else {
+    name = 'Phuoc Quoc'
+  }
   return (
     <div className="flex items-center p-1 pl-5 my-5 mr-2 hover:bg-[#32353B] group">
       <img

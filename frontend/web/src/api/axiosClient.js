@@ -1,30 +1,26 @@
-import axios from 'axios';
-import queryString from 'query-string';
+import axios, { AxiosResponse, AxiosError } from 'axios';
+// import store from '@/stores/configureStore';
 
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-  headers: {
-    'content-type': 'application/json',
-    "Access-Control-Allow-Origin": "http://localhost:3000/",
-    'Access-Control-Allow-Credentials': 'true'
-  }
+  baseURL: 'http://api.mvg-sky.com/api',
 });
 
-axiosClient.interceptors.request.use(async (config) => {
-  // Handle token here ...
-  console.log('request',config);
-  return config;
-});
+const handleResponseSuccess = (response) => {
+  return Promise.resolve(response.data);
+};
 
-axiosClient.interceptors.response.use((response) => {
-  if (response && response.data) {
-    return response.data;
+const handleResponseFailed = (error) => {
+  if (error.response?.status === 401) {
+    // store.dispatch(logout());
+    return Promise.reject('Login session has expired.');
   }
 
-  return response;
-}, (error) => {
-  // Handle errors
-  throw error;
-});
+  return Promise.reject(error.response?.data || { message: error.message });
+};
+
+axiosClient.interceptors.response.use(
+  handleResponseSuccess,
+  handleResponseFailed,
+);
 
 export default axiosClient;

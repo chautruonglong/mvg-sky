@@ -7,13 +7,13 @@ import { Profile } from  "./Profile"
 import { Email } from  "./Email"
 import { useHistory } from "react-router";
 
-export const Home = (status) => {
+export const Home = ({status, newMessage}) => {
   const [subChannel, setSubChannel] = useState(1)
   const [channels, setChannels] = useState([])
   const history = useHistory()
 
   useEffect(()=>{
-      if(status.status === 'chat'){
+      if(status === 'chat'){
         setChannels([
           {
             id: 123,
@@ -30,7 +30,7 @@ export const Home = (status) => {
         ])
       }
     
-      if(status.status === 'profile'){
+      if(status === 'profile'){
         setChannels([ 
           {
             id: 1234,
@@ -43,7 +43,7 @@ export const Home = (status) => {
         ])
       } 
 
-      if(status.status === 'email'){
+      if(status === 'email'){
         setChannels([ 
           {
             id: 1234,
@@ -128,7 +128,8 @@ export const Home = (status) => {
         </div>
         <div className="bg-[#36393f] flex-grow">
           {
-            subChannel === 1 ? ( <Chat /> ) : (subChannel === 2 ? (<Profile />) : (<Email />) )       
+            // subChannel === 1 ? ( <Chat /> ) : (subChannel === 2 ? (<Profile />) : (<Email />) )       
+            (<Chat newMessage={newMessage}/>)
             
           }   
         </div>
