@@ -12,6 +12,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -37,14 +39,14 @@ public class BaseEntity {
     @CreatedDate
     @Builder.Default
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "createdAt", columnDefinition = "timestamp default now()")
     private Date createdAt = new Date();
 
     @LastModifiedDate
     @Builder.Default
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "updatedAt", columnDefinition = "timestamp default now()")
     private Date updatedAt = new Date();
 

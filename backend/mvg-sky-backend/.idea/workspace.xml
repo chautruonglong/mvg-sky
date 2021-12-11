@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_gateway_server_3_1_0_RC1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_gateway_3_1_0_RC1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-portal/src/main/resources/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin-portal/src/main/resources/static/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/room/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/room/RoomServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/entity/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/entity/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/AccountApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/AccountApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-chat/service-chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/service-chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/enumeration/PayloadEnumeration.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/enumeration/PayloadEnumeration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-gateway/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../document/.~lock.mvg_requirements.docx#" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +31,8 @@
         <option value="FlywayMigrationScript" />
         <option value="HTML File" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -392,7 +396,10 @@
       <workItem from="1638986047870" duration="25825000" />
       <workItem from="1639023958483" duration="1885000" />
       <workItem from="1639034432798" duration="8493000" />
-      <workItem from="1639055055500" duration="37281000" />
+      <workItem from="1639055055500" duration="38324000" />
+      <workItem from="1639147979861" duration="10170000" />
+      <workItem from="1639190071894" duration="4957000" />
+      <workItem from="1639213442868" duration="1650000" />
     </task>
     <servers />
   </component>
