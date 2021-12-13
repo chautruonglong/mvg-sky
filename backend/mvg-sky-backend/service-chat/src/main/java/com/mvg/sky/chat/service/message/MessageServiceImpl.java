@@ -41,7 +41,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Collection<MessageEntity> getAllMessages(List<String> roomIds, List<MessageEnumeration> types, List<String> sorts, Integer offset, Integer limit) {
-        Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
+        Sort sort = Sort.by(Sort.Direction.DESC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
         Collection<MessageEntity> messageEntities;
 
