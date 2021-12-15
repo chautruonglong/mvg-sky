@@ -1,13 +1,10 @@
 package com.mvg.sky.account;
 
-import java.util.Date;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Bean;
 
 @EnableEurekaClient
 @SpringBootApplication

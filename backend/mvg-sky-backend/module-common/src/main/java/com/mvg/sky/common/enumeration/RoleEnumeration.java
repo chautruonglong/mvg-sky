@@ -1,7 +1,7 @@
 package com.mvg.sky.common.enumeration;
 
 public enum RoleEnumeration {
-    USER,
+    EMPLOYEE,
     DOMAIN_ADMIN,
     SUPER_ADMIN
 }

@@ -43,31 +43,9 @@ public class MessageServiceImpl implements MessageService {
     public Collection<MessageEntity> getAllMessages(List<String> roomIds, List<MessageEnumeration> types, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.DESC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        Collection<MessageEntity> messageEntities;
 
-        if(roomIds == null) {
-            if(types == null) {
-                messageEntities = messageRepository.findAllByIsDeletedFalseAndIsInScheduleFalse(pageable);
-            }
-            else {
-                messageEntities = messageRepository.findAllByTypeInAndIsDeletedFalseAndIsInScheduleFalse(types, pageable);
-            }
-        }
-        else {
-            if(types == null) {
-                messageEntities = messageRepository.findAllByRoomIdInAndIsDeletedFalseAndIsInScheduleFalse(
-                    roomIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                    pageable
-                );
-            }
-            else {
-                messageEntities = messageRepository.findAllByRoomIdInAndTypeInAndIsDeletedFalseAndIsInScheduleFalse(
-                    roomIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                    types,
-                    pageable
-                );
-            }
-        }
+        List<UUID> roomUuids = roomIds != null ? roomIds.stream().map(UUID::fromString).toList() : null;
+        Collection<MessageEntity> messageEntities = messageRepository.findALlMessages(roomUuids, types, pageable);
 
         log.info("find {} messages", messageEntities == null ? 0 : messageEntities.size());
         return messageEntities;

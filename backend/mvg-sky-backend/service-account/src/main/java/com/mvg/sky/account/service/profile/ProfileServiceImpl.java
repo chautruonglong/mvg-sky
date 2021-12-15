@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,17 +42,9 @@ public class ProfileServiceImpl implements ProfileService {
     public Collection<ProfileEntity> getAllProfilesByAccountIds(List<String> accountIds, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        Collection<ProfileEntity> profileEntities;
 
-        if(accountIds == null) {
-            profileEntities = profileRepository.findAllByIsDeletedFalse(pageable);
-        }
-        else {
-            profileEntities = profileRepository.findAllByAccountIdInAndIsDeletedFalse(
-                accountIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                pageable
-            );
-        }
+        List<UUID> accountUuids = accountIds != null ? accountIds.stream().map(UUID::fromString).toList() : null;
+        Collection<ProfileEntity> profileEntities = profileRepository.findAllProfiles(accountUuids, pageable);
 
         log.info("find {} account entities", profileEntities == null ? 0 : profileEntities.size());
         return profileEntities;

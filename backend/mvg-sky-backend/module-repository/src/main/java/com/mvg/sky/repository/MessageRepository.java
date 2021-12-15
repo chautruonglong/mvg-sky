@@ -14,16 +14,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends JpaRepository<MessageEntity, UUID> {
-    List<MessageEntity> findAllByRoomIdInAndIsDeletedFalseAndIsInScheduleFalse(Collection<UUID> roomIds, Pageable pageable);
-
-    List<MessageEntity> findAllByRoomIdInAndTypeInAndIsDeletedFalseAndIsInScheduleFalse(Collection<UUID> roomIds, Collection<MessageEnumeration> types, Pageable pageable);
-
-    List<MessageEntity> findAllByIsDeletedFalseAndIsInScheduleFalse(Pageable pageable);
-
-    List<MessageEntity> findAllByTypeInAndIsDeletedFalseAndIsInScheduleFalse(Collection<MessageEnumeration> types, Pageable pageable);
-
     @Transactional
     @Modifying
     @Query("update MessageEntity m set m.isDeleted = true where m.id = :messageId and m.isDeleted = false")
     Integer deleteByIdAndIsDeletedFalse(UUID messageId);
+
+    @Query("""
+        select m
+        from MessageEntity m
+        where m.isDeleted = false and m.isInSchedule = false
+            and (:roomIds is null or cast(m.roomId as org.hibernate.type.UUIDCharType) in :roomIds)
+            and (:types is null or m.type in :types)
+    """)
+    List<MessageEntity> findALlMessages(Collection<UUID> roomIds, Collection<MessageEnumeration> types, Pageable pageable);
 }

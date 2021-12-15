@@ -16,7 +16,6 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,17 +47,9 @@ public class RoomServiceImpl implements RoomService {
     public Collection<RoomEntity> getAllRooms(List<String> accountIds, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        Collection<RoomEntity> roomEntities;
 
-        if(accountIds == null) {
-            roomEntities = roomRepository.findAllByIsDeletedFalse(pageable);
-        }
-        else {
-            roomEntities = roomRepository.findAllByAccountIdInAndIsDeletedFalse(
-                accountIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                pageable
-            );
-        }
+        List<UUID> accountUuids = accountIds != null ? accountIds.stream().map(UUID::fromString).toList() : null;
+        Collection<RoomEntity> roomEntities = roomRepository.findAllRooms(accountUuids, pageable);
 
         log.info("find {} room entities", roomEntities == null ? 0 : roomEntities.size());
         return roomEntities;

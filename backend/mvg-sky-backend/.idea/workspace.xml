@@ -5,8 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a/storage_v2/_src_/database/mvg-sky.srokVQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a/storage_v2/_src_/database/mvg-sky.srokVQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/enumeration/RoleEnumeration.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/enumeration/RoleEnumeration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ContactRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/MessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ProfileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/RoomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/RoomRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/SessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/SessionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/AccountApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/AccountApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/ContactController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/mapper/MapperUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/response/ResponseExceptionSender.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-account/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/ChatApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/message/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/message/MessageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/room/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/room/RoomServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../document/.~lock.mvg_requirements.docx#" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +164,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ChatApplication">
+  <component name="RunManager" selected="Spring Boot.MailApplication (1)">
     <configuration name="Microservices" type="CompoundRunConfigurationType">
       <toRun name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" />
       <toRun name="SmtpApplication" type="SpringBootApplicationConfigurationType" />
@@ -394,7 +417,11 @@
       <workItem from="1639213442868" duration="1701000" />
       <workItem from="1639236253181" duration="495000" />
       <workItem from="1639388031858" duration="22000" />
-      <workItem from="1639410178007" duration="1536000" />
+      <workItem from="1639410178007" duration="1661000" />
+      <workItem from="1639473799135" duration="115000" />
+      <workItem from="1639492581919" duration="12469000" />
+      <workItem from="1639535992371" duration="6276000" />
+      <workItem from="1639560087742" duration="1449000" />
     </task>
     <servers />
   </component>
@@ -403,17 +430,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
