@@ -4,28 +4,23 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { stompClient } from "../App";
 
-export const Chat = ({newMessage}) => {
+export const Chat = ({ id, newMessage, roomId, setRoomId }) => {
   const inputRef = useRef("");
   const chatRef = useRef(null);
   const idSender = "5d0d018d-bee1-4533-aed8-41a980792ebc";
   const photoURL =
     "https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg";
   const [messages, setMessages] = useState([]);
-  const roomId = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d";
 
-  useEffect(()=> {
+  useEffect(() => {
     const addMessage = () => {
-      if(newMessage){
-        setMessages([
-          ...messages,
-          newMessage
-        ])
-
+      if (newMessage) {
+        console.log('send message');
+        setMessages([...messages, newMessage]);
       }
-    }
-    addMessage()
-  },[newMessage])
-
+    };
+    addMessage();
+  }, [newMessage]);
 
   const scrollToBottom = () => {
     chatRef.current.scrollIntoView({
@@ -42,11 +37,13 @@ export const Chat = ({newMessage}) => {
       };
 
       const values = await axios(config);
+      values.data.reverse()
       setMessages(values.data);
     };
 
     fetchRoom();
-  }, []);
+    scrollToBottom();
+  }, [roomId]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -90,7 +87,7 @@ export const Chat = ({newMessage}) => {
                 id={accountId}
                 message={content}
                 timestamp={createdAt}
-                photoURL={photoURL}
+                // photoURL={photoURL}
               />
             );
           })}

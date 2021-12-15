@@ -2,13 +2,16 @@ import { TrashIcon } from "@heroicons/react/solid";
 import moment from "moment";
 
 
-function Message({ id, message, timestamp, photoURL }) {
+function Message({ id, message, timestamp}) {
   let name 
+  let photoURL
 
   if(id === '5d0d018d-bee1-4533-aed8-41a980792ebc'){
     name = 'Khanh Toan'
+    photoURL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
   } else {
     name = 'Phuoc Quoc'
+    photoURL = 'http://api.mvg-sky.com/api/accounts-resources/avatar/5f4e198d-eb70-40e8-80c8-bc4037766c86.jpg'
   }
   return (
     <div className="flex items-center p-1 pl-5 my-5 mr-2 hover:bg-[#32353B] group">
