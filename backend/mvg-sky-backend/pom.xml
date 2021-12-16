@@ -19,6 +19,7 @@
         <module>service-imap</module>
         <module>service-chat</module>
         <module>admin-portal</module>
+        <module>service-document</module>
     </modules>
     <name>mvg-sky-backend</name>
     <description>mvg-sky-backend</description>

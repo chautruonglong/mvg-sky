@@ -5,32 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a/storage_v2/_src_/database/mvg-sky.srokVQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1779cce5-8f85-4199-9280-73bddd71a86a/storage_v2/_src_/database/mvg-sky.srokVQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/enumeration/RoleEnumeration.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/mvg/sky/common/enumeration/RoleEnumeration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/AccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ContactRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/MessageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/ProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/RoomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/RoomRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/SessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/SessionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/java/com/mvg/sky/repository/faker/DataFaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/module-repository/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/AccountApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/AccountApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/controller/ContactController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/account/AccountServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/contact/ContactServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/profile/ProfileServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/service/session/SessionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/mapper/MapperUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/java/com/mvg/sky/account/util/response/ResponseExceptionSender.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-account/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/service-account/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/ChatApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/ChatApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/message/MessageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/message/MessageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/room/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-chat/src/main/java/com/mvg/sky/chat/service/room/RoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../document/.~lock.mvg_requirements.docx#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-gateway/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +67,14 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
@@ -116,7 +100,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17 (2)" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/module-common/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/service-document/src/main/java/com/mvg/sky/document/configuration" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -128,11 +112,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/service-document/src/main/java/com/mvg/sky/document/configuration" />
+      <recent name="$PROJECT_DIR$/service-document" />
       <recent name="$PROJECT_DIR$/module-common/src/main/resources" />
       <recent name="$PROJECT_DIR$/service-smtp/src/main/resources" />
       <recent name="$PROJECT_DIR$/service-chat/src/main/resources/static" />
-      <recent name="$PROJECT_DIR$/service-chat/src/main/resources" />
-      <recent name="$PROJECT_DIR$/service-smtp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/service-chat/src/main/resources/static/avatar" />
@@ -145,11 +129,11 @@
       <recent name="com.mvg.sky.repository" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.mvg.sky.account.configuration" />
-      <recent name="com.mvg.sky.smtp.configuration" />
       <recent name="com.mvg.sky.admin.configuration" />
-      <recent name="com.mvg.sky.chat.configuration" />
-      <recent name="com.mvg.sky.gateway.configuration" />
+      <recent name="com.mvg.sky.configuration" />
+      <recent name="com.mvg.sky.smtp.configuration" />
+      <recent name="com.mvg.sky.mail.configuration" />
+      <recent name="com.mvg.sky.imap.configuration" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -164,7 +148,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.MailApplication (1)">
+  <component name="RunManager" selected="Spring Boot.GatewayApplication">
     <configuration name="Microservices" type="CompoundRunConfigurationType">
       <toRun name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" />
       <toRun name="SmtpApplication" type="SpringBootApplicationConfigurationType" />
@@ -273,6 +257,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DocumentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="service-document" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mvg.sky.document.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.document.DocumentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="service-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.gateway.GatewayApplication" />
@@ -317,6 +314,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServiceDocumentApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="document" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.document.ServiceDocumentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServiceDocumentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-document" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.document.ServiceDocumentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SmtpApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="service-smtp" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.smtp.SmtpApplication" />
@@ -343,9 +354,13 @@
       <item itemvalue="Spring Boot.MvgSkyBackendApplication" />
       <item itemvalue="Spring Boot.RepositoryApplication" />
       <item itemvalue="Spring Boot.SmtpApplication" />
+      <item itemvalue="Spring Boot.ServiceDocumentApplication" />
+      <item itemvalue="Spring Boot.ServiceDocumentApplication (1)" />
+      <item itemvalue="Spring Boot.DocumentApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.DocumentApplication" />
         <item itemvalue="JUnit.RepositoryApplicationTest" />
         <item itemvalue="JUnit.GatewayApplicationTest" />
         <item itemvalue="JUnit.DiscoveryApplicationTest" />
@@ -421,7 +436,9 @@
       <workItem from="1639473799135" duration="115000" />
       <workItem from="1639492581919" duration="12469000" />
       <workItem from="1639535992371" duration="6276000" />
-      <workItem from="1639560087742" duration="1449000" />
+      <workItem from="1639560087742" duration="1663000" />
+      <workItem from="1639562621574" duration="1721000" />
+      <workItem from="1639641180800" duration="3501000" />
     </task>
     <servers />
   </component>
