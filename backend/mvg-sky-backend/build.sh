@@ -27,6 +27,8 @@ export PG_PASSWORD=Ctlbi@0775516337
 export DOCKER_EXTERNAL_RESOURCES=/mvg-sky/resources
 export EXTERNAL_RESOURCES=/home/chautruonglong/Desktop/resources2
 
+export PROFILE=deployment
+
 docker-compose build --no-cache
 docker-compose up -d
 
