@@ -1,6 +1,6 @@
 package com.mvg.sky.account.exception.handler;
 
-import com.mvg.sky.account.util.response.ResponseException;
+import com.mvg.sky.account.util.response.ResponseExceptionSender;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +17,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ResponseException.send(httpServletRequest, httpServletResponse, accessDeniedException, service);
+        ResponseExceptionSender.send(httpServletRequest, httpServletResponse, accessDeniedException, service);
     }
 }

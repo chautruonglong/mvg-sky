@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-public class ResponseException {
+public class ResponseExceptionSender {
     public static void send(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Exception exception, String service) throws IOException {
         ResponseExceptionEntity responseExceptionEntity = ResponseExceptionEntity.builder()
             .api(httpServletRequest.getRequestURI())

@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/service-chat/service-chat.iml" filepath="$PROJECT_DIR$/service-chat/service-chat.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-configuration/service-configuration.iml" filepath="$PROJECT_DIR$/service-configuration/service-configuration.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-discovery/service-discovery.iml" filepath="$PROJECT_DIR$/service-discovery/service-discovery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-document/service-document.iml" filepath="$PROJECT_DIR$/service-document/service-document.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-gateway/service-gateway.iml" filepath="$PROJECT_DIR$/service-gateway/service-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-imap/service-imap.iml" filepath="$PROJECT_DIR$/service-imap/service-imap.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-mail/service-mail.iml" filepath="$PROJECT_DIR$/service-mail/service-mail.iml" />

@@ -120,17 +120,9 @@ public class SessionServiceImpl implements SessionService {
 
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        Collection<SessionEntity> sessionEntities;
 
-        if(accountIds == null) {
-            sessionEntities = sessionRepository.findAllByIsDeletedFalse(pageable);
-        }
-        else {
-            sessionEntities = sessionRepository.findAllByAccountIdInAndIsDeletedFalse(
-                accountIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                pageable
-            );
-        }
+        List<UUID> accountUuids = accountIds != null ? accountIds.stream().map(UUID::fromString).toList() : null;
+        Collection<SessionEntity> sessionEntities = sessionRepository.findAllSessions(accountUuids, pageable);
 
         log.info("find {} session entities", sessionEntities == null ? 0 : sessionEntities.size());
         return sessionEntities;

@@ -14,9 +14,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SessionRepository extends JpaRepository<SessionEntity, UUID> {
-    List<SessionEntity> findAllByIsDeletedFalse(Pageable pageable);
-
-    List<SessionEntity> findAllByAccountIdInAndIsDeletedFalse(Collection<UUID> accountIds, Pageable pageable);
+    @Query("""
+        select s
+        from SessionEntity s
+        where s.isDeleted = false and (:accountIds is null or cast(s.accountId as org.hibernate.type.UUIDCharType) in :accountIds)
+    """)
+    List<SessionEntity> findAllSessions(Collection<UUID> accountIds, Pageable pageable);
 
     SessionEntity findByIdAndIsDeletedFalse(UUID id);
 

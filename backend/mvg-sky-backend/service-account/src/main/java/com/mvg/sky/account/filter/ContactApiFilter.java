@@ -22,7 +22,6 @@ public class ContactApiFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("th ngu");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
