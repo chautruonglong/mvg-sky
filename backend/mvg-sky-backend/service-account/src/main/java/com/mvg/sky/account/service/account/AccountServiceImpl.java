@@ -5,7 +5,6 @@ import com.mvg.sky.account.dto.request.AccountUpdateRequest;
 import com.mvg.sky.account.dto.response.AccountProfileCreationResponse;
 import com.mvg.sky.account.dto.response.LoginResponse;
 import com.mvg.sky.account.security.UserPrincipal;
-import com.mvg.sky.account.service.profile.ProfileService;
 import com.mvg.sky.account.service.session.SessionService;
 import com.mvg.sky.account.util.mapper.MapperUtil;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
@@ -20,11 +19,8 @@ import com.mvg.sky.repository.entity.SessionEntity;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,28 +32,15 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
-    @NonNull
     private final AccountRepository accountRepository;
-    @NonNull
     private final SessionRepository sessionRepository;
-    @NonNull
     private final DomainRepository domainRepository;
-    @NonNull
     private final SessionService sessionService;
-    @NonNull
     private final AuthenticationManager authenticationManager;
-    @NonNull
     private final PasswordEncoder passwordEncoder;
-    @NonNull
     private final MapperUtil mapperUtil;
-
-    @Value("${com.mvg.sky.service-account.secret}")
-    private String secretKey;
-
-    @Value("${com.mvg.sky.service-account.access.expiration}")
-    private Long accessTokenExpiration;
 
     @Override
     public LoginResponse authenticate(String email, String password) {
@@ -113,28 +96,21 @@ public class AccountServiceImpl implements AccountService {
     public AccountEntity updatePartialAccount(String accountId, AccountUpdateRequest accountUpdateRequest) {
         AccountEntity accountEntity = accountRepository.findById(UUID.fromString(accountId))
             .orElseThrow(() -> new RuntimeException("Account do not exists"));
-        mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
-        AccountEntity savedAccountEntity = accountRepository.save(accountEntity);
 
-        log.info("update account {}", savedAccountEntity);
-        return savedAccountEntity;
+        mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
+        accountEntity = accountRepository.save(accountEntity);
+
+        log.info("update account {}", accountEntity);
+        return accountEntity;
     }
 
     @Override
     public Collection<AccountEntity> getAllAccounts(List<String> domainsIds, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        Collection<AccountEntity> accountEntities;
 
-        if(domainsIds == null) {
-            accountEntities = accountRepository.findAllByIsDeletedFalse(pageable);
-        }
-        else {
-            accountEntities = accountRepository.findAllByDomainIdInAndIsDeletedFalse(
-                domainsIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                pageable
-            );
-        }
+        List<UUID> domainsUuids = domainsIds != null ? domainsIds.stream().map(UUID::fromString).toList() : null;
+        Collection<AccountEntity> accountEntities = accountRepository.findAllAccounts(domainsUuids, pageable);
 
         log.info("find {} account entities", accountEntities == null ? 0 : accountEntities.size());
         return accountEntities;

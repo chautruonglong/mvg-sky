@@ -45,4 +45,7 @@ public class ProfileEntity extends BaseEntity {
     @Builder.Default
     @Column(name = "location", columnDefinition = "text default 'Danang/Vietnam'")
     private String location = "Danang/Vietnam";
+
+    @Column(name = "avatar", columnDefinition = "text")
+    private String avatar;
 }

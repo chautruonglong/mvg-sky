@@ -17,17 +17,10 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, UUID> {
         select p
         from ProfileEntity p
         inner join AccountEntity a on a.id = p.accountId
-        where p.isDeleted = false and a.isDeleted = false
+        where p.isDeleted = false and a.isDeleted = false and a.isActive = true
+            and (:accountIds is null or cast(p.accountId as org.hibernate.type.UUIDCharType) in :accountIds)
     """)
-    List<ProfileEntity> findAllByIsDeletedFalse(Pageable pageable);
-
-    @Query("""
-        select p
-        from ProfileEntity p
-        inner join AccountEntity a on a.id = p.accountId
-        where p.isDeleted = false and a.isDeleted = false and p.accountId in :accountIds
-    """)
-    List<ProfileEntity> findAllByAccountIdInAndIsDeletedFalse(Collection<UUID> accountIds, Pageable pageable);
+    List<ProfileEntity> findAllProfiles(Collection<UUID> accountIds, Pageable pageable);
 
     @Transactional
     @Modifying

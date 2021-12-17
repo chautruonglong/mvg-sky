@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,4 +39,8 @@ public class MessageEntity extends BaseEntity {
     @Column(name = "type", columnDefinition = "text")
     @Enumerated(EnumType.STRING)
     private MessageEnumeration type;
+
+    @Builder.Default
+    @Column(name = "isInSchedule", columnDefinition = "boolean default false")
+    private Boolean isInSchedule = false;
 }

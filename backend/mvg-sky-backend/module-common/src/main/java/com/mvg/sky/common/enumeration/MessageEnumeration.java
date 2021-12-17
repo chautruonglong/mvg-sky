@@ -4,5 +4,5 @@ public enum MessageEnumeration {
     TEXT,
     MEDIA,
     URL,
-    COMPOSED
+    REACTION,
 }
