@@ -1,4 +1,4 @@
-package com.mvg.sky.account.util.validator;
+package com.mvg.sky.common.util.validator;
 
 import java.util.List;
 import java.util.stream.Collectors;

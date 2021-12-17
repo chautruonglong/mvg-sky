@@ -28,7 +28,10 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
     @Query("update AccountEntity a set a.isDeleted = true where a.id = :accountId and a.isDeleted = false")
     Integer deleteByIdAndIsDeletedFalse(UUID accountId);
 
-    List<AccountEntity> findAllByDomainIdInAndIsDeletedFalse(Collection<UUID> domainsIds, Pageable pageable);
-
-    List<AccountEntity> findAllByIsDeletedFalse(Pageable pageable);
+    @Query("""
+        select a
+        from AccountEntity a
+        where a.isDeleted = false and (:domainIds is null or cast(a.domainId as org.hibernate.type.UUIDCharType) in :domainIds)
+    """)
+    List<AccountEntity> findAllAccounts(Collection<UUID> domainIds, Pageable pageable);
 }

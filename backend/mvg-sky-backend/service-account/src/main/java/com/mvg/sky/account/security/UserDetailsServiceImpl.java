@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 public record UserDetailsServiceImpl(AccountRepository accountRepository) implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws RuntimeException {
-        log.info(email);
-
         int at = email.indexOf('@');
         String username = email.substring(0, at);
         String domain = email.substring(at + 1);

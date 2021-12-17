@@ -1,6 +1,6 @@
 package com.mvg.sky.account.dto.request;
 
-import com.mvg.sky.account.util.validator.EnumValidator;
+import com.mvg.sky.common.util.validator.EnumValidator;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
 import javax.validation.constraints.Pattern;
 import lombok.Data;

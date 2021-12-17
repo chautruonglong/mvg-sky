@@ -4,20 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="736892d9-3612-474d-a981-dc1d27ffa363" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="FlywayMigrationScript" />
         <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -39,6 +41,9 @@
         <entry key="JPA Inspector" value="true" />
         <entry key="JPA Palette" value="true" />
         <entry key="JPA Structure" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
     <option name="myId2Visible">
@@ -46,6 +51,9 @@
         <entry key="JPA Inspector" value="false" />
         <entry key="JPA Palette" value="false" />
         <entry key="JPA Structure" value="false" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
     </option>
   </component>
@@ -55,6 +63,17 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="21NEgSwlL9JgJxSoxO7oHPua5ZG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -78,36 +97,40 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17 (2)" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/service-smtp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/service-document/src/main/java/com/mvg/sky/document/configuration" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.21403915" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/service-smtp" />
-      <recent name="$PROJECT_DIR$/service-mail" />
-      <recent name="$PROJECT_DIR$/service-imap" />
-      <recent name="$PROJECT_DIR$/service-gateway" />
-      <recent name="$PROJECT_DIR$/service-chat" />
+      <recent name="$PROJECT_DIR$/service-document/src/main/java/com/mvg/sky/document/configuration" />
+      <recent name="$PROJECT_DIR$/service-document" />
+      <recent name="$PROJECT_DIR$/module-common/src/main/resources" />
+      <recent name="$PROJECT_DIR$/service-smtp/src/main/resources" />
+      <recent name="$PROJECT_DIR$/service-chat/src/main/resources/static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/module-repository/src/main/resources/db" />
+      <recent name="$PROJECT_DIR$/service-chat/src/main/resources/static/avatar" />
+      <recent name="$PROJECT_DIR$/module-common/src/main/resources/static" />
+      <recent name="$PROJECT_DIR$/service-smtp/src/main/resources/public/dcm" />
+      <recent name="$PROJECT_DIR$/service-smtp/src/main/resources/public" />
+      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.mvg.sky.repository" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.mvg.sky.account.security" />
-      <recent name="com.mvg.sky.admin" />
-      <recent name="com.mvg.sky.smtp" />
-      <recent name="com.mvg.sky.mail" />
-      <recent name="com.mvg.sky.chat" />
+      <recent name="com.mvg.sky.admin.configuration" />
+      <recent name="com.mvg.sky.configuration" />
+      <recent name="com.mvg.sky.smtp.configuration" />
+      <recent name="com.mvg.sky.mail.configuration" />
+      <recent name="com.mvg.sky.imap.configuration" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -116,8 +139,13 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
+    <option name="excludedTypes">
+      <set>
+        <option value="HttpClient.HttpRequestRunConfigurationType" />
+      </set>
+    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AccountApplication">
+  <component name="RunManager" selected="Spring Boot.DocumentApplication">
     <configuration name="Microservices" type="CompoundRunConfigurationType">
       <toRun name="DiscoveryApplication" type="SpringBootApplicationConfigurationType" />
       <toRun name="SmtpApplication" type="SpringBootApplicationConfigurationType" />
@@ -226,6 +254,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DocumentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="service-document" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mvg.sky.document.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.document.DocumentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="service-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.gateway.GatewayApplication" />
@@ -270,6 +311,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServiceDocumentApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="document" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.document.ServiceDocumentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServiceDocumentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="service-document" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.document.ServiceDocumentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SmtpApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="service-smtp" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mvg.sky.smtp.SmtpApplication" />
@@ -280,9 +335,9 @@
     <list>
       <item itemvalue="Compound.Microservices" />
       <item itemvalue="HTTP Request.generated-requests#1" />
-      <item itemvalue="JUnit.RepositoryApplicationTest" />
-      <item itemvalue="JUnit.GatewayApplicationTest" />
       <item itemvalue="JUnit.DiscoveryApplicationTest" />
+      <item itemvalue="JUnit.GatewayApplicationTest" />
+      <item itemvalue="JUnit.RepositoryApplicationTest" />
       <item itemvalue="Spring Boot.AccountApplication" />
       <item itemvalue="Spring Boot.AdminPortalApplication" />
       <item itemvalue="Spring Boot.ChatApplication" />
@@ -291,18 +346,22 @@
       <item itemvalue="Spring Boot.DiscoveryApplication" />
       <item itemvalue="Spring Boot.GatewayApplication" />
       <item itemvalue="Spring Boot.ImapApplication" />
+      <item itemvalue="Spring Boot.MailApplication (1)" />
       <item itemvalue="Spring Boot.MailApplication" />
       <item itemvalue="Spring Boot.MvgSkyBackendApplication" />
       <item itemvalue="Spring Boot.RepositoryApplication" />
       <item itemvalue="Spring Boot.SmtpApplication" />
-      <item itemvalue="Spring Boot.MailApplication (1)" />
+      <item itemvalue="Spring Boot.ServiceDocumentApplication" />
+      <item itemvalue="Spring Boot.ServiceDocumentApplication (1)" />
+      <item itemvalue="Spring Boot.DocumentApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.DocumentApplication" />
+        <item itemvalue="JUnit.RepositoryApplicationTest" />
         <item itemvalue="JUnit.GatewayApplicationTest" />
         <item itemvalue="JUnit.DiscoveryApplicationTest" />
         <item itemvalue="HTTP Request.generated-requests#1" />
-        <item itemvalue="JUnit.RepositoryApplicationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -340,7 +399,44 @@
       <workItem from="1638188551759" duration="6076000" />
       <workItem from="1638194654827" duration="117000" />
       <workItem from="1638194792081" duration="4078000" />
-      <workItem from="1638199184605" duration="4609000" />
+      <workItem from="1638199184605" duration="14862000" />
+      <workItem from="1638217353258" duration="349000" />
+      <workItem from="1638238307496" duration="1219000" />
+      <workItem from="1638259750858" duration="832000" />
+      <workItem from="1638374387763" duration="9739000" />
+      <workItem from="1638413826339" duration="1363000" />
+      <workItem from="1638435287938" duration="1399000" />
+      <workItem from="1638546949088" duration="44000" />
+      <workItem from="1638596263249" duration="3494000" />
+      <workItem from="1638891450929" duration="3000" />
+      <workItem from="1638943916858" duration="218000" />
+      <workItem from="1638944170626" duration="66000" />
+      <workItem from="1638944254115" duration="84000" />
+      <workItem from="1638944356355" duration="83000" />
+      <workItem from="1638944458820" duration="263000" />
+      <workItem from="1638945127923" duration="96000" />
+      <workItem from="1638945242707" duration="93000" />
+      <workItem from="1638945369880" duration="11725000" />
+      <workItem from="1638962812589" duration="54000" />
+      <workItem from="1638962887472" duration="3426000" />
+      <workItem from="1638985592748" duration="441000" />
+      <workItem from="1638986047870" duration="25825000" />
+      <workItem from="1639023958483" duration="1885000" />
+      <workItem from="1639034432798" duration="8493000" />
+      <workItem from="1639055055500" duration="38324000" />
+      <workItem from="1639147979861" duration="10170000" />
+      <workItem from="1639190071894" duration="4957000" />
+      <workItem from="1639213442868" duration="1701000" />
+      <workItem from="1639236253181" duration="495000" />
+      <workItem from="1639388031858" duration="22000" />
+      <workItem from="1639410178007" duration="1661000" />
+      <workItem from="1639473799135" duration="115000" />
+      <workItem from="1639492581919" duration="12469000" />
+      <workItem from="1639535992371" duration="6276000" />
+      <workItem from="1639560087742" duration="1663000" />
+      <workItem from="1639562621574" duration="1721000" />
+      <workItem from="1639641180800" duration="4083000" />
+      <workItem from="1639733808076" duration="5841000" />
     </task>
     <servers />
   </component>
