@@ -5,10 +5,6 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
-import java.util.ArrayList;
-import java.util.List;
-import org.springdoc.core.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -22,12 +18,4 @@ import org.springframework.context.annotation.Configuration;
     info = @Info(title = "Document Service", version = "v1.0", description = "API Document - Local Port: 8005")
 )
 @SecurityScheme(name = "auth", type = SecuritySchemeType.HTTP)
-public class SwaggerConfiguration {
-    @Bean
-    public List<GroupedOpenApi> apis() {
-        return new ArrayList<>(List.of(
-            GroupedOpenApi.builder().pathsToMatch("/ngu").group("ngu").build(),
-            GroupedOpenApi.builder().pathsToMatch("/ngu22").group("ngu22").build()
-      ));
-    }
-}
+public class SwaggerConfiguration {}

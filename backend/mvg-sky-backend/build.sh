@@ -14,6 +14,7 @@ set -x
   -pl service-smtp \
   -pl service-imap \
   -pl service-configuration \
+  -pl service-document \
   -pl admin-portal
 
 export REGISTRY=http://mvg-sky-service-discovery:8000/eureka/

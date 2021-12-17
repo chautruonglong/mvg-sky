@@ -12,6 +12,7 @@
         <module>module-repository</module>
         <module>service-account</module>
         <module>service-configuration</module>
+        <module>service-document</module>
         <module>service-gateway</module>
         <module>service-discovery</module>
         <module>service-mail</module>
@@ -19,7 +20,6 @@
         <module>service-imap</module>
         <module>service-chat</module>
         <module>admin-portal</module>
-        <module>service-document</module>
     </modules>
     <name>mvg-sky-backend</name>
     <description>mvg-sky-backend</description>

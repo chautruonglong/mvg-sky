@@ -126,6 +126,17 @@ services:
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
 
+    mvg-sky-service-document:
+        container_name: mvg-sky-service-document
+        image: mvg-sky-service-document-jdk-17
+        build: ./service-document
+        ports:
+            - "8005:8005"
+        networks:
+            - mvg-sky-net
+        environment:
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+
     mvg-sky-admin-portal:
         container_name: mvg-sky-admin-portal
         image: mvg-sky-admin-portal-jdk-17
