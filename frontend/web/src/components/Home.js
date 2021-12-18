@@ -7,14 +7,17 @@ import { Email } from "./Email";
 import { useHistory, useParams } from "react-router";
 import axios from "axios";
 import { Blank } from "./Blank";
+import Popup from "reactjs-popup";
+import { CreateChannel } from "./createChannel/CreateChannel";
+import "./createChannel/createChannel.css";
 
-export const Home = ({ status, newMessage, roomId, setRoomId }) => {
+export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
   const [subChannel, setSubChannel] = useState(1);
   const [channels, setChannels] = useState([]);
   const history = useHistory();
   const { id } = useParams();
   const { channelId, setChannelId } = useState(id);
-  const accountId = "5d0d018d-bee1-4533-aed8-41a980792ebc";
+  // const accountId = "5d0d018d-bee1-4533-aed8-41a980792ebc";
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -22,7 +25,7 @@ export const Home = ({ status, newMessage, roomId, setRoomId }) => {
         const fetchChannels = async () => {
           var config = {
             method: "get",
-            url: "http://api.mvg-sky.com/api/rooms?accountId=5d0d018d-bee1-4533-aed8-41a980792ebc",
+            url: `http://api.mvg-sky.com/api/rooms?accountId=${accountId}`,
             headers: {},
           };
 
@@ -39,25 +42,12 @@ export const Home = ({ status, newMessage, roomId, setRoomId }) => {
           {
             id: accountId,
             name: "Profile",
-          }
+          },
         ]);
       }
     };
 
     fetchdata();
-
-    // if (status === "email") {
-    //   setChannels([
-    //     {
-    //       id: 1234,
-    //       channelName: "khanhtoanmail",
-    //     },
-    //     {
-    //       id: 123,
-    //       channelName: "testmail",
-    //     },
-    //   ]);
-    // }
   }, [status, id]);
 
   return (
@@ -114,7 +104,15 @@ export const Home = ({ status, newMessage, roomId, setRoomId }) => {
             <div className="flex items-center p-2 mb-2">
               <ChevronDownIcon className="h-3  mr-2" />
               <h4 className="font-semibold ">Channels</h4>
-              <PlusIcon className="h-6 ml-auto cursor-pointer hover:text-white" />
+
+              <Popup
+                modal
+                trigger={
+                  <PlusIcon className="h-6 ml-auto cursor-pointer hover:text-white" />
+                }
+              >
+                {(close) => <CreateChannel close={close}></CreateChannel>}
+              </Popup>
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
               {channels?.map((channel) => (
@@ -135,9 +133,11 @@ export const Home = ({ status, newMessage, roomId, setRoomId }) => {
               <Chat roomId={roomId} newMessage={newMessage} />
             ) : status === "profile" ? (
               <Profile accountId={accountId} />
-            ) : status === 'email' ? (
+            ) : status === "email" ? (
               <Email id={channelId} accountId={accountId} />
-            ) : (<Blank/>)
+            ) : (
+              <Blank />
+            )
 
             // subChannel === 1 ? ( <Chat /> ) : (subChannel === 2 ? (<Profile />) : (<Email />) )
             // (<Chat newMessage={newMessage}/>)

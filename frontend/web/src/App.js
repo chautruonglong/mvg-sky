@@ -6,24 +6,31 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import React from "react";
 import { useState } from "react/cjs/react.development";
+import AbstractXHRObject from "sockjs-client/lib/transport/browser/abstract-xhr";
 
 const sockJS = new SockJS("http://api.mvg-sky.com/api/chats/ws");
 export const stompClient = Stomp.over(sockJS);
-let oldRoom
 
 function App() {
-  const [token, setToken] = useState();
-  const [roomId, setRoomId] = useState("e58fe586-a124-4075-ab18-61c907e38725")
+  const [accountId, setAccountId] = useState();
+  const [roomId, setRoomId] = useState("e58fe586-a124-4075-ab18-61c907e38725");
   const [newMessage, setnewMessage] = useState();
 
-  
+  const _start = AbstractXHRObject.prototype._start;
+
+  AbstractXHRObject.prototype._start = function (method, url, payload, opts) {
+    if (!opts) {
+      opts = { noCredentials: true };
+    }
+    return _start.call(this, method, url, payload, opts);
+  };
 
   React.useEffect(() => {
-    console.log('reconnectxxxxxxxxxxxxxxx')
+    console.log("reconnectxxxxxxxxxxxxxxx");
     stompClient.connect(
       {},
       () => {
-        console.log('dmmmmmmmmmmmmmmmmmmmmmmmmmm');
+        console.log("dmmmmmmmmmmmmmmmmmmmmmmmmmm");
         stompClient.subscribe(`/room/${roomId}`, (payload) => {
           setnewMessage(JSON.parse(payload.body).data);
         });
@@ -32,41 +39,49 @@ function App() {
     );
   }, [roomId]);
 
-  // if(!token){
-  //   return <Login setToken={setToken}/>
-  // }
-
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <Login />
+          <Login setAccountId={setAccountId} />
         </Route>
 
         <Route exact path="/channels">
-          <Home newMessage={newMessage}/>
+          <Home />
         </Route>
 
         <Route exact path="/channels/chat">
-          <Home status="chat" newMessage={newMessage} roomId={roomId} setRoomId={setRoomId}/>
+          <Home
+            status="chat"
+            newMessage={newMessage}
+            accountId={accountId}
+            roomId={roomId}
+            setRoomId={setRoomId}
+          />
         </Route>
         <Route exact path="/channels/profile">
-          <Home status="profile" />
+          <Home status="profile" accountId={accountId} />
         </Route>
         <Route exact path="/channels/email">
-          <Home status="email" />
+          <Home status="email" accountId={accountId} />
         </Route>
 
         <Route exact path="/channels/chat/:id">
-          <Home status="chat" newMessage={newMessage}  roomId={roomId} setRoomId={setRoomId}/>
+          <Home
+            status="chat"
+            newMessage={newMessage}
+            accountId={accountId}
+            roomId={roomId}
+            setRoomId={setRoomId}
+          />
         </Route>
-        
+
         <Route exact path="/channels/profile/:id">
-          <Home status="profile" />
+          <Home status="profile" accountId={accountId} />
         </Route>
 
         <Route exact path="/channels/email/:id">
-          <Home status="email" />
+          <Home status="email" accountId={accountId} />
         </Route>
       </Switch>
     </Router>

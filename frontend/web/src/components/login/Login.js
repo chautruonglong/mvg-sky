@@ -3,28 +3,28 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import "./login.css";
 
-export const Login = ({ setToken }) => {
+export const Login = ({ setAccountId }) => {
   let history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const HandleClickSignIn = async () => {
-    // var data = JSON.stringify({
-    //   email: `${email}`,
-    //   password: `${password}`,
-    // });
+    var body = JSON.stringify({
+      email: `${email}`,
+      password: `${password}`,
+    });
 
-    // var config = {
-    //   method: "post",
-    //   url: "http://api.mvg-sky.com/api/accounts/login",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   data: data,
-    // };
-    // const response = await axios(config)
-    // setToken(response.accessToken)
-    // console.log('===',response.accessToken );
+    var config = {
+      method: "post",
+      url: "http://api.mvg-sky.com/api/accounts/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+    };
+    const {data} = await axios(config)
+    setAccountId(data.account.id)
+    localStorage.setItem('accessToken', data.accessToken)
     history.push("/channels");
   };
 

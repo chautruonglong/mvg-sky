@@ -1,6 +1,7 @@
 import { HashtagIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import Popup from "reactjs-popup";
 
 function Channel({ id, status, channelName, setSubChannel, setRoomId }) {
   const history = useHistory();
@@ -14,7 +15,6 @@ function Channel({ id, status, channelName, setSubChannel, setRoomId }) {
     if (status === "chat") {
       setSubChannel(1);
       setRoomId(id);
-      
     }
 
     if (status === "email") {

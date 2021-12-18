@@ -32,7 +32,7 @@ export const Chat = ({ id, newMessage, roomId, setRoomId }) => {
     const fetchRoom = async () => {
       var config = {
         method: "get",
-        url: `http://api.mvg-sky.com/api/messages?roomId=${roomId}&type=TEXT`,
+        url: `http://api.mvg-sky.com/api/messages?roomId=${roomId}&type=TEXT&limit=10`,
         headers: {},
       };
 
