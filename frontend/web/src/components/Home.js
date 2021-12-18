@@ -105,14 +105,14 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
               <ChevronDownIcon className="h-3  mr-2" />
               <h4 className="font-semibold ">Channels</h4>
 
-              <Popup
+              {/* <Popup
                 modal
                 trigger={
                   <PlusIcon className="h-6 ml-auto cursor-pointer hover:text-white" />
                 }
               >
                 {(close) => <CreateChannel close={close}></CreateChannel>}
-              </Popup>
+              </Popup> */}
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
               {channels?.map((channel) => (

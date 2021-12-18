@@ -5,13 +5,19 @@ import moment from "moment";
 function Message({ id, message, timestamp}) {
   let name 
   let photoURL
+  function getText(html){
+    var divContainer= document.createElement("div");
+    divContainer.innerHTML = html;
+    return divContainer.textContent || divContainer.innerText || "";
+}
+
 
   if(id === '5d0d018d-bee1-4533-aed8-41a980792ebc'){
     name = 'Khanh Toan'
     photoURL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
   } else {
     name = 'Phuoc Quoc'
-    photoURL = 'http://api.mvg-sky.com/api/accounts-resources/avatar/5f4e198d-eb70-40e8-80c8-bc4037766c86.jpg'
+    photoURL = 'https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/217967515_1940851459422042_4184009242946268958_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=AS3ygPEi-eoAX_Yfrcr&tn=yBHw_zearwumtjmw&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_h5ARWCgjA9zFG6ouVGYVEZVDxmQt8QAB2TFKk89NxyQ&oe=61C3ACA0'
   }
   return (
     <div className="flex items-center p-1 pl-5 my-5 mr-2 hover:bg-[#32353B] group">
@@ -29,7 +35,7 @@ function Message({ id, message, timestamp}) {
             {timestamp}
           </span>
         </h4>
-        <p className="text-sm text-[#dcddde]">{message}</p>
+        <p className="text-sm text-[#dcddde]">{getText(message)}</p>
       </div>
       {/* {user?.email === email && (
         <div
