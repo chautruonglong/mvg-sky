@@ -1,66 +1,81 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import apiRequest from "../utils/apiRequest"
 import Toast from 'react-native-toast-message';
-
-
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [chats, setChats] = useState(null);
+  const [myrooms, setMyRooms] = useState(null);
+  const [iduser, setIduser] = useState(null)
+
+
+  const sockJS = new SockJS('http://api.mvg-sky.com/api/chats/ws');
+  const [stompClient, setStompClient] = useState(Stomp.over(sockJS))
+
+  const fetchRoom = async () => {
+    const rooms = await apiRequest.get(`/rooms?accountId=${user.account.id}`)
+    setMyRooms(rooms)
+    stompClient.connect(
+      {},
+      () => {
+
+        rooms.forEach(room => {
+          stompClient.subscribe(
+            `/room/${room.id}`,
+            (payload) => {
+              const chatMessage = {
+                accountId: JSON.parse(payload.body).data.accountId,
+                content: JSON.parse(payload.body).data.content,
+                threadId: null,
+                type: "TEXT",
+                delay: 0
+              }
+              setChats(chatMessage)
+            }
+          );
+        })
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  useEffect(() => {
+    fetchRoom()
+  }, [user])
+
+  useEffect(() => {
+    if (user?.account?.id) {
+      handleGetProfile(user?.account?.id)
+    }
+  }, [user])
+
+
+  const handleGetProfile = async (userId) => {
+    const res = await apiRequest.get(`/profiles`, {
+      params: {
+        accountId: userId
+      },
+      // headers: { Authorization: `${user.accessToken}` } 
+    })
+    setProfile(res[0])
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
-        login: async (email, password) => {
-          try {
-            const response = await apiRequest.post('/accounts/login', {
-              email: email,
-              password: password
-            })
-            setUser(response)
-            Toast.show({
-              type: 'success',
-              text2: 'Login successfully!'
-            });
-          } catch (error) {
-            console.log(error)
-            setUser(null)
-            Toast.show({
-              type: 'error',
-              text1: 'Wrong username or password.'
-            });
-          }
-
-        },
-
-        logout: async () => {
-          try {
-            // const response = await apiRequest.delete(`/accounts/${user.accountEntity.id}/logout`)
-            // const response = await apiRequest.delete(`/accounts/${user.accountEntity.id}/logout`, {
-            //   refreshToken: "string"
-            // })
-            const response = await apiRequest.delete(`/accounts/${user.accountEntity.id}/logout`, {
-              data: {
-                refreshToken: "string"
-              }
-            })
-
-            console.log(response)
-            Toast.show({
-              type: 'success',
-              text2: 'Logout successfully!'
-            });
-            setUser(null)
-          } catch (error) {
-            console.log("vien")
-            console.log(error)
-            Toast.show({
-              type: 'error',
-              text1: 'Logout failed.'
-            });
-          }
-        },
+        myrooms,
+        profile,
+        setProfile,
+        chats,
+        stompClient
       }}>
       {children}
     </AuthContext.Provider>

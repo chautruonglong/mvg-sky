@@ -129,14 +129,15 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.socialapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
+
     splits {
         abi {
             reset()
@@ -188,6 +189,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
+    // implementation 'com.android.support:multidex:2.0.1'
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
@@ -195,7 +197,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'androidx.multidex:multidex:2.0.1'
+    // implementation 'androidx.multidex:multidex:2.0.1'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }

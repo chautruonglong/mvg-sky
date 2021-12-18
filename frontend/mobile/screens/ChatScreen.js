@@ -1,269 +1,334 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Image, Text, Button, StyleSheet } from 'react-native';
-import { Bubble, GiftedChat, Send, InputToolbar, Actions, Composer, MessageText, Avatar } from 'react-native-gifted-chat';
+import React, { memo, useRef, useState, useContext, useEffect, useCallback } from 'react';
+import { AuthContext } from '../navigation/AuthProvider';
+import Colors from "./Colors";
+import Toast from 'react-native-toast-message';
+import { Animated, FlatList, TextInput, Image, ListItem, View, Vibration, KeyboardAvoidingView, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { GiftedChat, Send, InputToolbar, Actions, Composer, MessageText, Avatar } from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import emojiUtils from 'emoji-utils'
 import SMessage from '../utils/SMessage'
-
+import { SwipeRow } from 'react-native-swipe-list-view';
 import ImagePicker from 'react-native-image-crop-picker';
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
+import ChatMessage from '../components/ChatMessage';
+import apiRequest from '../utils/apiRequest';
+import moment from "moment";
+import DocumentPicker from 'react-native-document-picker'
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
+import HTMLView from "react-native-htmlview";
 
+import {
+  actions,
+  RichEditor,
+  RichToolbar,
+} from "react-native-pell-rich-editor";
+import HTMLView from "react-native-htmlview";
+// const sockJS = new SockJS('http://api.mvg-sky.com/api/chats/ws');
+// const stompClient = Stomp.over(sockJS);
+// let isConnected = false;
+// stompClient.connect(
+//   {},
+//   () => {
+//     isConnected = true;
+//   },
+//   (error) => {
+//     console.log(error);
+//   }
+// );
 const ChatScreen = ({ title }) => {
+  const { stompClient } = useContext(AuthContext);
+  const { user, profile, chats, iduser } = useContext(AuthContext)
+  const yourRef = useRef(null);
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [remessage, setRemessage] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [heightValue, setHeightValue] = useState(400)
+  const chat = useRef();
+  const [isShowEmoj, setIsShowEmoj] = useState(false)
+  const [article, setArticle] = useState("");
+  const RichText = useRef(); //reference to the RichEditor component
+
+
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hi',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: title.userName,
-          avatar: title.userImg,
-        },
-      },
-      {
-        _id: 0,
-        text: 'Hello world',
-        createdAt: new Date(),
-        user: {
-          _id: 0,
-          name: 'Phuoc Quoc',
-          avatar: 'https://shorturl.at/cdeC8',
-        },
-      },
-      {
-        _id: 2,
-        text: '2222',
-        createdAt: new Date(),
-        user: {
-          _id: 0,
-          name: 'Phuoc Quoc',
-          avatar: 'https://shorturl.at/cdeC8',
-        },
-      },
-      {
-        _id: 2,
-        text: 'image',
-        image: "file:///storage/emulated/0/Android/data/com.socialapp/files/Pictures/0ae91426-8c10-41bd-b5bd-7b1d575ed080.jpg",
-        createdAt: new Date(),
-        user: {
-          _id: 0,
-          name: 'Phuoc Quoc',
-          avatar: 'https://shorturl.at/cdeC8',
-        }
+    fetchRoom()
+  }, []);
+
+
+
+  const fetchRoom = async () => {
+    if (title.roomId) {
+      // console.log(title.roomId)
+      const values = await apiRequest.get(`/messages?roomId=${title.roomId}&limit=15`)
+      setMessages(values.reverse())
+    }
+  }
+
+  function editorInitializedCallback() {
+    RichText.current?.registerToolbar(function (items) {
+      // items contain all the actions that are currently active
+      // console.log(
+      //   items
+      // );
+    });
+  }
+  useEffect(() => {
+    if (chats === null) {
+    }
+    else {
+
+      if (chats.accountId === user?.account?.id) {
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
       }
-
-    ]);
-  }, []);
-
-
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
-
-  const renderMessage = (props) => {
-    const {
-      currentMessage: { text: currText },
-    } = props
-
-    let messageTextStyle
-
-    if (currText && emojiUtils.isPureEmojiString(currText)) {
-      messageTextStyle = {
-        fontSize: 28,
-        lineHeight: Platform.OS === 'android' ? 34 : 30,
+      else {
+        Toast.show({
+          type: 'info',
+          text1: title.userName,
+          text2: chats.content,
+        });
+        setMessages([...messages, chats])
       }
     }
+  }, [chats]);
 
-    return <SMessage {...props} messageTextStyle={messageTextStyle} />
-  }
+  // useEffect(() => {
 
-  const renderSend = (props) => {
-    return (
-      <Send {...props}
-        disabled={!props.text}
-        containerStyle={{
-          width: 44,
-          height: 44,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginHorizontal: 4,
-        }}>
-        <View>
-          <MaterialCommunityIcons
-            name="send-circle"
-            style={{ marginBottom: 5, marginRight: 5 }}
-            size={32}
-            color="#2e64e5"
-          />
-        </View>
-      </Send>
-    );
+  //   setMessages([...messages, remessage])
+  // }, [remessage]);
+
+  // useEffect(() => {
+  //   if (isConnected === true) {
+  //     stompClient.subscribe(
+  //       `/room/${title.roomId}`,
+  //       (payload) => {
+  //         const chatMessage = {
+  //           accountId: JSON.parse(payload.body).data.accountId,
+  //           content: JSON.parse(payload.body).data.content,
+  //           threadId: null,
+  //           type: "TEXT",
+  //           delay: 0
+  //         }
+  //         setRemessage(chatMessage)
+  //       }
+  //     );
+  //   }
+  // }, [isConnected])
+
+
+  const onSend = () => {
+    const chatMessage = {
+      accountId: user?.account?.id,
+      content: message,
+      threadId: null,
+      type: "TEXT",
+      delay: 0
+    }
+    stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
+    setMessages([...messages, chatMessage])
+    setMessage("")
   };
 
-  const renderBubble = (props) => {
-    return (
-      <Bubble
-        {...props}
-        textStyle={{
-          left: {
-            color: 'black',
-          },
-          right: {
-            color: 'black',
-          },
-        }
-        }
-      />
-    );
-  };
+  const handleCamera = () => (
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then((image) => {
+      const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+      const chatMessage = {
+        accountId: user?.account?.id,
+        content: imageUri,
+        threadId: null,
+        type: "URL",
+        delay: 0
+      }
+      // stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
+      setMessages([...messages, chatMessage])
+      // console.log(imageUri);
+    })
 
-  const scrollToBottomComponent = () => {
-    return (
-      <FontAwesome name='angle-double-down' size={22} color='#333' />
-    );
+  );
+  const handleSendFile = async () => {
+    try {
+      const pickerResult = await DocumentPicker.pickSingle({
+        type: [DocumentPicker.types.allFiles],
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
-
-  const renderInputToolbar = (props) => (
-    <InputToolbar
-      {...props}
-      containerStyle={{
-        backgroundColor: '#222B45',
-        paddingTop: 6,
-      }}
-      primaryStyle={{ alignItems: 'center' }}
-    />
-  );
-
-  const renderActions = (props) => (
-    <Actions
-      {...props}
-      containerStyle={{
-        width: 44,
-        height: 44,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 4,
-        marginRight: 4,
-        marginBottom: 0,
-      }}
-      icon={() => (
-
-        <FontAwesome name='plus-square' size={22} color='#fff' />
-      )}
-      options={{
-        'Choose From Library': () => {
-
-          ImagePicker.openPicker({
-            width: 300,
-            height: 300,
-            cropping: true,
-            compressImageQuality: 0.7,
-          }).then((image) => {
-            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-            onSend({ image: imageUri });
-            console.log(messages)
-          });
-        },
-        Cancel: () => {
-          console.log('Cancel');
-        },
-      }}
-      optionTintColor="#222B45"
-    />
-  );
-
-  const renderComposer = (props) => (
-    <Composer
-      {...props}
-      textInputStyle={{
-        color: '#222B45',
-        backgroundColor: '#EDF1F7',
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#E4E9F2',
-        paddingTop: 8.5,
-        paddingHorizontal: 12,
-        marginLeft: 0,
-      }}
-    />
-  );
-  const renderAvatar = (props) => (
-    <Avatar
-      {...props}
-      containerStyle={{ left: { borderColor: 'red' }, right: {} }}
-      imageStyle={{ left: { borderColor: 'blue' }, right: {} }}
-    />
-  );
-  const renderSystemMessage = (props) => (
-    <SystemMessage
-      {...props}
-      containerStyle={{ backgroundColor: 'pink' }}
-      wrapperStyle={{ borderWidth: 10, borderColor: 'white' }}
-      textStyle={{ color: 'crimson', fontWeight: '900' }}
-    />
-  );
-  const renderMessageText = (props) => (
-    <MessageText
-      {...props}
-      containerStyle={{
-        left: { backgroundColor: 'yellow' },
-        right: { backgroundColor: 'purple' },
-      }}
-      textStyle={{
-        left: { color: 'red' },
-        right: { color: 'green' },
-      }}
-      linkStyle={{
-        left: { color: 'orange' },
-        right: { color: 'orange' },
-      }}
-      customTextStyle={{ fontSize: 24, lineHeight: 24 }}
-    />
-  );
-
+  const onMicrophonePress = () => {
+    console.warn('Microphone')
+  }
+  const isMyMessage = (item) => {
+    return item.accountId === user.account.id;
+  }
+  const onPress = () => {
+    console.log(message)
+    if (!message) {
+      onMicrophonePress();
+    } else {
+      onSend();
+    }
+  }
 
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      user={{
-        _id: 0,
-        name: 'React Native',
-        avatar: 'https://shorturl.at/cdeC8',
-      }}
-      alwaysShowSend
-      scrollToBottom
-      showUserAvatar
-      renderAvatarOnTop
-      renderUsernameOnMessage
-      renderBubble={renderBubble}
-      renderSend={renderSend}
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
-      renderMessage={renderMessage}
-      renderInputToolbar={renderInputToolbar}
-      renderActions={renderActions}
-      renderComposer={renderComposer}
-      renderComposer={renderComposer}
-      renderSend={renderSend}
-      // renderAvatar={renderAvatar}
-      renderBubble={renderBubble}
-      renderSystemMessage={renderSystemMessage}
-      isCustomViewBottom
-      parsePatterns={(linkStyle) => [
-        {
-          pattern: /#(\w+)/,
-          style: linkStyle,
-          onPress: (tag) => console.log(`Pressed on hashtag: ${tag}`),
-        },
-      ]}
-    />
-  );
+    <View style={styles.container}>
+      <FlatList
+        ref={yourRef}
+        onContentSizeChange={() => yourRef.current.scrollToEnd()}
+        onLayout={() => yourRef.current.scrollToEnd()}
+        style={{ width: '100%' }}
+        data={messages}
+        renderItem={({ item }) =>
+          <View style={styles.container1}>
+            <View style={[
+              styles.messageBox, {
+                backgroundColor: isMyMessage(item) ? '#DCF8C5' : 'white',
+                // marginLeft: isMyMessage(item) ? 50 : 0,
+                // marginRight: isMyMessage(item) ? 0 : 50,
+              }
+            ]}>
+              <View style={{ marginRight: 10 }}>
+                { }
+                <Image
+                  style={styles.tinyLogo}
+                  source={{
+                    uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU',
+                  }}
+                />
+              </View>
+              {item.type === 'TEXT' ?
+                (
+                  <View>
+                    {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                    <Text style={styles.message}>{item.content}</Text>
+                    <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                      <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                    </View>
+
+
+                  </View>
+                ) :
+                (
+                  item.type === 'URL' ?
+                    (
+                      <View>
+                        {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                        <Image
+                          style={styles.userImg}
+                          source={{ uri: item.content }}
+                        />
+                        <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                          <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                        </View>
+                      </View>
+                    ) :
+                    (
+                      <View>
+                        {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                        <HTMLView value={article} stylesheet={styles} />
+
+                        <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                          <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                        </View>
+                      </View>
+                    )
+                )
+              }
+            </View>
+          </View>
+        }
+      // inverted
+
+      />
+      {/* <InputBox chatRoomID={route.params.id} /> */}
+      <RichToolbar
+        style={[styles.richBar]}
+        editor={RichText}
+        disabled={false}
+        selectedIconTint={'#2095F2'}
+        disabledIconTint={'#bfbfbf'}
+        // onPressAddImage={onPressAddImage}
+        actions={[
+          actions.keyboard,
+          actions.setBold,
+          actions.setItalic,
+          actions.insertBulletsList,
+          actions.insertOrderedList,
+          actions.insertLink,
+          actions.keyboard,
+          actions.setStrikethrough,
+          actions.setUnderline,
+          actions.checkboxList,
+          actions.code,
+        ]}
+      />
+      <View
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={80}
+        style={{ width: '100%', height: isShowEmoj ? 400 : 70 }}
+      >
+
+        <View style={styles.container2}>
+          <View style={styles.mainContainer}>
+            <TouchableOpacity onPress={() => {
+              setIsShowEmoj(!isShowEmoj)
+            }}>
+              <FontAwesome5 name="laugh-beam" size={24} color="grey" />
+            </TouchableOpacity>
+            <RichEditor
+              placeholder={"Type a message"}
+              disabled={false}
+              containerStyle={styles.richEditor}
+              ref={RichText}
+              style={styles.rich}
+              onChange={(text) => setArticle(text)}
+              editorInitializedCallback={editorInitializedCallback}
+              multiline
+            />
+            {console.log(article)}
+
+            {/* <TextInput
+              placeholder={"Type a message"}
+              style={styles.textInput}
+              multiline
+              value={message}
+              onChangeText={setMessage}
+            ></TextInput> */}
+            <TouchableOpacity onPress={() => { handleSendFile() }}><Entypo name="attachment" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
+            {!message && <TouchableOpacity onPress={() => { handleCamera() }}><Fontisto name="camera" size={24} color="grey" style={styles.icon} /></TouchableOpacity>}
+          </View>
+          <TouchableOpacity onPress={onPress}>
+            <View style={styles.buttonContainer}>
+              {!message
+                ? <MaterialCommunityIcons name="microphone" size={28} color="white" />
+                : <MaterialIcons name="send" size={28} color="white" />}
+            </View>
+          </TouchableOpacity>
+        </View>
+
+
+        <EmojiSelector
+          onEmojiSelected={emoji => setMessage(message + emoji)}
+          showSearchBar={false}
+          showTabs={false}
+          columns="10"
+          category={Categories.emotion}
+        />
+
+      </View>
+    </View >
+
+  )
 };
 
 export default ChatScreen;
@@ -274,4 +339,75 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  container1: {
+    padding: 10,
+  },
+  messageBox: {
+    borderRadius: 30,
+    padding: 10,
+    flexDirection: 'row',
+  },
+  richEditor: {
+    flex: 1,
+    padding: 0,
+    margin: 0,
+    marginHorizontal: 10,
+    width: 170,
+  },
+  userImg: {
+    height: 150,
+    width: 150,
+  },
+  name: {
+    fontSize: 17,
+    color: 'green',
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  message: {
+
+  },
+  time: {
+    alignSelf: "flex-end",
+    color: 'grey',
+
+  },
+  mainContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 25,
+    marginRight: 10,
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  textInput: {
+    flex: 1,
+    padding: 0,
+    margin: 0,
+    marginHorizontal: 10,
+    // width: 170,
+  },
+  icon: {
+    marginHorizontal: 5,
+  },
+  buttonContainer: {
+    backgroundColor: Colors.light.tint,
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container2: {
+    flexDirection: 'row',
+    margin: 10,
+    alignItems: 'flex-end',
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
 });
+
