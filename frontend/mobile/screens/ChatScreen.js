@@ -22,6 +22,7 @@ import moment from "moment";
 import DocumentPicker from 'react-native-document-picker'
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import HTMLView from "react-native-htmlview";
+import Popover from 'react-native-popover-view';
 
 import {
   actions,
@@ -53,8 +54,9 @@ const ChatScreen = ({ title }) => {
   const [isShowEmoj, setIsShowEmoj] = useState(false)
   const [article, setArticle] = useState("");
   const RichText = useRef(); //reference to the RichEditor component
-
-
+  const [isShowDropdown, setIsShowDropdown] = useState(false)
+  const [currentUser, setCurrentUser] = useState({})
+  const [isShowReply, setIsShowReply] = useState(false)
 
   useEffect(() => {
     fetchRoom()
@@ -100,8 +102,8 @@ const ChatScreen = ({ title }) => {
   // }, [remessage]);
 
   // useEffect(() => {
-  //   if (isConnected === true) {
-  //     stompClient.subscribe(
+  //   if (isConnected === true) {`
+  //     stompClient.subscribe(`
   //       `/room/${title.roomId}`,
   //       (payload) => {
   //         const chatMessage = {
@@ -121,11 +123,13 @@ const ChatScreen = ({ title }) => {
   const onSend = () => {
     const chatMessage = {
       accountId: user?.account?.id,
-      content: message,
+      content: currentUser?.content ? `<ReplyMessage>${currentUser.content}</ReplyMessage>${message}` : message,
       threadId: null,
       type: "TEXT",
       delay: 0
     }
+    setIsShowReply(false)
+    setCurrentUser({})
     stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
     setMessages([...messages, chatMessage])
     setMessage("")
@@ -185,89 +189,157 @@ const ChatScreen = ({ title }) => {
         onLayout={() => yourRef.current.scrollToEnd()}
         style={{ width: '100%' }}
         data={messages}
-        renderItem={({ item }) =>
-          <View style={styles.container1}>
-            <View style={[
-              styles.messageBox, {
-                backgroundColor: isMyMessage(item) ? '#DCF8C5' : 'white',
-                // marginLeft: isMyMessage(item) ? 50 : 0,
-                // marginRight: isMyMessage(item) ? 0 : 50,
-              }
-            ]}>
-              <View style={{ marginRight: 10 }}>
-                { }
-                <Image
-                  style={styles.tinyLogo}
-                  source={{
-                    uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU',
-                  }}
-                />
-              </View>
-              {item.type === 'TEXT' ?
-                (
-                  <View>
-                    {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                    {/* <Text style={styles.message}>{item.content}</Text> */}
-                    <HTMLView value={item.content} stylesheet={styles.message} />
-                    <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
-                      <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+        renderItem={({ item }) => {
+          const currentReplyMessage = item?.content.split('<ReplyMessage>').pop().split('</ReplyMessage>')[0];
+          const customMessage = item?.content.split('</ReplyMessage>')[1];
+
+          return (
+            <>
+
+
+              <TouchableOpacity style={styles.container1} onLongPress={() => {
+                setIsShowDropdown(true)
+                setCurrentUser({ userName: item?.accountId, content: customMessage || item?.content })
+              }}>
+
+                <View style={[
+                  styles.messageBox, {
+                    backgroundColor: isMyMessage(item) ? '#DCF8C5' : 'white',
+                    // marginLeft: isMyMessage(item) ? 50 : 0,
+                    // marginRight: isMyMessage(item) ? 0 : 50,
+                  }
+                ]}>
+                  {currentReplyMessage !== item?.content && (
+                    <View style={{ marginTop: 6, height: 40, marginLeft: 4, paddingLeft: 10, borderLeftWidth: 2, marginBottom: 20 }}>
+                      <Text>Reply:</Text>
+                      <HTMLView value={currentReplyMessage} stylesheet={styles.message} />
                     </View>
+                  )}
+
+                  <View style={{ flexDirection: 'row', }}>
+                    <View style={{ marginRight: 10 }}>
+                      { }
+                      <Image
+                        style={styles.tinyLogo}
+                        source={{
+                          uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU',
+                        }}
+                      />
+                    </View>
+                    {item.type === 'TEXT' ?
+                      (
+                        <View>
+                          {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                          {/* <Text style={styles.message}>{item.content}</Text> */}
+                          <HTMLView value={customMessage || item.content} stylesheet={styles.message} />
+                          <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                            <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                          </View>
 
 
+                        </View>
+                      ) :
+                      (
+                        item.type === 'URL' ?
+                          (
+                            <View>
+                              {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                              <Image
+                                style={styles.userImg}
+                                source={{ uri: item.content }}
+                              />
+                              <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                                <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                              </View>
+                            </View>
+                          ) :
+                          (
+                            <View>
+                              {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                              {/* <HTMLView value={article} stylesheet={styles} /> */}
+
+                              <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                                <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                              </View>
+                            </View>
+                          )
+                      )
+                    }
                   </View>
-                ) :
-                (
-                  item.type === 'URL' ?
-                    (
-                      <View>
-                        {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                        <Image
-                          style={styles.userImg}
-                          source={{ uri: item.content }}
-                        />
-                        <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
-                          <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
-                        </View>
-                      </View>
-                    ) :
-                    (
-                      <View>
-                        {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                        {/* <HTMLView value={article} stylesheet={styles} /> */}
+                </View>
+              </TouchableOpacity>
+            </>
+          )
+        }
 
-                        <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
-                          <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
-                        </View>
-                      </View>
-                    )
-                )
-              }
-            </View>
-          </View>
         }
       // inverted
 
       />
+      <Popover
+        isVisible={isShowDropdown}
+        onRequestClose={() => setIsShowDropdown(false)}
+        from={(
+          <View />
+        )}>
+        <TouchableOpacity
+          onPress={() => setIsShowReply(true)}>
+          <Text>Reply</Text>
+        </TouchableOpacity>
+      </Popover>
+      {/* < Popover
+        isVisible={isShowDropdown}
+        from={(
+          <TouchableOpacity>
+            <Text>Press here to open popover!</Text>
+          </TouchableOpacity>
+        )}
+        onRequestClose={() => setIsShowDropdown(false)}
+      >
+        <TouchableOpacity style={{ height: 40, width: 100, borderWidth: 1 }}>
+          Reply
+        </TouchableOpacity>
+      </Popover > */}
       {/* <InputBox chatRoomID={route.params.id} /> */}
-      <RichToolbar
+      {isShowReply && <View style={{ height: 60, width: '100%', paddingLeft: 10, paddingTop: 4, borderTopWidth: 1, borderTopColor: '#CCCCCC' }}>
+        <Text style={{ fontSize: 10 }}>Reply to {currentUser?.userName}</Text>
+        <HTMLView value={currentUser?.content} stylesheet={styles.message} />
+        <TouchableOpacity
+          onPress={() => setIsShowReply(false)}
+          style={{
+            position: 'absolute',
+            right: 10,
+            top: 10,
+            height: 20,
+            width: 20,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderRadius: 100
+          }}><Text>X</Text></TouchableOpacity>
+      </View>
+      }
+      < RichToolbar
         // style={[styles.richBar]}
         editor={RichText}
         disabled={false}
         selectedIconTint={'#2095F2'}
         disabledIconTint={'#bfbfbf'}
         // onPressAddImage={onPressAddImage}
-        actions={[
-          actions.keyboard,
-          actions.setBold,
-          actions.setItalic,
-          actions.insertBulletsList,
-          actions.insertOrderedList,
-          actions.insertLink,
-          actions.setStrikethrough,
-          actions.setUnderline,
-          actions.checkboxList,
-          actions.code,
-        ]}
+        actions={
+          [
+            actions.keyboard,
+            actions.setBold,
+            actions.setItalic,
+            actions.insertBulletsList,
+            actions.insertOrderedList,
+            actions.insertLink,
+            actions.setStrikethrough,
+            actions.setUnderline,
+            actions.checkboxList,
+            actions.code,
+          ]}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -343,7 +415,6 @@ const styles = StyleSheet.create({
   messageBox: {
     borderRadius: 30,
     padding: 10,
-    flexDirection: 'row',
   },
   richEditor: {
     flex: 1,
