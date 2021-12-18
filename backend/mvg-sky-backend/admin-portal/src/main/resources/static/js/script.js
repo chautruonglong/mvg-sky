@@ -13,7 +13,7 @@ const connect = (event) => {
         const chatPage = document.querySelector('#chat-page')
         chatPage.classList.remove('hide')
 
-        const socket = new SockJS('http://localhost:8080/api/chats/ws')
+        const socket = new SockJS('http://api.mvg-sky.com/api/chats/ws')
         stompClient = Stomp.over(socket)
         stompClient.connect({}, onConnected, onError)
     }
