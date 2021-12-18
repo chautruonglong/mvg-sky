@@ -4,12 +4,7 @@ spring:
             globalcors:
                 corsConfigurations:
                     '[/**]':
-                        allowedOrigins:
-                            - http://localhost:3000
-                            - http://localhost:3000
-                            - http://localhost:5000
-                            - http://admin.mvg-sky.com
-                            - http://www.admin.mvg-sky.com
+                        allowedOrigins: "*"
                         allowedMethods: "*"
                         allowedHeaders: "*"
             routes:
@@ -26,7 +21,6 @@ spring:
                         - Path=/api/chats/**, /api/rooms/**, /api/messages/**, /api/members/**, /api/chats-resources/**
                     filters:
                         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-                        - RemoveRequestHeader=Access-Control-Allow-Credentials
 
                 -   id: service-mail
                     uri: lb://SERVICE-MAIL
