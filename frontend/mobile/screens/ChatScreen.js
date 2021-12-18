@@ -28,7 +28,6 @@ import {
   RichEditor,
   RichToolbar,
 } from "react-native-pell-rich-editor";
-import HTMLView from "react-native-htmlview";
 // const sockJS = new SockJS('http://api.mvg-sky.com/api/chats/ws');
 // const stompClient = Stomp.over(sockJS);
 // let isConnected = false;
@@ -88,11 +87,8 @@ const ChatScreen = ({ title }) => {
         console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
       }
       else {
-        Toast.show({
-          type: 'info',
-          text1: title.userName,
-          text2: chats.content,
-        });
+
+
         setMessages([...messages, chats])
       }
     }
@@ -133,6 +129,7 @@ const ChatScreen = ({ title }) => {
     stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
     setMessages([...messages, chatMessage])
     setMessage("")
+    RichText.current.setContentHTML("")
   };
 
   const handleCamera = () => (
@@ -210,7 +207,8 @@ const ChatScreen = ({ title }) => {
                 (
                   <View>
                     {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                    <Text style={styles.message}>{item.content}</Text>
+                    {/* <Text style={styles.message}>{item.content}</Text> */}
+                    <HTMLView value={item.content} stylesheet={styles.message} />
                     <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
                       <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
                     </View>
@@ -235,7 +233,7 @@ const ChatScreen = ({ title }) => {
                     (
                       <View>
                         {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                        <HTMLView value={article} stylesheet={styles} />
+                        {/* <HTMLView value={article} stylesheet={styles} /> */}
 
                         <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
                           <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
@@ -252,7 +250,7 @@ const ChatScreen = ({ title }) => {
       />
       {/* <InputBox chatRoomID={route.params.id} /> */}
       <RichToolbar
-        style={[styles.richBar]}
+        // style={[styles.richBar]}
         editor={RichText}
         disabled={false}
         selectedIconTint={'#2095F2'}
@@ -265,14 +263,13 @@ const ChatScreen = ({ title }) => {
           actions.insertBulletsList,
           actions.insertOrderedList,
           actions.insertLink,
-          actions.keyboard,
           actions.setStrikethrough,
           actions.setUnderline,
           actions.checkboxList,
           actions.code,
         ]}
       />
-      <View
+      <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         keyboardVerticalOffset={80}
         style={{ width: '100%', height: isShowEmoj ? 400 : 70 }}
@@ -291,16 +288,17 @@ const ChatScreen = ({ title }) => {
               containerStyle={styles.richEditor}
               ref={RichText}
               style={styles.rich}
-              onChange={(text) => setArticle(text)}
+              value={message}
+              onChange={(text) => setMessage(text)}
               editorInitializedCallback={editorInitializedCallback}
-              multiline
+            // multiline
             />
-            {console.log(article)}
 
             {/* <TextInput
               placeholder={"Type a message"}
               style={styles.textInput}
               multiline
+              numberOfLines={4}
               value={message}
               onChangeText={setMessage}
             ></TextInput> */}
@@ -325,7 +323,7 @@ const ChatScreen = ({ title }) => {
           category={Categories.emotion}
         />
 
-      </View>
+      </KeyboardAvoidingView>
     </View >
 
   )
@@ -383,10 +381,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    padding: 0,
-    margin: 0,
-    marginHorizontal: 10,
-    // width: 170,
+    marginHorizontal: 10
   },
   icon: {
     marginHorizontal: 5,
