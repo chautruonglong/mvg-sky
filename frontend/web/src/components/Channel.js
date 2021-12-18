@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 
-function Channel({ id, status, channelName, setSubChannel, setRoomId }) {
+function Channel({ id, status, channelName, setSubChannel, setRoomId,setTitle }) {
   const history = useHistory();
   const [channel, setChannel] = useState("");
 
@@ -15,6 +15,7 @@ function Channel({ id, status, channelName, setSubChannel, setRoomId }) {
     if (status === "chat") {
       setSubChannel(1);
       setRoomId(id);
+      setTitle(channelName)
     }
 
     if (status === "email") {

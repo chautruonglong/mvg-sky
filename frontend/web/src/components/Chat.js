@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { stompClient } from "../App";
 
-export const Chat = ({ id, newMessage, roomId, setRoomId }) => {
+export const Chat = ({ id, newMessage, roomId, setRoomId, title }) => {
   const inputRef = useRef("");
   const chatRef = useRef(null);
   const idSender = "5d0d018d-bee1-4533-aed8-41a980792ebc";
@@ -73,7 +73,7 @@ export const Chat = ({ id, newMessage, roomId, setRoomId }) => {
         <header className="flex items-center justify-between space-x-5 border-b border-gray-800 p-4 -mt-1">
           <div className="flex items-center space-x-1">
             <HashtagIcon className="h-6 text-[#72767d]" />
-            <h4 className="text-white font-semibold">Phước Quốc</h4>
+            <h4 className="text-white font-semibold">{title}</h4>
           </div>
           <div className="flex space-x-3"></div>
         </header>

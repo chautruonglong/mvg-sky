@@ -55,7 +55,7 @@ export const Profile = ({ subChannel, accountId }) => {
       birthday,
       location
     });
-    console.log('===',data);
+    
     
     var config = {
       method: 'patch',
@@ -69,7 +69,6 @@ export const Profile = ({ subChannel, accountId }) => {
     
     try {
       const {result} = await axios(config);
-      console.log('===',result);
     } catch (error) {
       console.log('update profile unsuccessfully')
     }
@@ -95,7 +94,7 @@ export const Profile = ({ subChannel, accountId }) => {
             }}
           >
             <img
-              src="https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU"
               alt=""
               className="rounded-full"
               width="150"
@@ -213,8 +212,7 @@ export const Profile = ({ subChannel, accountId }) => {
                 paddingTop: "10px",
               }}
             >
-              <ArrowRightIcon className="h-6 text-[#72767d]"/>
-              <button type="button" className="text-white" onClick={async ()=> await handleClickUpdate()}>Update information</button>
+              <button type="button" className="text-white" style={{backgroundColor: '#808080', padding: "5px"}} onClick={async ()=> await handleClickUpdate()}>Update </button>
             </div>
           </div>
         </main>

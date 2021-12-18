@@ -1,6 +1,7 @@
 .modal {
   font-size: 12px;
-  background-color: aliceblue;
+  background-color: #2f3136;
+  width: 500px;
 }
 .modal > .header {
   width: 100%;

@@ -10,6 +10,7 @@ import { Blank } from "./Blank";
 import Popup from "reactjs-popup";
 import { CreateChannel } from "./createChannel/CreateChannel";
 import "./createChannel/createChannel.css";
+import { ToastContainer, toast } from 'react-toastify'
 
 export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
   const [subChannel, setSubChannel] = useState(1);
@@ -17,6 +18,7 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
   const history = useHistory();
   const { id } = useParams();
   const { channelId, setChannelId } = useState(id);
+  const [title, setTitle] = useState()
   // const accountId = "5d0d018d-bee1-4533-aed8-41a980792ebc";
 
   useEffect(() => {
@@ -49,6 +51,13 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
 
     fetchdata();
   }, [status, id]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken')
+    history.push('/')
+  }
+
+  const notify = () => toast("Create channel successfully");
 
   return (
     <>
@@ -91,7 +100,7 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
               src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.15752-9/263177761_4496565693754875_1252249884928258089_n.png?_nc_cat=104&cb=c578a115-c1c39920&ccb=1-5&_nc_sid=ae9488&_nc_ohc=aUaqbzVrzNwAX9RSqvK&tn=yBHw_zearwumtjmw&_nc_ht=scontent.fdad1-3.fna&oh=7578b3e9ac382e691a599e17dbc4d4e1&oe=61D6F022"
               alt=""
               className="h-9 w-9 rounded-full"
-              onClick={() => history.push("/channels/logout")}
+              onClick={() => handleLogout()}
             />
           </div>
         </div>
@@ -105,14 +114,14 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
               <ChevronDownIcon className="h-3  mr-2" />
               <h4 className="font-semibold ">Channels</h4>
 
-              {/* <Popup
+              <Popup
                 modal
                 trigger={
                   <PlusIcon className="h-6 ml-auto cursor-pointer hover:text-white" />
                 }
               >
-                {(close) => <CreateChannel close={close}></CreateChannel>}
-              </Popup> */}
+                {(close) => <CreateChannel accountId={accountId} close={close}></CreateChannel>}
+              </Popup>
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
               {channels?.map((channel) => (
@@ -122,6 +131,7 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
                   channelName={channel.name}
                   setSubChannel={setSubChannel}
                   setRoomId={setRoomId}
+                  setTitle={setTitle}
                 />
               ))}
             </div>
@@ -130,7 +140,7 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
         <div className="bg-[#36393f] flex-grow">
           {
             status === "chat" ? (
-              <Chat roomId={roomId} newMessage={newMessage} />
+              <Chat roomId={roomId} newMessage={newMessage} title={title}/>
             ) : status === "profile" ? (
               <Profile accountId={accountId} />
             ) : status === "email" ? (
@@ -143,6 +153,7 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
             // (<Chat newMessage={newMessage}/>)
           }
         </div>
+        <ToastContainer />
       </div>
     </>
   );

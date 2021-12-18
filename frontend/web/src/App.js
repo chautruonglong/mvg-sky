@@ -104,7 +104,6 @@ function App() {
         });
       });
     }
-    console.log("xxx---", stompClient);
   };
 
   React.useEffect(() => {
@@ -119,7 +118,7 @@ function App() {
         </Route>
 
         <Route exact path="/channels">
-          <Home />
+          <Home accountId={accountId}/>
         </Route>
 
         <Route exact path="/channels/chat">
