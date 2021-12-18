@@ -48,4 +48,11 @@ public class ProfileEntity extends BaseEntity {
 
     @Column(name = "avatar", columnDefinition = "text")
     private String avatar;
+
+    public String getAvatar() {
+        if(avatar != null) {
+            return "/api/accounts-resources/avatar/" + avatar;
+        }
+        return null;
+    }
 }

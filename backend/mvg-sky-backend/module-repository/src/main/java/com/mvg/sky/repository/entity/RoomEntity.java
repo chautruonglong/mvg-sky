@@ -34,4 +34,11 @@ public class RoomEntity extends BaseEntity {
     @Column(name = "type", columnDefinition = "text")
     @Enumerated(EnumType.STRING)
     private RoomEnumeration type;
+
+    public String getAvatar() {
+        if(avatar != null) {
+            return "/api/chats-resources/avatar/" + avatar;
+        }
+        return null;
+    }
 }

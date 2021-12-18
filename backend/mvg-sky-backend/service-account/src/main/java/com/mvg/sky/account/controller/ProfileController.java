@@ -45,14 +45,7 @@ public class ProfileController {
             offset = offset == null ? 0 : offset;
             limit = limit == null ? Integer.MAX_VALUE : limit;
 
-            Collection<ProfileEntity> profileEntities = profileService.getAllProfilesByAccountIds(accountIds, sorts, offset, limit);
-            profileEntities.forEach(profileEntity -> {
-                if(profileEntity.getAvatar() != null) {
-                    profileEntity.setAvatar("/api/accounts-resources/avatar/" + profileEntity.getAvatar());
-                }
-            });
-
-            return ResponseEntity.ok(profileEntities);
+            return ResponseEntity.ok(profileService.getAllProfilesByAccountIds(accountIds, sorts, offset, limit));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -76,10 +69,6 @@ public class ProfileController {
         try {
             ProfileEntity profileEntity = profileService.createProfile(profileCreationRequest);
 
-            if(profileEntity.getAvatar() != null) {
-                profileEntity.setAvatar("/api/accounts-resources/avatar/" + profileEntity.getAvatar());
-            }
-
             return ResponseEntity.created(URI.create("/api/profiles/" + profileEntity.getId())).body(profileEntity);
         }
         catch(Exception exception) {
@@ -91,13 +80,7 @@ public class ProfileController {
     @PutMapping("/profiles/{profileId}")
     public ResponseEntity<?> putProfileApi(@PathVariable String profileId, @Valid @RequestBody ProfileModifyRequest profileModifyRequest) {
         try {
-            ProfileEntity profileEntity = profileService.updateFullProfile(profileId, profileModifyRequest);
-
-            if(profileEntity.getAvatar() != null) {
-                profileEntity.setAvatar("/api/accounts-resources/avatar/" + profileEntity.getAvatar());
-            }
-
-            return ResponseEntity.ok(profileEntity);
+            return ResponseEntity.ok(profileService.updateFullProfile(profileId, profileModifyRequest));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -108,13 +91,7 @@ public class ProfileController {
     @PatchMapping("/profiles/{profileId}")
     public ResponseEntity<?> patchProfileApi(@PathVariable String profileId, @Valid @RequestBody ProfileModifyRequest profileModifyRequest) {
         try {
-            ProfileEntity profileEntity = profileService.updatePartialProfile(profileId, profileModifyRequest);
-
-            if(profileEntity.getAvatar() != null) {
-                profileEntity.setAvatar("/api/accounts-resources/avatar/" + profileEntity.getAvatar());
-            }
-
-            return ResponseEntity.ok(profileEntity);
+            return ResponseEntity.ok(profileService.updatePartialProfile(profileId, profileModifyRequest));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -145,13 +122,7 @@ public class ProfileController {
     @PatchMapping("/profiles/avatar/{profileId}")
     public ResponseEntity<?> uploadAvatarApi(@PathVariable String profileId, @RequestPart MultipartFile avatar) {
         try {
-            ProfileEntity profileEntity = profileService.uploadProfileAvatar(profileId, avatar);
-
-            if(profileEntity.getAvatar() != null) {
-                profileEntity.setAvatar("/api/accounts-resources/avatar/" + profileEntity.getAvatar());
-            }
-
-            return ResponseEntity.ok(profileEntity);
+            return ResponseEntity.ok(profileService.uploadProfileAvatar(profileId, avatar));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());

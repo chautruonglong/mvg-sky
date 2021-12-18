@@ -9,7 +9,6 @@ import com.mvg.sky.common.response.SimpleResponseEntity;
 import com.mvg.sky.repository.entity.RoomEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,15 +45,7 @@ public class RoomController {
             offset = offset == null ? 0 : offset;
             limit = limit == null ? Integer.MAX_VALUE : limit;
 
-            Collection<RoomEntity> roomEntities = roomService.getAllRooms(accountIds, sorts, offset, limit);
-
-            roomEntities.forEach(roomEntity -> {
-                if(roomEntity.getAvatar() != null) {
-                    roomEntity.setAvatar("/api/chats-resources/avatar/" + roomEntity.getAvatar());
-                }
-            });
-
-            return ResponseEntity.ok(roomEntities);
+            return ResponseEntity.ok(roomService.getAllRooms(accountIds, sorts, offset, limit));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -71,10 +61,6 @@ public class RoomController {
             }
 
             RoomEntity roomEntity = roomService.createRoom(roomCreationRequest);
-
-            if(roomEntity.getAvatar() != null) {
-                roomEntity.setAvatar("/api/chats-resources/avatar/" + roomEntity.getAvatar());
-            }
 
             return ResponseEntity.created(URI.create("/api/rooms/" + roomEntity.getId())).body(roomEntity);
         }
@@ -107,13 +93,7 @@ public class RoomController {
     @PatchMapping("/rooms/{roomId}")
     public ResponseEntity<?> patchRoomApi(@PathVariable String roomId, @Valid @RequestBody RoomUpdateRequest roomUpdateRequest) {
         try {
-            RoomEntity roomEntity = roomService.updatePartialRoom(roomId, roomUpdateRequest);
-
-            if(roomEntity.getAvatar() != null) {
-                roomEntity.setAvatar("/api/chats-resources/avatar/" + roomEntity.getAvatar());
-            }
-
-            return ResponseEntity.ok(roomEntity);
+            return ResponseEntity.ok(roomService.updatePartialRoom(roomId, roomUpdateRequest));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -124,13 +104,7 @@ public class RoomController {
     @PutMapping("/rooms/{roomId}")
     public ResponseEntity<?> putRoomApi(@PathVariable String roomId, @Valid @RequestBody RoomUpdateRequest roomUpdateRequest) {
         try {
-            RoomEntity roomEntity = roomService.updateRoom(roomId, roomUpdateRequest);
-
-            if(roomEntity.getAvatar() != null) {
-                roomEntity.setAvatar("/api/chats-resources/avatar/" + roomEntity.getAvatar());
-            }
-
-            return ResponseEntity.ok(roomEntity);
+            return ResponseEntity.ok(roomService.updateRoom(roomId, roomUpdateRequest));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
@@ -141,13 +115,7 @@ public class RoomController {
     @PatchMapping("/rooms/avatar/{roomId}")
     public ResponseEntity<?> uploadRoomAvatarApi(@PathVariable String roomId, @RequestPart MultipartFile avatar) {
         try {
-            RoomEntity roomEntity = roomService.uploadRoomAvatar(roomId, avatar);
-
-            if(roomEntity.getAvatar() != null) {
-                roomEntity.setAvatar("/api/chats-resources/avatar/" + roomEntity.getAvatar());
-            }
-
-            return ResponseEntity.ok(roomEntity);
+            return ResponseEntity.ok(roomService.uploadRoomAvatar(roomId, avatar));
         }
         catch(Exception exception) {
             log.error(exception.getMessage());
