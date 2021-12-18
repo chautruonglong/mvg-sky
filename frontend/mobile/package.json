@@ -41,6 +41,8 @@
     "react-native-mail": "^6.1.1",
     "react-native-onboarding-swiper": "^1.1.4",
     "react-native-pell-rich-editor": "^1.8.6",
+    "react-native-popover": "^0.2.0",
+    "react-native-popover-view": "^4.1.0",
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",
