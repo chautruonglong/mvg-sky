@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -119,7 +120,7 @@ public class ProfileController {
         }
     }
 
-    @PatchMapping("/profiles/avatar/{profileId}")
+    @PatchMapping(value = "/profiles/avatar/{profileId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAvatarApi(@PathVariable String profileId, @RequestPart MultipartFile avatar) {
         try {
             return ResponseEntity.ok(profileService.uploadProfileAvatar(profileId, avatar));

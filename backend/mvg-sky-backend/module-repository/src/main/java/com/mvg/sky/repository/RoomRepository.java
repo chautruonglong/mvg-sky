@@ -1,5 +1,6 @@
 package com.mvg.sky.repository;
 
+import com.mvg.sky.repository.dto.query.RoomMessageDto;
 import com.mvg.sky.repository.entity.RoomEntity;
 import java.util.Collection;
 import java.util.List;
@@ -14,14 +15,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
     @Query("""
-        select r
+        select new com.mvg.sky.repository.dto.query.RoomMessageDto(r, m)
         from RoomEntity r
         inner join RoomAccountEntity rc on rc.roomId = r.id
         inner join AccountEntity a on a.id = rc.accountId
+        left join MessageEntity m on m.roomId = r.id
+            and m.createdAt = (
+                select max(_m.createdAt)
+                from MessageEntity _m
+                where m.roomId = _m.roomId
+            )
         where r.isDeleted = false and a.isDeleted = false and rc.isDeleted = false and a.isActive = true
             and (:accountIds is null or cast(a.id as org.hibernate.type.UUIDCharType) in :accountIds)
+        group by r, m
     """)
-    List<RoomEntity> findAllRooms(Collection<UUID> accountIds, Pageable pageable);
+    List<RoomMessageDto> findAllRooms(Collection<UUID> accountIds, Pageable pageable);
 
     @Transactional
     @Modifying

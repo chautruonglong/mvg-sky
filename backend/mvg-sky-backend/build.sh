@@ -3,6 +3,7 @@
 set -x
 
 ./mvnw clean
+
 ./mvnw package -Dmaven.test.skip=true \
   -pl module-common \
   -pl module-repository \

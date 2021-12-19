@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,20 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "messages")
+@Table(
+    name = "messages",
+    indexes = {
+        @Index(columnList = "accountId"),
+        @Index(columnList = "roomId"),
+        @Index(columnList = "threadId"),
+        @Index(columnList = "content"),
+        @Index(columnList = "type"),
+        @Index(columnList = "isDeleted"),
+        @Index(columnList = "isInSchedule"),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "UpdatedAt"),
+    }
+)
 public class MessageEntity extends BaseEntity {
     @Column(name = "accountId", nullable = false, columnDefinition = "uuid")
     private UUID accountId;
@@ -43,4 +57,11 @@ public class MessageEntity extends BaseEntity {
     @Builder.Default
     @Column(name = "isInSchedule", columnDefinition = "boolean default false")
     private Boolean isInSchedule = false;
+
+    public String getContent() {
+        if(type == MessageEnumeration.MEDIA && content != null) {
+            return "/api/chats-resources/media/" + content;
+        }
+        return content;
+    }
 }
