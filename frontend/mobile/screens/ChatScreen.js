@@ -1,9 +1,11 @@
 import React, { memo, useRef, useState, useContext, useEffect, useCallback } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
 import Colors from "./Colors";
+import BottomSheet from 'reanimated-bottom-sheet';
 import Toast from 'react-native-toast-message';
-import { Animated, FlatList, TextInput, Image, ListItem, View, Vibration, KeyboardAvoidingView, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { FlatList, TextInput, Image, ListItem, View, Vibration, KeyboardAvoidingView, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { GiftedChat, Send, InputToolbar, Actions, Composer, MessageText, Avatar } from 'react-native-gifted-chat';
+import Animated from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -86,11 +88,15 @@ const ChatScreen = ({ title }) => {
     else {
 
       if (chats.accountId === user?.account?.id) {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+        // console.log("cung id")
+        setMessages([...messages, chats])
       }
       else {
-
-
+        Toast.show({
+          type: 'info',
+          // text1: title.userName,
+          text1: messages.content,
+        });
         setMessages([...messages, chats])
       }
     }
@@ -130,10 +136,11 @@ const ChatScreen = ({ title }) => {
     }
     setIsShowReply(false)
     setCurrentUser({})
-    stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
-    setMessages([...messages, chatMessage])
+    // setMessages([...messages, chatMessage])
     setMessage("")
     RichText.current.setContentHTML("")
+    stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
+
   };
 
   const handleCamera = () => (
@@ -180,9 +187,46 @@ const ChatScreen = ({ title }) => {
       onSend();
     }
   }
+  const takePhotoFromCamera = () => {
+    setIsShowReply(true);
+    bs.current.snapTo(1);
+  }
+  renderInner = () => (
+    <View style={styles.panel}>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={takePhotoFromCamera}
+      >
+        <Text style={styles.panelButtonTitle}>Reply</Text>
+      </TouchableOpacity>
+    </View>
+  );
+  renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle} />
+      </View>
+    </View>
+  );
 
+  bs = React.createRef();
+  fall = new Animated.Value(1);
   return (
     <View style={styles.container}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[330, -5]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View
+        style={{
+          margin: 20,
+          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}></Animated.View>
       <FlatList
         ref={yourRef}
         onContentSizeChange={() => yourRef.current.scrollToEnd()}
@@ -193,12 +237,12 @@ const ChatScreen = ({ title }) => {
           const currentReplyMessage = item?.content.split('<ReplyMessage>').pop().split('</ReplyMessage>')[0];
           const customMessage = item?.content.split('</ReplyMessage>')[1];
 
+
           return (
             <>
-
-
               <TouchableOpacity style={styles.container1} onLongPress={() => {
-                setIsShowDropdown(true)
+                bs.current.snapTo(0)
+                // setIsShowDropdown(true)
                 setCurrentUser({ userName: item?.accountId, content: customMessage || item?.content })
               }}>
 
@@ -273,6 +317,7 @@ const ChatScreen = ({ title }) => {
         }
 
         }
+        keyExtractor={item => item.id}
       // inverted
 
       />
@@ -284,7 +329,9 @@ const ChatScreen = ({ title }) => {
         )}>
         <TouchableOpacity
           onPress={() => setIsShowReply(true)}>
+          {/* {isShowReply ? */}
           <Text>Reply</Text>
+          {/* } */}
         </TouchableOpacity>
       </Popover>
       {/* < Popover
@@ -474,6 +521,39 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+  },
+  commandButton: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#FF6347',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  panel: {
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 20,
+    width: '100%',
+  },
+  header: {
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#FFFFFF',
+    shadowOffset: { width: -1, height: -3 },
+    shadowRadius: 2,
+    shadowOpacity: 0.4,
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  panelHeader: {
+    alignItems: 'center',
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#00000040',
+    marginBottom: 10,
   },
 });
 

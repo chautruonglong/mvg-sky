@@ -45,20 +45,6 @@ export const AuthProvider = ({ children }) => {
               delay: 0
             }
             setChats(chatMessage)
-            if (chatMessage === null) {
-            }
-            else {
-              if (chatMessage.accountId === user?.account?.id) {
-                console.log("cung id")
-              }
-              else {
-                Toast.show({
-                  type: 'info',
-                  text1: title.userName,
-                  text2: chatMessage.content,
-                });
-              }
-            }
           }
         );
       })
