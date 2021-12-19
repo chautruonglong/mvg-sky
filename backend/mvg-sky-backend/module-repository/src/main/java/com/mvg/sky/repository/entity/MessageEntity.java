@@ -1,5 +1,6 @@
 package com.mvg.sky.repository.entity;
 
+import com.google.common.net.UrlEscapers;
 import com.mvg.sky.common.enumeration.MessageEnumeration;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.springframework.web.util.UriUtils;
 
 @Getter
 @Setter
@@ -60,7 +62,7 @@ public class MessageEntity extends BaseEntity {
 
     public String getContent() {
         if(type == MessageEnumeration.MEDIA && content != null) {
-            return "/api/chats-resources/media/" + content;
+            return UrlEscapers.urlFragmentEscaper().escape("/api/chats-resources/media/" + content);
         }
         return content;
     }

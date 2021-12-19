@@ -1,5 +1,6 @@
 package com.mvg.sky.repository.entity;
 
+import com.google.common.net.UrlEscapers;
 import com.mvg.sky.common.enumeration.RoomEnumeration;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ public class RoomEntity extends BaseEntity {
 
     public String getAvatar() {
         if(avatar != null) {
-            return "/api/chats-resources/avatar/" + avatar;
+            return UrlEscapers.urlFragmentEscaper().escape("/api/chats-resources/avatar/" + avatar);
         }
         return null;
     }
