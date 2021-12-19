@@ -39,6 +39,15 @@ export const TextSection = styled.View`
   border-bottom-color: #cccccc;
 `;
 
+export const ContacSection = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+  padding-left: 0;
+  margin-left: 10px;
+  width: 300px;
+`;
+
 export const UserInfoText = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -52,6 +61,13 @@ export const UserName = styled.Text`
   color: #FFFFFF;
 `;
 
+export const UserNameContact = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Lato-Regular';
+  color: #252e26;
+`;
+
 export const PostTime = styled.Text`
   font-size: 12px;
   color: #666;
@@ -61,6 +77,11 @@ export const PostTime = styled.Text`
 export const MessageText = styled.Text`
   font-size: 14px;
   color: #FFFFFF;
+`;
+
+export const MessageTextContact = styled.Text`
+  font-size: 14px;
+  color: #252e26;
 `;
 
 export const MailText = styled.Text`

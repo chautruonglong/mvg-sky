@@ -32,7 +32,6 @@ const EditProfileScreen = () => {
 
   const handleUploadimage = async () => {
     try {
-      console.log(`/profiles/avatar/${profile.id}`)
       const response = await apiRequest.patch(`/profiles/avatar/${profile.id}`,
         bodyFormData
         ,
@@ -187,7 +186,6 @@ const EditProfileScreen = () => {
                   alignItems: 'center',
                 }}>
                 <ImageBackground
-
                   style={styles.userImg}
                   source={{ uri: 'http://api.mvg-sky.com' + profile?.avatar }}
                   style={{ height: 100, width: 100 }}
