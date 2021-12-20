@@ -13,10 +13,10 @@ function Message({ id, message, timestamp}) {
 
 
   if(id === '5d0d018d-bee1-4533-aed8-41a980792ebc'){
-    name = 'Khanh Toan'
+    name = 'Toan'
     photoURL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
   } else {
-    name = 'Phuoc Quoc'
+    name = 'quoc'
     photoURL = 'https://scontent.fdad1-3.fna.fbcdn.net/v/t39.30808-6/217967515_1940851459422042_4184009242946268958_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=AS3ygPEi-eoAX_Yfrcr&tn=yBHw_zearwumtjmw&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_h5ARWCgjA9zFG6ouVGYVEZVDxmQt8QAB2TFKk89NxyQ&oe=61C3ACA0'
   }
   return (

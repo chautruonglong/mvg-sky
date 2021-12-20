@@ -4,21 +4,28 @@ import { Chat } from "./Chat";
 import { useEffect, useState } from "react";
 import { Profile } from "./Profile";
 import { Email } from "./Email";
+import { Password } from "./Password";
 import { useHistory, useParams } from "react-router";
 import axios from "axios";
 import { Blank } from "./Blank";
 import Popup from "reactjs-popup";
 import { CreateChannel } from "./createChannel/CreateChannel";
 import "./createChannel/createChannel.css";
-import { ToastContainer, toast } from 'react-toastify'
 
-export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
+export const Home = ({
+  status,
+  newMessage,
+  roomId,
+  setRoomId,
+  accountId,
+  setnewMessage,
+}) => {
   const [subChannel, setSubChannel] = useState(1);
   const [channels, setChannels] = useState([]);
   const history = useHistory();
   const { id } = useParams();
   const { channelId, setChannelId } = useState(id);
-  const [title, setTitle] = useState()
+  const [title, setTitle] = useState();
   // const accountId = "5d0d018d-bee1-4533-aed8-41a980792ebc";
 
   useEffect(() => {
@@ -47,17 +54,24 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
           },
         ]);
       }
+
+      if (status === "password") {
+        setChannels([
+          {
+            id: accountId,
+            name: "Change Password",
+          },
+        ]);
+      }
     };
 
     fetchdata();
   }, [status, id]);
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken')
-    history.push('/')
-  }
-
-  const notify = () => toast("Create channel successfully");
+    localStorage.removeItem("accessToken");
+    history.push("/");
+  };
 
   return (
     <>
@@ -97,7 +111,15 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
           </div>
           <div className="server-default hover:bg-app_white ">
             <img
-              src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.15752-9/263177761_4496565693754875_1252249884928258089_n.png?_nc_cat=104&cb=c578a115-c1c39920&ccb=1-5&_nc_sid=ae9488&_nc_ohc=aUaqbzVrzNwAX9RSqvK&tn=yBHw_zearwumtjmw&_nc_ht=scontent.fdad1-3.fna&oh=7578b3e9ac382e691a599e17dbc4d4e1&oe=61D6F022"
+              src="https://previews.123rf.com/images/fokaspokas/fokaspokas1803/fokaspokas180300213/96827442-key-icon-white-icon-with-shadow-on-transparent-background.jpg"
+              alt=""
+              className="h-9 w-9 rounded-full"
+              onClick={() => history.push("/channels/change-password")}
+            />
+          </div>
+          <div className="server-default hover:bg-app_white ">
+            <img
+              src="https://us.123rf.com/450wm/fokaspokas/fokaspokas1803/fokaspokas180300425/96962878-shut-down-power-white-icon-with-shadow-on-transparent-background.jpg?ver=6"
               alt=""
               className="h-9 w-9 rounded-full"
               onClick={() => handleLogout()}
@@ -120,7 +142,15 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
                   <PlusIcon className="h-6 ml-auto cursor-pointer hover:text-white" />
                 }
               >
-                {(close) => <CreateChannel accountId={accountId} close={close}></CreateChannel>}
+                {(close) => (
+                  <CreateChannel
+                    accountId={accountId}
+                    close={close}
+                    channels={channels}
+                    setChannels={setChannels}
+                    setnewMessage={setnewMessage}
+                  />
+                )}
               </Popup>
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
@@ -140,20 +170,18 @@ export const Home = ({ status, newMessage, roomId, setRoomId, accountId }) => {
         <div className="bg-[#36393f] flex-grow">
           {
             status === "chat" ? (
-              <Chat roomId={roomId} newMessage={newMessage} title={title}/>
+              <Chat roomId={roomId} newMessage={newMessage} title={title} />
             ) : status === "profile" ? (
               <Profile accountId={accountId} />
             ) : status === "email" ? (
               <Email id={channelId} accountId={accountId} />
+            ) : status === "password" ? (
+              <Password id={channelId} accountId={accountId} />
             ) : (
               <Blank />
             )
-
-            // subChannel === 1 ? ( <Chat /> ) : (subChannel === 2 ? (<Profile />) : (<Email />) )
-            // (<Chat newMessage={newMessage}/>)
           }
         </div>
-        <ToastContainer />
       </div>
     </>
   );
