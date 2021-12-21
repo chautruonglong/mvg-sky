@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const apiRequest = axios.create({
-    baseURL: 'http://mvg-sky.com:8002/api',
+    baseURL: 'http://api.mvg-sky.com/api',
 });
+
 
 const handleResponseSuccess = (response) => {
     return Promise.resolve(response.data);
