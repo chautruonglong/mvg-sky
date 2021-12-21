@@ -12,12 +12,16 @@ import Toast from 'react-native-toast-message';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
+import apiRequest from "../utils/apiRequest"
+
+
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [isvalue, setIsvalue] = useState();
+  const [isvaluepass, setIsvaluepass] = useState();
   const [password, setPassword] = useState();
-  const { login } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
 
   validate = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -29,6 +33,48 @@ const LoginScreen = ({ navigation }) => {
       setIsvalue(true)
     }
   }
+  validatepass = (text) => {
+    let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    if (reg.test(text) === false) {
+      setIsvaluepass(false);
+    }
+    else {
+      setPassword(text)
+      setIsvaluepass(true)
+    }
+  }
+
+  const handleLogin = async (email, password) => {
+    try {
+      const response = await apiRequest.post('/accounts/login', {
+        email: 'quoc@a.com',
+        password: 'Khong123@',
+        // email: email,
+        // password: password,
+      },
+        {
+          headers: {
+            accept: 'application/json',
+            // Authorization: `${user.accessToken}`
+          }
+        }
+      )
+      setUser(response)
+      Toast.show({
+        type: 'success',
+        text1: 'Login successfully!'
+      });
+
+    } catch (error) {
+      console.log(error)
+      setUser(null)
+      Toast.show({
+        type: 'error',
+        text1: 'Wrong username or password.'
+      });
+    }
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -38,11 +84,11 @@ const LoginScreen = ({ navigation }) => {
       <Text style={styles.text}>MVG SKY</Text>
       <Text style={styles.button}></Text>
       <FormInput
-        labelValue={email}
-        // onChangeText={(userEmail) => setEmail(userEmail)}
+        // labelValue={email}
         onChangeText={(userEmail) => validate(userEmail)}
         isvalue={isvalue}
         placeholderText="Email"
+
         iconType="user"
         keyboardType="email-address"
         autoCapitalize="none"
@@ -50,8 +96,10 @@ const LoginScreen = ({ navigation }) => {
       />
 
       <FormInput
-        labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
+        // labelValue={password}
+        onChangeText={(userPassword) => validatepass(userPassword)}
+        isvalue={isvaluepass}
+
         placeholderText="Password"
         iconType="lock"
         secureTextEntry={true}
@@ -59,25 +107,14 @@ const LoginScreen = ({ navigation }) => {
       <Text style={styles.button}></Text>
       <FormButton
         buttonTitle="Sign In"
-        // onPress={() => login(email, password)}
-        onPress={() => [isvalue ? login(email, password) : null]}
+        onPress={() => handleLogin(email, password)}
+
+      // onPress={() => [isvalue & isvaluepass ? handleLogin(email, password) : null]}
       />
 
       {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
         <Text style={styles.navButtonText}>Forgot Password?</Text>
       </TouchableOpacity> */}
-
-      {/* <View style={styles.navButtonTextmain}>
-        <Text style={styles.navButtonText1}>
-          Don't have an acount?
-        </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.navButtonText}>
-            Create here
-          </Text>
-        </TouchableOpacity>
-      </View> */}
     </ScrollView>
   );
 };
@@ -87,7 +124,6 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    // justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
     paddingTop: 50,
