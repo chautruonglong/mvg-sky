@@ -739,6 +739,14 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@callstack/react-theme-provider@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.7.tgz#b7ce1a53d63ad5e83574b831ae0af6b7c6cc40e7"
+  integrity sha512-Ab6rbD2w4u9W3yf7LQQ8evx9m8fZNsoWxt+MFm3AyZnyKQNCJf4K7ip9tHHZgSs+HTdoj38lEqPehvFOVQKvAg==
+  dependencies:
+    deepmerge "^3.2.0"
+    hoist-non-react-statics "^3.3.0"
+
 "@charkour/react-reactions@^0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@charkour/react-reactions/-/react-reactions-0.6.1.tgz#afce6994bce6f4809b52294aaec9d9cb618032ff"
@@ -1296,6 +1304,61 @@
     redux "^4.1.0"
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
+
+"@rpldy/life-events@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/life-events/-/life-events-0.15.0.tgz#509eb57c0d751d69a8dce5d4c4d896f500f90033"
+  integrity sha512-0TdbI0UdwnCJHtnfPCPF0Lr8eL2N+b5raDFz5Z1MALCgdX1U+2/JQgZtbIkuRtAnoubjTvYQNTGFYo4QpMi2Yw==
+  dependencies:
+    "@rpldy/shared" "^0.15.0"
+    is-promise "^4.0.0"
+
+"@rpldy/native-uploady@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/native-uploady/-/native-uploady-0.15.0.tgz#d03a62fa1b6b2e3100f144163aed97b256cdf3f6"
+  integrity sha512-PfsBA87CMJl/I3AIkOrl3kS/9VSNf46f/L/lEXmPT5NB1vQbRThET+1i5Ji/rF3rQObjCeeS7W1uG8p+FfFvUw==
+  dependencies:
+    "@rpldy/shared-ui" "^0.15.0"
+
+"@rpldy/sender@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/sender/-/sender-0.15.0.tgz#0ce1c9fcbbe6349154a0eca227ac3e8ddadebfb7"
+  integrity sha512-8LnlnReheK2iRC0OnDqy+o6BvZScA+dVzkQXTTHXT2Rf8pOL1+RtxG47p+R/ylCz/MYOS8C62BqL4x80CmYPdQ==
+  dependencies:
+    "@rpldy/shared" "^0.15.0"
+
+"@rpldy/shared-ui@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/shared-ui/-/shared-ui-0.15.0.tgz#158be103a0bf68fea6ef0ecf1085a5910830320f"
+  integrity sha512-pT176f2iW1m7/Timm/zzNWgX0RdhA+nglGZUWFutz62MkAjmQLw/Iw5wC55RCPWbU4EzN86a0ljwB5CO+Nhc2g==
+  dependencies:
+    "@rpldy/shared" "^0.15.0"
+    "@rpldy/uploader" "^0.15.0"
+
+"@rpldy/shared@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/shared/-/shared-0.15.0.tgz#c6b037b13db22ca471e87b5569dcae3a63b6ce51"
+  integrity sha512-FJFPjGH5CEA7UHrG7boFWruqivv4193+/6DKB2DGkLGcGu6M3lRmlMGjGSdIo3c4CaKeQYd63UI7cw3y+CwU8A==
+  dependencies:
+    invariant "^2.2.4"
+    just-throttle "^1.1.0"
+
+"@rpldy/simple-state@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/simple-state/-/simple-state-0.15.0.tgz#05e0656b8b5076a1e4a92f7853d4fc4219ac6825"
+  integrity sha512-cbgjCdyuUZyE+UAb3nrRGY4gIgMeLqFvp0pHK4SGd0swix2211FukmpYfsPhLOfNzYqTq3ihkfWFRccvWdrf/A==
+  dependencies:
+    "@rpldy/shared" "^0.15.0"
+
+"@rpldy/uploader@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@rpldy/uploader/-/uploader-0.15.0.tgz#09fc8d944e07cd54dfcc288f6ada348c1ae8ef64"
+  integrity sha512-mlzuVvZegN9zhY1+HZ/LFZdisIQrnIhzA61LPNM53O3xtY4hOhzaBfZSjumaVaQfWCURPWGKyatsIGC5y2RKFw==
+  dependencies:
+    "@rpldy/life-events" "^0.15.0"
+    "@rpldy/sender" "^0.15.0"
+    "@rpldy/shared" "^0.15.0"
+    "@rpldy/simple-state" "^0.15.0"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.1"
@@ -4221,6 +4284,11 @@ is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   dependencies:
     isobject "^3.0.1"
 
+is-promise@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-4.0.0.tgz#42ff9f84206c1991d26debf520dd5c01042dd2f3"
+  integrity sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==
+
 is-regex@^1.1.0, is-regex@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/is-regex/-/is-regex-1.1.1.tgz"
@@ -4976,6 +5044,11 @@ jsx-ast-utils@^2.2.3:
   dependencies:
     array-includes "^3.1.1"
     object.assign "^4.1.0"
+
+just-throttle@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/just-throttle/-/just-throttle-1.1.0.tgz#178d305ece9876a8a0759abd8d403aafcc6e4849"
+  integrity sha512-iePC/13XYX1Tyn9C6jY+DG3UEejkDvrKsw5xxgGhtGUwYWmoJm4CoKexscBKELOu3FTyCDzjr21ZJ67AXnz+bg==
 
 jwa@^1.4.1:
   version "1.4.1"
@@ -6455,6 +6528,15 @@ react-devtools-core@^4.6.0:
     shell-quote "^1.6.1"
     ws "^7"
 
+react-dom@^17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
+  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    scheduler "^0.20.2"
+
 react-fast-compare@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
@@ -6563,6 +6645,11 @@ react-native-iphone-x-helper@^1.2.1:
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
 
+react-native-iphone-x-helper@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
+  integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
 react-native-lightbox@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.7.0.tgz#e52b4d7fcc141f59d7b23f0180de535e35b20ec9"
@@ -6598,6 +6685,15 @@ react-native-onboarding-swiper@^1.1.4:
   integrity sha512-dG2J6giQpt5kKlU+Xe68E9xy+OkmC9Yf5XD7S1mJQ5VvwySfCIXnPojai0PEQ9NmbbH06k9lqN5Ik1PGYnIdVA==
   dependencies:
     tinycolor2 "^1.4.1"
+
+react-native-paper@^4.11.1:
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.11.1.tgz#da7c1b66950002d1511ac888e19fc82acec758a2"
+  integrity sha512-mAQ74KUrOIcMEg1crrIsA7eXDaPk/fjvKFDLcN7gBBeV/zhhQiqc+/y6t+8STKsZutRA2U5/eB+0MBisybokmQ==
+  dependencies:
+    "@callstack/react-theme-provider" "^3.0.7"
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.3.1"
 
 react-native-parsed-text@0.0.22:
   version "0.0.22"
@@ -6743,6 +6839,13 @@ react-native@0.63.2:
     stacktrace-parser "^0.1.3"
     use-subscription "^1.0.0"
     whatwg-fetch "^3.0.0"
+
+react-new-window@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-new-window/-/react-new-window-0.2.1.tgz#510aa91ba0334f0d42ba499c617a37f46c4d84ba"
+  integrity sha512-3s6W8eipRbjoLGvWpFRPSt2/z5h9FTS01C+ZjaEZX7/cF6ejGc6JVuL4oEo0s73IluaqoLIDB49AK4fSMW8pJw==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-reactions@^0.1.3:
   version "0.1.3"
