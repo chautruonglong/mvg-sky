@@ -37,42 +37,18 @@ export const AuthProvider = ({ children }) => {
         stompClient.subscribe(
           `/room/${room.id}`,
           (payload) => {
+            console.log(JSON.parse(payload.body).data)
             const chatMessage = {
               accountId: JSON.parse(payload.body).data.accountId,
               content: JSON.parse(payload.body).data.content,
-              threadId: null,
-              type: "TEXT",
+              threadId: JSON.parse(payload.body).data.threadId,
+              type: JSON.parse(payload.body).data.type,
               delay: 0
             }
             setChats(chatMessage)
           }
         );
       })
-
-      // stompClient.connect(
-      //   {},
-      //   () => {
-
-      //     rooms.forEach(room => {
-      //       stompClient.subscribe(
-      //         `/room/${room.id}`,
-      //         (payload) => {
-      //           const chatMessage = {
-      //             accountId: JSON.parse(payload.body).data.accountId,
-      //             content: JSON.parse(payload.body).data.content,
-      //             threadId: null,
-      //             type: "TEXT",
-      //             delay: 0
-      //           }
-      //           setChats(chatMessage)
-      //         }
-      //       );
-      //     })
-      //   },
-      //   (error) => {
-      //     console.log(error);
-      //   }
-      // );
     }
   }
 
@@ -106,7 +82,9 @@ export const AuthProvider = ({ children }) => {
         profile,
         setProfile,
         chats,
-        stompClient
+        stompClient,
+        setChats,
+        setMyRooms
       }}>
       {children}
     </AuthContext.Provider>

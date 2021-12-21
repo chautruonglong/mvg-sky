@@ -21,7 +21,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import ActionButton from 'react-native-action-button';
 import NewWindow from 'react-new-window'
 const MessagesScreen = ({ navigation }) => {
-  const { user, myrooms } = useContext(AuthContext);
+  const { user, chats, myrooms } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
 
   // const fetchPosts = async () => {
@@ -36,15 +36,16 @@ const MessagesScreen = ({ navigation }) => {
   // }
 
   const avtDefault = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
+  const isImage = (fileName) => {
+    return !!fileName?.match(/\.(jpg|jpeg|png|gif)$/gi);
+  };
 
-  // const fetchRoom = async () => {
-  //   const rooms = await apiRequest.get(`/rooms?accountId=${user.account.id}`)
-  //   setMessages(rooms)
-  // }
-
+  const isMyMessage = (item) => {
+    return item.accountId === user.account.id;
+  }
   // useEffect(() => {
   //   fetchRoom()
-  // }, [])
+  // }, [chats])
   return (
     <Container>
       <FlatList
@@ -70,18 +71,30 @@ const MessagesScreen = ({ navigation }) => {
                 {/* <MessageText
                   numberOfLines={1}
                 >{}</MessageText> */}
-                <HTMLView textComponentProps={{ style: { color: 'orange' } }} value={item?.latestMessage?.content} stylesheet={styles.message} />
+                {item?.latestMessage?.type === "TEXT" ?
+                  < HTMLView textComponentProps={{ style: { color: 'orange' } }} value={item?.latestMessage?.content} stylesheet={styles.message} /> :
+                  item?.latestMessage?.type === "MEDIA" ?
+                    isMyMessage(item?.latestMessage) ?
+                      isImage(item?.latestMessage?.content) ?
+                        < Text style={styles.message}>You send a photo</Text> :
+                        < Text style={styles.message}>You send an attachment</Text> :
+                      isImage(item?.latestMessage?.content) ?
+                        < Text style={styles.message}>Send a photo</Text> :
+                        < Text style={styles.message}>Send an attachment</Text> :
+                    <></>
+                }
               </TextSection>
             </UserInfo>
           </Card>
-        )}
+        )
+        }
       />
-      <ActionButton
+      < ActionButton
         buttonColor="#2e64e5"
         title="Create Room Screen"
         onPress={() => navigation.navigate('CreateRoomScreen')}>
-      </ActionButton>
-    </Container>
+      </ActionButton >
+    </Container >
   );
 };
 
@@ -94,6 +107,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   message: {
-    color: "#fff"
+    color: 'orange'
   }
 });

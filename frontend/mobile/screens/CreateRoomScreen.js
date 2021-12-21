@@ -37,9 +37,9 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import apiRequest from '../utils/apiRequest';
 import Toast from 'react-native-toast-message';
 const bodyFormData = new FormData();
-const AddMailScreen = () => {
+const AddMailScreen = ({ navigation }) => {
 
-    const { user, profile } = useContext(AuthContext);
+    const { user, setChats, stompClient, setMyRooms } = useContext(AuthContext);
     const [contact, setContact] = useState(null)
     const [name, setName] = useState(null)
     const [description, setDescription] = useState(null)
@@ -96,16 +96,30 @@ const AddMailScreen = () => {
             )
             console.log(`/rooms/avatar/${response.id}`)
             try {
-                console.log(bodyFormData)
                 const response1 = await apiRequest.patch(`/rooms/avatar/${response.id}`,
                     bodyFormData,
                     {
                         headers: { "Content-type": "multipart/form-data" }
                     }
                 )
+                stompClient.subscribe(
+                    `/room/${response.id}`,
+                    (payload) => {
+                        const chatMessage = {
+                            accountId: JSON.parse(payload.body).data.accountId,
+                            content: JSON.parse(payload.body).data.content,
+                            threadId: null,
+                            type: "TEXT",
+                            delay: 0
+                        }
+                        setChats(chatMessage)
+                    }
+                );
+                const rooms = await apiRequest.get(`/rooms?accountId=${user.account.id}`)
+                setMyRooms(rooms)
                 Toast.show({
                     type: 'success',
-                    text1: 'Avatar change successfully!'
+                    text1: 'Create room successfully!'
                 });
             } catch (error) {
                 console.log(error)
@@ -190,46 +204,48 @@ const AddMailScreen = () => {
                     <FlatList
                         data={contact}
                         renderItem={({ item }) => (
-                            <Card
-                                style={{
-                                    borderRadius: 30,
-                                    margin: 5,
-                                    backgroundColor: "#AAF7B4"
-                                }}>
-                                <View style={{ flexDirection: 'row', }}>
-                                    <CheckBox
-                                        tintColors={{
-                                            true: 'green', false: 'while'
-                                        }}
-                                        value={item.check}
+                            item.accountId !== user.account.id ?
+                                < Card
+                                    style={{
+                                        borderRadius: 30,
+                                        margin: 5,
+                                        backgroundColor: "#AAF7B4"
+                                    }}>
+                                    <View style={{ flexDirection: 'row', }}>
+                                        <CheckBox
+                                            tintColors={{
+                                                true: 'green', false: 'while'
+                                            }}
+                                            value={item.check}
 
-                                        onValueChange={() => {
-                                            handleChange(item.id);
-                                        }}
+                                            onValueChange={() => {
+                                                handleChange(item.id);
+                                            }}
 
-                                        style={styles.checkbox}
-                                    />
-                                    <UserInfo>
-                                        <UserImgWrapper>
-                                            <UserImg source={{
-                                                uri: item?.avatar ? 'http://api.mvg-sky.com' + item?.avatar : avtDefault
-                                            }} />
-                                            {/* <UserImg source={{ uri: item.userImg }} /> */}
-                                        </UserImgWrapper>
-                                        <ContacSection>
-                                            <UserInfoText>
-                                                <UserNameContact>{`${item.firstName} ${item.lastName}`}</UserNameContact>
-                                            </UserInfoText>
-                                            <MessageTextContact
-                                                numberOfLines={1}
-                                            >{item.title}</MessageTextContact>
-                                        </ContacSection>
+                                            style={styles.checkbox}
+                                        />
+                                        <UserInfo>
+                                            <UserImgWrapper>
+                                                <UserImg source={{
+                                                    uri: item?.avatar ? 'http://api.mvg-sky.com' + item?.avatar : avtDefault
+                                                }} />
+                                                {/* <UserImg source={{ uri: item.userImg }} /> */}
+                                            </UserImgWrapper>
+                                            <ContacSection>
+                                                <UserInfoText>
+                                                    <UserNameContact>{`${item.firstName} ${item.lastName}`}</UserNameContact>
+                                                </UserInfoText>
+                                                <MessageTextContact
+                                                    numberOfLines={1}
+                                                >{item.title}</MessageTextContact>
+                                            </ContacSection>
 
 
-                                    </UserInfo>
+                                        </UserInfo>
 
-                                </View>
-                            </Card>
+                                    </View>
+                                </Card>
+                                : <></>
                         )
                         }
                         keyExtractor={item => item.id}
@@ -272,7 +288,8 @@ const AddMailScreen = () => {
                         </ImageBackground>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.checkbox} onPress={() => {
-                        handleCreateRoom()
+                        handleCreateRoom();
+                        navigation.navigate('Messages')
                     }}>
                         <Text style={styles.textbuton}>Create Room</Text>
                     </TouchableOpacity>
