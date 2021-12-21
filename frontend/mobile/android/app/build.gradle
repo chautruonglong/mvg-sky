@@ -191,7 +191,14 @@ dependencies {
     //noinspection GradleDynamicVersion
     // implementation 'com.android.support:multidex:2.0.1'
     implementation "com.facebook.react:react-native:+"  // From node_modules
+        compile 'com.facebook.fresco:fresco:1.+'
 
+    // For animated GIF support
+    compile 'com.facebook.fresco:animated-gif:1.+'
+
+    // For WebP support, including animated WebP
+    compile 'com.facebook.fresco:animated-webp:1.+'
+    compile 'com.facebook.fresco:webpsupport:1.+'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
