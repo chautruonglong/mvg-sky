@@ -13,6 +13,7 @@ import MessagesScreen from '../screens/MessagesScreen';
 import MailScreen from '../screens/MailScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import DisplayMailScreen from '../screens/DisplayMailScreen';
+import CreateRoomScreen from '../screens/CreateRoomScreen'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -47,6 +48,14 @@ const MessageStack = ({ navigation }) => (
       }
       options={({ route }) => ({
         title: route.params.userName,
+        headerBackTitleVisible: false,
+      })}
+    />
+    <Stack.Screen
+      name="CreateRoomScreen"
+      component={CreateRoomScreen}
+      // options={{ header: () => null }}
+      options={({ route }) => ({
         headerBackTitleVisible: false,
       })}
     />

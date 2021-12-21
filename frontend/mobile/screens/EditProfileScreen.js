@@ -32,7 +32,6 @@ const EditProfileScreen = () => {
 
   const handleUploadimage = async () => {
     try {
-      console.log(`/profiles/avatar/${profile.id}`)
       const response = await apiRequest.patch(`/profiles/avatar/${profile.id}`,
         bodyFormData
         ,
@@ -154,8 +153,8 @@ const EditProfileScreen = () => {
   );
 
 
-  bs = React.createRef();
-  fall = new Animated.Value(1);
+  const bs = React.createRef();
+  const fall = new Animated.Value(1);
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
@@ -187,7 +186,6 @@ const EditProfileScreen = () => {
                   alignItems: 'center',
                 }}>
                 <ImageBackground
-
                   style={styles.userImg}
                   source={{ uri: 'http://api.mvg-sky.com' + profile?.avatar }}
                   style={{ height: 100, width: 100 }}

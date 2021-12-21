@@ -1,9 +1,11 @@
 import React, { memo, useRef, useState, useContext, useEffect, useCallback } from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
 import Colors from "./Colors";
+import BottomSheet from 'reanimated-bottom-sheet';
 import Toast from 'react-native-toast-message';
-import { Animated, FlatList, TextInput, Image, ListItem, View, Vibration, KeyboardAvoidingView, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { FlatList, TextInput, Image, ListItem, View, Vibration, KeyboardAvoidingView, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { GiftedChat, Send, InputToolbar, Actions, Composer, MessageText, Avatar } from 'react-native-gifted-chat';
+import Animated from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -42,8 +44,10 @@ import {
 //   }
 // );
 const ChatScreen = ({ title }) => {
+  const bodyFormData = new FormData();
+
   const { stompClient } = useContext(AuthContext);
-  const { user, profile, chats, iduser } = useContext(AuthContext)
+  const { user, profile, chats, setMyRooms } = useContext(AuthContext)
   const yourRef = useRef(null);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -59,17 +63,23 @@ const ChatScreen = ({ title }) => {
   const [isShowReply, setIsShowReply] = useState(false)
 
   useEffect(() => {
-    fetchRoom()
+    fetchMessage()
   }, []);
 
+  const isImage = (fileName) => {
+    return !!fileName?.match(/\.(jpg|jpeg|png|gif)$/gi);
+  };
 
-
-  const fetchRoom = async () => {
+  const fetchMessage = async () => {
     if (title.roomId) {
-      // console.log(title.roomId)
       const values = await apiRequest.get(`/messages?roomId=${title.roomId}&limit=15`)
       setMessages(values.reverse())
     }
+  }
+
+  const fetchRoom = async () => {
+    const rooms = await apiRequest.get(`/rooms?accountId=${user.account.id}`)
+    setMyRooms(rooms)
   }
 
   function editorInitializedCallback() {
@@ -84,41 +94,20 @@ const ChatScreen = ({ title }) => {
     if (chats === null) {
     }
     else {
-
       if (chats.accountId === user?.account?.id) {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
-      }
-      else {
-
-
         setMessages([...messages, chats])
       }
+      else {
+        Toast.show({
+          type: 'info',
+          // text1: title.userName,
+          text1: messages.content,
+        });
+        setMessages([...messages, chats])
+      }
+      fetchRoom()
     }
   }, [chats]);
-
-  // useEffect(() => {
-
-  //   setMessages([...messages, remessage])
-  // }, [remessage]);
-
-  // useEffect(() => {
-  //   if (isConnected === true) {`
-  //     stompClient.subscribe(`
-  //       `/room/${title.roomId}`,
-  //       (payload) => {
-  //         const chatMessage = {
-  //           accountId: JSON.parse(payload.body).data.accountId,
-  //           content: JSON.parse(payload.body).data.content,
-  //           threadId: null,
-  //           type: "TEXT",
-  //           delay: 0
-  //         }
-  //         setRemessage(chatMessage)
-  //       }
-  //     );
-  //   }
-  // }, [isConnected])
-
 
   const onSend = () => {
     const chatMessage = {
@@ -130,38 +119,91 @@ const ChatScreen = ({ title }) => {
     }
     setIsShowReply(false)
     setCurrentUser({})
-    stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
-    setMessages([...messages, chatMessage])
     setMessage("")
     RichText.current.setContentHTML("")
+    stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
+
   };
 
-  const handleCamera = () => (
+  const onSendReply = (seconds) => {
+    const chatMessage = {
+      accountId: user?.account?.id,
+      content: currentUser?.content ? `<ReplyMessage>${currentUser.content}</ReplyMessage>${message}` : message,
+      threadId: null,
+      type: "TEXT",
+      delay: seconds
+    }
+    setIsShowReply(false)
+    setCurrentUser({})
+    setMessage("")
+    RichText.current.setContentHTML("")
+    stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
+
+  };
+
+  const handleCamera = async () => (
     ImagePicker.openPicker({
       width: 300,
       height: 300,
       cropping: true,
       compressImageQuality: 0.7,
-    }).then((image) => {
+    }).then(async (image) => {
       const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-      const chatMessage = {
-        accountId: user?.account?.id,
-        content: imageUri,
-        threadId: null,
-        type: "URL",
-        delay: 0
+      bodyFormData.append('accountId', user.account.id)
+      bodyFormData.append('content ', {
+        name: image.path.split('/').pop(),
+        type: image.mime,
+        uri: Platform.OS === 'android' ? image.path : image.path.replace('file://', ''),
+      })
+      bodyFormData.append('type', 'MEDIA')
+      bodyFormData.append('delay', 0)
+      try {
+        const response = await apiRequest.post(`/messages/send-media/${title.roomId}`,
+          bodyFormData,
+          {
+            headers: { "Content-type": "multipart/form-data" }
+          }
+        )
       }
+      catch (error) {
+        console.log(error)
+      }
+      // const chatMessage = {
+      //   accountId: user?.account?.id,
+      //   content: imageUri,
+      //   threadId: null,
+      //   type: "URL",
+      //   delay: 0
+      // }
       // stompClient.send(`/chat/send-message/${title.roomId}`, JSON.stringify(chatMessage), {},)
-      setMessages([...messages, chatMessage])
+      // setMessages([...messages, chatMessage])
       // console.log(imageUri);
     })
 
   );
   const handleSendFile = async () => {
+    const datafile = new FormData();
     try {
-      const pickerResult = await DocumentPicker.pickSingle({
+      const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.allFiles],
       })
+      datafile.append('accountId', user.account.id)
+      datafile.append('content', {
+        name: res.name,
+        type: res.type,
+        uri: Platform.OS === 'ios' ?
+          res.uri.replace('file://', '')
+          : res.uri,
+      })
+      datafile.append('type', 'MEDIA')
+      datafile.append('delay', 0)
+      const response = await apiRequest.post(`/messages/send-media/${title.roomId}`,
+        datafile,
+        {
+          headers: { "Content-type": "multipart/form-data" }
+        }
+      )
+
     } catch (e) {
       console.log(e)
     }
@@ -180,9 +222,117 @@ const ChatScreen = ({ title }) => {
       onSend();
     }
   }
+  const ReplyMessage = () => {
+    setIsShowReply(true);
+    bs.current.snapTo(1);
+  }
+  const SendMessageAfter = (second) => {
+    console.log(second);
+    onSendReply(second)
+    bss.current.snapTo(1);
+  }
+  renderInner = () => (
+    <View style={styles.panel}>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={ReplyMessage}
+      >
+        <Text style={styles.panelButtonTitle}>Reply</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
+  renderInner = () => (
+    <View
+      style={styles.panel}
+    >
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={ReplyMessage}
+      >
+        <Text style={styles.panelButtonTitle}>Reply</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  renderInnerSend = () => (
+    <View style={styles.panel}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.panelSubtitle}>Send Message After</Text>
+        <></>
+      </View>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => {
+          SendMessageAfter(5)
+        }}
+      >
+        <Text style={styles.panelButtonTitle}>5s</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => {
+          SendMessageAfter(10)
+        }}
+      >
+        <Text style={styles.panelButtonTitle}>10s</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => {
+          SendMessageAfter(30)
+        }}
+      >
+        <Text style={styles.panelButtonTitle}>30s</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => bs.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle} />
+      </View>
+    </View>
+  );
+
+  bs = React.createRef();
+  fall = new Animated.Value(1);
+  bss = React.createRef();
+  fallsend = new Animated.Value(1);
   return (
     <View style={styles.container}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[330, -5]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View
+        style={{
+          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}></Animated.View>
+      <BottomSheet
+        ref={bss}
+        snapPoints={[330, -5]}
+        renderContent={renderInnerSend}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={fallsend}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View
+        style={{
+          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}></Animated.View>
       <FlatList
         ref={yourRef}
         onContentSizeChange={() => yourRef.current.scrollToEnd()}
@@ -193,12 +343,12 @@ const ChatScreen = ({ title }) => {
           const currentReplyMessage = item?.content.split('<ReplyMessage>').pop().split('</ReplyMessage>')[0];
           const customMessage = item?.content.split('</ReplyMessage>')[1];
 
+
           return (
             <>
-
-
               <TouchableOpacity style={styles.container1} onLongPress={() => {
-                setIsShowDropdown(true)
+                bs.current.snapTo(0)
+                // setIsShowDropdown(true)
                 setCurrentUser({ userName: item?.accountId, content: customMessage || item?.content })
               }}>
 
@@ -240,18 +390,31 @@ const ChatScreen = ({ title }) => {
                         </View>
                       ) :
                       (
-                        item.type === 'URL' ?
+                        item.type === 'MEDIA' ?
                           (
-                            <View>
-                              {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                              <Image
-                                style={styles.userImg}
-                                source={{ uri: item.content }}
-                              />
-                              <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
-                                <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
-                              </View>
-                            </View>
+                            <>
+                              {isImage(item.content) ?
+                                <View>
+                                  {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                                  <Image
+                                    style={styles.userImg}
+                                    source={{ uri: 'http://api.mvg-sky.com' + item.content }}
+                                  />
+                                  <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                                    <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                                  </View>
+                                </View>
+                                : (
+                                  <View>
+                                    {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                                    <Image source={require('../assets/file.png')} />
+                                    <HTMLView value={`<a href=\http://api.mvg-sky.com${item.content}\>${decodeURI(item.content.split('/')[item.content.split('/').length - 1])}</a>`}></HTMLView>
+                                    <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
+                                      <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
+                                    </View>
+                                  </View>
+                                )}
+                            </>
                           ) :
                           (
                             <View>
@@ -273,6 +436,7 @@ const ChatScreen = ({ title }) => {
         }
 
         }
+        keyExtractor={item => item.id}
       // inverted
 
       />
@@ -284,7 +448,9 @@ const ChatScreen = ({ title }) => {
         )}>
         <TouchableOpacity
           onPress={() => setIsShowReply(true)}>
+          {/* {isShowReply ? */}
           <Text>Reply</Text>
+          {/* } */}
         </TouchableOpacity>
       </Popover>
       {/* < Popover
@@ -301,24 +467,25 @@ const ChatScreen = ({ title }) => {
         </TouchableOpacity>
       </Popover > */}
       {/* <InputBox chatRoomID={route.params.id} /> */}
-      {isShowReply && <View style={{ height: 60, width: '100%', paddingLeft: 10, paddingTop: 4, borderTopWidth: 1, borderTopColor: '#CCCCCC' }}>
-        <Text style={{ fontSize: 10 }}>Reply to {currentUser?.userName}</Text>
-        <HTMLView value={currentUser?.content} stylesheet={styles.message} />
-        <TouchableOpacity
-          onPress={() => setIsShowReply(false)}
-          style={{
-            position: 'absolute',
-            right: 10,
-            top: 10,
-            height: 20,
-            width: 20,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 1,
-            borderRadius: 100
-          }}><Text>X</Text></TouchableOpacity>
-      </View>
+      {
+        isShowReply && <View style={{ height: 60, width: '100%', paddingLeft: 10, paddingTop: 4, borderTopWidth: 1, borderTopColor: '#CCCCCC' }}>
+          <Text style={{ fontSize: 10 }}>Reply to {currentUser?.userName}</Text>
+          <HTMLView value={currentUser?.content} stylesheet={styles.message} />
+          <TouchableOpacity
+            onPress={() => setIsShowReply(false)}
+            style={{
+              position: 'absolute',
+              right: 10,
+              top: 10,
+              height: 20,
+              width: 20,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderWidth: 1,
+              borderRadius: 100
+            }}><Text>X</Text></TouchableOpacity>
+        </View>
       }
       < RichToolbar
         // style={[styles.richBar]}
@@ -375,9 +542,12 @@ const ChatScreen = ({ title }) => {
               onChangeText={setMessage}
             ></TextInput> */}
             <TouchableOpacity onPress={() => { handleSendFile() }}><Entypo name="attachment" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
-            {!message && <TouchableOpacity onPress={() => { handleCamera() }}><Fontisto name="camera" size={24} color="grey" style={styles.icon} /></TouchableOpacity>}
+            <TouchableOpacity onPress={() => { handleCamera() }}
+            ><Fontisto name="camera" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={onPress}>
+          <TouchableOpacity onPress={onPress} onLongPress={() => {
+            bss.current.snapTo(0)
+          }}>
             <View style={styles.buttonContainer}>
               {!message
                 ? <MaterialCommunityIcons name="microphone" size={28} color="white" />
@@ -474,6 +644,69 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+  },
+  commandButton: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#FF6347',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  panel: {
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 20,
+    width: '100%',
+    height: 500,
+  },
+  header: {
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#FFFFFF',
+    shadowOffset: { width: -1, height: -3 },
+    shadowRadius: 2,
+    shadowOpacity: 0.4,
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  panelHeader: {
+    alignItems: 'center',
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#00000040',
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: '#2e64e5',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 17,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: '#2e64e5',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
 
