@@ -34,4 +34,12 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
         where a.isDeleted = false and (:domainIds is null or cast(a.domainId as org.hibernate.type.UUIDCharType) in :domainIds)
     """)
     List<AccountEntity> findAllAccounts(Collection<UUID> domainIds, Pageable pageable);
+
+    @Query("""
+        select new com.mvg.sky.repository.dto.query.AccountDomainDto(a, d)
+        from AccountEntity a
+        inner join DomainEntity d on d.id = a.domainId
+        where a.isDeleted = false and d.isDeleted = false and a.isActive = true and a.id = :accountId
+    """)
+    AccountDomainDto findAccountById(UUID accountId);
 }

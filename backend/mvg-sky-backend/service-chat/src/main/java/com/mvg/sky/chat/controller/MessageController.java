@@ -70,7 +70,7 @@ public class MessageController {
     }
 
     @PostMapping(value = "/messages/send-media/{roomId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> sendMediaMessageApi(@PathVariable String roomId, @ModelAttribute MediaMessageRequest mediaMessageRequest) {
+    public ResponseEntity<?> sendMediaMessageApi(@PathVariable String roomId, @Valid @ModelAttribute MediaMessageRequest mediaMessageRequest) {
         try {
             if(mediaMessageRequest.getType() != MessageEnumeration.MEDIA) {
                 throw new RuntimeException("Message type required is media");

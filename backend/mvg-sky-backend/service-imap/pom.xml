@@ -20,4 +20,13 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.james.protocols</groupId>
+            <artifactId>protocols-imap</artifactId>
+            <version>3.6.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
