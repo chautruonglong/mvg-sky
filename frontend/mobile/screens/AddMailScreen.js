@@ -100,7 +100,7 @@ export default AddMailScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000000',
     },
     commandButton: {
         padding: 15,
@@ -111,12 +111,12 @@ const styles = StyleSheet.create({
     },
     panel: {
         padding: 20,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#000000',
         paddingTop: 20,
         width: '100%',
     },
     header: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#000000',
         shadowColor: '#333333',
         shadowOffset: { width: -1, height: -3 },
         shadowRadius: 2,

@@ -76,7 +76,7 @@ const MessagesScreen = ({ navigation }) => {
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <Card
-          // onPress={() => navigation.navigate('Chat', { userName: item.userName, mailTime: item.mailTime, emailSubject: item.emailSubject, mailBody: item.mailBody })}
+            onPress={() => navigation.navigate('DisplayMail', { userName: item.userName, mailTime: item.mailTime, emailSubject: item.emailSubject, mailBody: item.mailBody })}
           >
             <UserInfo>
               <UserImgWrapper>
@@ -89,7 +89,7 @@ const MessagesScreen = ({ navigation }) => {
                     {item.userName}</UserName>
                   <PostTime>{item.mailTime}</PostTime>
                 </UserInfoText>
-                <Text>{item.emailSubject}</Text>
+                <Text style={{ color: '#f0f8ff' }}>{item.emailSubject}</Text>
 
                 <MailText
                   numberOfLines={1}

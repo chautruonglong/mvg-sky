@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useContext, useCallback, useRef } from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import {
   Container,
@@ -13,9 +13,12 @@ import {
   MessageText,
   TextSection,
 } from '../styles/MessageStyles';
-
+import socketIOClient from "socket.io-client";
+import apiRequest from '../utils/apiRequest';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const MessagesScreen = ({ navigation }) => {
+  const { user, myrooms } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
 
   // const fetchPosts = async () => {
@@ -28,49 +31,40 @@ const MessagesScreen = ({ navigation }) => {
   //     console.log(error)
   //   }
   // }
-  // useEffect(() => { fetchPosts() }, [])
+
+  const avtDefault = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
+
+  const fetchRoom = async () => {
+    const rooms = await apiRequest.get(`/rooms?accountId=${user.account.id}`)
+    setMessages(rooms)
+  }
+
   useEffect(() => {
-    setMessages([
-      {
-        id: '1',
-        userName: 'Vien Mai',
-        userImg: 'https://shorturl.at/djrOT',
-        messageTime: '4 mins ago',
-        messageText:
-          'Hey there, this is my test for a post of my social app in React Native.',
-      },
-      {
-        id: '3',
-        userName: 'The Tue',
-        userImg: 'https://shorturl.at/nBMRY',
-        messageTime: '1 hours ago',
-        messageText:
-          'Hey there, this is my test for a post of my social app in React Native.',
-      },
-    ]);
-  }, []);
+    fetchRoom()
+  }, [])
+
   return (
     <Container>
       <FlatList
         data={messages}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <Card onPress={() => navigation.navigate('Chat', { userName: item.userName, messageText: item.messageText, userImg: item.userImg })}>
+          <Card onPress={() => navigation.navigate('Chat', { userName: item.name, messageText: '', userImg: item?.avatar || avtDefault, roomId: item.id })}>
             <UserInfo>
               <UserImgWrapper>
                 <UserImg source={{
-                  uri: item.userImg,
+                  uri: item?.avatar || avtDefault
                 }} />
                 {/* <UserImg source={{ uri: item.userImg }} /> */}
               </UserImgWrapper>
               <TextSection>
                 <UserInfoText>
-                  <UserName>{item.userName}</UserName>
-                  <PostTime>{item.messageTime}</PostTime>
+                  <UserName>{item.name}</UserName>
+                  <PostTime>{''}</PostTime>
                 </UserInfoText>
                 <MessageText
                   numberOfLines={1}
-                >{item.messageText}</MessageText>
+                >{''}</MessageText>
               </TextSection>
             </UserInfo>
           </Card>
@@ -86,6 +80,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 });
