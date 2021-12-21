@@ -35,6 +35,9 @@ services:
             - mvg-sky-net
         volumes:
             - ${EXTERNAL_RESOURCES}/account:${DOCKER_EXTERNAL_RESOURCES}/account
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
@@ -42,6 +45,7 @@ services:
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - COM_MVG_SKY_SERVICEACCOUNT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/account/
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-chat:
         container_name: mvg-sky-service-chat
@@ -54,6 +58,9 @@ services:
             - mvg-sky-net
         volumes:
             - ${EXTERNAL_RESOURCES}/chat:${DOCKER_EXTERNAL_RESOURCES}/chat
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
@@ -61,6 +68,7 @@ services:
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - COM_MVG_SKY_SERVICECHAT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/chat/
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-smtp:
         container_name: mvg-sky-service-smtp
@@ -71,12 +79,16 @@ services:
             - "8025:8025"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
             - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-imap:
         container_name: mvg-sky-service-imap
@@ -87,12 +99,16 @@ services:
             - "8143:8143"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
             - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-discovery:
         container_name: mvg-sky-service-discovery
@@ -115,9 +131,13 @@ services:
             - "8080:8080"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-configuration:
         container_name: mvg-sky-service-configuration
@@ -128,9 +148,11 @@ services:
             - "8003:8003"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
-            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}, native
 
     mvg-sky-service-mail:
         container_name: mvg-sky-service-mail
@@ -141,9 +163,13 @@ services:
             - "8004:8004"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-document:
         container_name: mvg-sky-service-document
@@ -154,9 +180,13 @@ services:
             - "8005:8005"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-admin-portal:
         container_name: mvg-sky-admin-portal
@@ -167,9 +197,13 @@ services:
             - "3000:3000"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
 networks:
     mvg-sky-net:

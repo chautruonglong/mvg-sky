@@ -19,6 +19,8 @@ set -x
   -pl admin-portal
 
 export REGISTRY=http://mvg-sky-service-discovery:8000/eureka/
+export PROFILE=local
+export CLOUD_CONFIG=false
 
 export PG_DB=mvg-sky
 export PG_URL=jdbc:postgresql://mvg-sky-postgres:5432/${PG_DB}
@@ -26,9 +28,7 @@ export PG_USERNAME=postgres
 export PG_PASSWORD=Ctlbi@0775516337
 
 export DOCKER_EXTERNAL_RESOURCES=/mvg-sky/resources
-export EXTERNAL_RESOURCES=/home/chautruonglong/Desktop/resources2
-
-export PROFILE=deployment
+export EXTERNAL_RESOURCES=/home/chautruonglong/Desktop/resources
 
 docker-compose build --no-cache
 docker-compose up -d

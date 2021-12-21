@@ -21,8 +21,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "emails")
-public class EmailEntity extends BaseEntity {
+@Table(name = "mails")
+public class MailEntity extends BaseEntity {
     @Column(name = "accountId", nullable = false, columnDefinition = "uuid")
     private UUID accountId;
 

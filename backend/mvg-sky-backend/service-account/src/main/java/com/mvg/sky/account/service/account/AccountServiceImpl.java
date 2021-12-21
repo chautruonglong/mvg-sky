@@ -98,6 +98,7 @@ public class AccountServiceImpl implements AccountService {
             .orElseThrow(() -> new RuntimeException("Account do not exists"));
 
         mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
+        accountEntity.setPassword(passwordEncoder.encode(accountEntity.getPassword()));
         accountEntity = accountRepository.save(accountEntity);
 
         log.info("update account {}", accountEntity);
