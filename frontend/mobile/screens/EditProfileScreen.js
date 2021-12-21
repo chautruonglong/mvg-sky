@@ -153,8 +153,8 @@ const EditProfileScreen = () => {
   );
 
 
-  bs = React.createRef();
-  fall = new Animated.Value(1);
+  const bs = React.createRef();
+  const fall = new Animated.Value(1);
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
