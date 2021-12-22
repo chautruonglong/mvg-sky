@@ -55,16 +55,7 @@ const Mail = [
     mailTime: 'Mar 30',
     mailBody:
       'Hey there, this is my test for a post of my social app in React Native.asdadadasdadasdasdasdadadasdadadasdadadadasdadasdadas',
-  },
-  {
-    id: '5',
-    userName: 'Christy Alex',
-    userImg: require('../assets/users/mail_5.png'),
-    emailSubject: '[Call]',
-    mailTime: 'Mar 2',
-    mailBody:
-      'Hey there, this is my test for a post of my social app in React Native',
-  },
+  }
 ];
 
 const MessagesScreen = ({ navigation }) => {

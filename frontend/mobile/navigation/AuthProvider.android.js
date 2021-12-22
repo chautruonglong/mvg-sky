@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [iduser, setIduser] = useState(null)
   const [isConnnected, setIsConnnected] = useState(false)
   const [stompClient, setStompClient] = useState(Stomp.over(sockJS))
+  const [contact, setContact] = useState(null)
 
 
   useEffect(() => {
@@ -51,6 +52,17 @@ export const AuthProvider = ({ children }) => {
       })
     }
   }
+
+  const fetchContact = async () => {
+    if (user?.domain?.id) {
+      const values = await apiRequest.get(`/contacts?domainIds=${user.domain.id}`)
+      setContact(values)
+    }
+  }
+
+  useEffect(() => {
+    fetchContact()
+  }, [user])
 
   useEffect(() => {
     fetchRoom()
@@ -84,7 +96,8 @@ export const AuthProvider = ({ children }) => {
         chats,
         stompClient,
         setChats,
-        setMyRooms
+        setMyRooms,
+        contact
       }}>
       {children}
     </AuthContext.Provider>

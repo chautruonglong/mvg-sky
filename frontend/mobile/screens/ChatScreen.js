@@ -31,6 +31,7 @@ import {
   RichEditor,
   RichToolbar,
 } from "react-native-pell-rich-editor";
+import { element } from 'prop-types';
 // const sockJS = new SockJS('http://api.mvg-sky.com/api/chats/ws');
 // const stompClient = Stomp.over(sockJS);
 // let isConnected = false;
@@ -47,7 +48,7 @@ const ChatScreen = ({ title }) => {
   const bodyFormData = new FormData();
 
   const { stompClient } = useContext(AuthContext);
-  const { user, profile, chats, setMyRooms } = useContext(AuthContext)
+  const { user, profile, chats, setMyRooms, contact } = useContext(AuthContext)
   const yourRef = useRef(null);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -61,7 +62,9 @@ const ChatScreen = ({ title }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
   const [isShowReply, setIsShowReply] = useState(false)
-
+  const [name, setName] = useState("")
+  const [avatar, setAvatar] = useState("")
+  const imagedefaul = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
   useEffect(() => {
     fetchMessage()
   }, []);
@@ -231,6 +234,7 @@ const ChatScreen = ({ title }) => {
     onSendReply(second)
     bss.current.snapTo(1);
   }
+
   renderInner = () => (
     <View style={styles.panel}>
       <TouchableOpacity
@@ -300,6 +304,27 @@ const ChatScreen = ({ title }) => {
       </View>
     </View>
   );
+
+  const getname = (item) => {
+    let currentText = ''
+    contact.forEach(element => {
+      if (element.accountId === item.accountId) {
+        currentText = `${element.firstName} ${element.lastName}`
+      }
+    })
+    return currentText || `Toan`
+  }
+
+  const getavatar = (item) => {
+    let currentimage = ''
+    contact.forEach(element => {
+      if (element.accountId === item.accountId) {
+        currentimage = element.avatar ? `http://api.mvg-sky.com${element.avatar}` : imagedefaul
+      }
+    })
+    console.log(currentimage)
+    return currentimage || `Toan`
+  }
 
   bs = React.createRef();
   fall = new Animated.Value(1);
@@ -372,15 +397,15 @@ const ChatScreen = ({ title }) => {
                       <Image
                         style={styles.tinyLogo}
                         source={{
-                          uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU',
+                          uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : getavatar(item),
                         }}
                       />
                     </View>
                     {item.type === 'TEXT' ?
                       (
                         <View>
-                          {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                          {/* <Text style={styles.message}>{item.content}</Text> */}
+                          {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> :
+                            <Text style={styles.name}>{getname(item)}</Text>}
                           <HTMLView value={customMessage || item.content} stylesheet={styles.message} />
                           <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
                             <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
@@ -395,7 +420,7 @@ const ChatScreen = ({ title }) => {
                             <>
                               {isImage(item.content) ?
                                 <View>
-                                  {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                                  {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>{getname(item)}</Text>}
                                   <Image
                                     style={styles.userImg}
                                     source={{ uri: 'http://api.mvg-sky.com' + item.content }}
@@ -707,6 +732,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     color: 'white',
+
   },
 });
 
