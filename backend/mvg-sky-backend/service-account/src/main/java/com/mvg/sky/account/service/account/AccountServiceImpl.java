@@ -8,6 +8,7 @@ import com.mvg.sky.account.security.UserPrincipal;
 import com.mvg.sky.account.service.session.SessionService;
 import com.mvg.sky.account.util.mapper.MapperUtil;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
+import com.mvg.sky.james.operation.UserOperation;
 import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.DomainRepository;
 import com.mvg.sky.repository.SessionRepository;
@@ -16,9 +17,13 @@ import com.mvg.sky.repository.entity.AccountEntity;
 import com.mvg.sky.repository.entity.DomainEntity;
 import com.mvg.sky.repository.entity.ProfileEntity;
 import com.mvg.sky.repository.entity.SessionEntity;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
+import javax.management.ReflectionException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtil mapperUtil;
+    private final UserOperation userOperation;
 
     @Override
     public LoginResponse authenticate(String email, String password) {
@@ -68,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountEntity createAccount(String email, String password, RoleEnumeration[] roles) {
+    public AccountEntity createAccount(String email, String password, RoleEnumeration[] roles) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         int at = email.indexOf('@');
         String username = email.substring(0, at);
         String domain = email.substring(at + 1);
@@ -86,10 +92,15 @@ public class AccountServiceImpl implements AccountService {
             .domainId(domainEntity.getId())
             .build();
 
-        AccountEntity savedAccountEntity = accountRepository.save(accountEntity);
+        accountEntity = accountRepository.save(accountEntity);
 
-        log.info("Save new account {}", savedAccountEntity);
-        return savedAccountEntity;
+        // Create account on Apache James
+        if(!userOperation.verifyExists(email)) {
+            userOperation.addUser(email);
+        }
+
+        log.info("Save new account {}", accountEntity);
+        return accountEntity;
     }
 
     @Override
@@ -134,15 +145,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Integer deleteAccountById(String accountId) {
-        int num = accountRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(accountId));
+    public Integer deleteAccountById(String accountId) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
+        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(accountId));
 
-        log.info("delete account successfully, {} records updated", num);
-        return num;
+        if(accountDomainDto == null) {
+            log.error("Account not found in database");
+            throw new RuntimeException("Account not found in database");
+        }
+
+        accountRepository.delete(accountDomainDto.getAccountEntity());
+
+        String email = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
+
+        if(userOperation.verifyExists(email)) {
+            userOperation.deleteUser(email);
+        }
+
+        log.info("delete account successfully, {} records updated", 1);
+        return 1;
     }
 
     @Override
-    public AccountProfileCreationResponse createAccountProfile(AccountProfileCreationRequest accountProfileCreationRequest) {
+    public AccountProfileCreationResponse createAccountProfile(AccountProfileCreationRequest accountProfileCreationRequest) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         AccountEntity accountEntity = createAccount(
             accountProfileCreationRequest.getAccount().getEmail(),
             accountProfileCreationRequest.getAccount().getPassword(),

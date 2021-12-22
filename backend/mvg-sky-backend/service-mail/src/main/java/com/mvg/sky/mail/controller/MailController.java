@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,7 +52,7 @@ public class MailController {
     }
 
     @GetMapping("/mails")
-    public ResponseEntity<?> getMailsApi(@Nullable @RequestParam("accountId") List<String> accountIds,
+    public ResponseEntity<?> getMailsApi(@NonNull @RequestParam("accountId") String accountId,
                                          @Nullable @RequestParam("sort") List<String> sorts,
                                          @Nullable @RequestParam("offset") Integer offset,
                                          @Nullable @RequestParam("limit") Integer limit) {
@@ -60,6 +61,7 @@ public class MailController {
             offset = offset == null ? 0 : offset;
             limit = limit == null ? Integer.MAX_VALUE : limit;
 
+            mailService.fetchMails(accountId, sorts, offset, limit);
             return ResponseEntity.ok("ok");
         }
         catch(Exception exception) {

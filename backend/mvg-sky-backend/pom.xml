@@ -20,6 +20,7 @@
         <module>service-imap</module>
         <module>service-chat</module>
         <module>admin-portal</module>
+        <module>module-james</module>
     </modules>
     <name>mvg-sky-backend</name>
     <description>mvg-sky-backend</description>
