@@ -50,7 +50,18 @@ const AddMailScreen = () => {
                     <View style={styles.action}>
                         <FontAwesome name="user-o" color="#333333" size={20} />
                         <TextInput
-                            placeholder="Cc/Bcc"
+                            placeholder="Cc"
+                            placeholderTextColor="#666666"
+                            // value={userData ? userData.lname : ''}
+                            // onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
+                            autoCorrect={false}
+                            style={styles.textInput}
+                        />
+                    </View>
+                    <View style={styles.action}>
+                        <FontAwesome name="user-o" color="#333333" size={20} />
+                        <TextInput
+                            placeholder="Bcc"
                             placeholderTextColor="#666666"
                             // value={userData ? userData.lname : ''}
                             // onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
@@ -76,7 +87,7 @@ const AddMailScreen = () => {
                         <TextInput
                             placeholder="Body"
                             placeholderTextColor="#666666"
-                            keyboardType="number-pad"
+
                             autoCorrect={false}
                             // value={userData ? userData.phone : ''}
                             // onChangeText={(txt) => setUserData({ ...userData, phone: txt })}
@@ -85,6 +96,7 @@ const AddMailScreen = () => {
                             numberOfLines={5}
                             style={styles.textInput1}
                         />
+                        <TouchableOpacity style={{ position: 'absolute', bottom: 10, left: 0 }}><Text style={{ color: 'white' }}>DK</Text></TouchableOpacity>
                     </View>
                     <FormButton buttonTitle="Send"
                     // onPress={handleUpdate} 
@@ -172,7 +184,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
         paddingBottom: 5,
-        height: 200
+        height: 200,
+        paddingBottom: 30
     },
 
     actionError: {
@@ -186,10 +199,10 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
-        color: '#333333',
+        color: '#fff',
     },
     textInput1: {
-        color: '#333333',
+        color: '#fff',
         paddingRight: 30,
         lineHeight: 23,
         flex: 1,
