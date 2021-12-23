@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  Platform,
+  CheckBox,
   StyleSheet,
   ScrollView
 } from 'react-native';
@@ -13,16 +13,20 @@ import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import apiRequest from "../utils/apiRequest"
+import AsyncStorage from '@react-native-community/async-storage'
 
 
-
+const STORAGE_KEYNAME = '@save_username'
+const STORAGE_KEYPASS = '@save_password'
+const STORAGE_KEYTEXTBOX = '@save_textbox'
+const STORAGE_KEYTOKEN = '@save_token'
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [isvalue, setIsvalue] = useState();
   const [isvaluepass, setIsvaluepass] = useState();
   const [password, setPassword] = useState();
   const { setUser } = useContext(AuthContext);
-
+  const [isSelected, setSelection] = useState(false);
   validate = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(text) === false) {
@@ -44,13 +48,61 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
+  const saveData = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYNAME, email)
+      await AsyncStorage.setItem(STORAGE_KEYPASS, password)
+      let textboxsave = "0"
+      if (isSelected)
+        textboxsave = "1"
+      await AsyncStorage.setItem(STORAGE_KEYTEXTBOX, textboxsave)
+    } catch (e) {
+      alert('Failed to save the data to the storage')
+    }
+  }
+
+  const readData = async () => {
+    try {
+      const myemail = await AsyncStorage.getItem(STORAGE_KEYNAME)
+      const mypass = await AsyncStorage.getItem(STORAGE_KEYPASS)
+      const textbox = await AsyncStorage.getItem(STORAGE_KEYTEXTBOX)
+      if (myemail !== null && mypass !== null) {
+        setEmail(myemail)
+        setPassword(mypass)
+        if (textbox == "1")
+          setSelection(true)
+        else
+          setSelection(false)
+      }
+      const token = await AsyncStorage.getItem(STORAGE_KEYTOKEN)
+    } catch (e) {
+      console.log(e)
+      alert('Failed to fetch the data from storage')
+    }
+  }
+
+  useEffect(() => {
+    readData()
+  }, [])
+
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear()
+      console.log('Storage successfully cleared!')
+    } catch (e) {
+      console.log('Failed to clear the async storage.')
+    }
+  }
+
   const handleLogin = async (email, password) => {
     try {
+      if (isSelected)
+        saveData()
+      else
+        clearStorage()
       const response = await apiRequest.post('/accounts/login', {
-        email: 'quoc@a.com',
-        password: 'Khong123@',
-        // email: email,
-        // password: password,
+        email: email,
+        password: password,
       },
         {
           headers: {
@@ -59,6 +111,7 @@ const LoginScreen = ({ navigation }) => {
           }
         }
       )
+      await AsyncStorage.setItem(STORAGE_KEYTOKEN, response.accessToken)
       setUser(response)
       Toast.show({
         type: 'success',
@@ -84,11 +137,10 @@ const LoginScreen = ({ navigation }) => {
       <Text style={styles.text}>MVG SKY</Text>
       <Text style={styles.button}></Text>
       <FormInput
-        // labelValue={email}
-        onChangeText={(userEmail) => validate(userEmail)}
+        labelValue={email}
+        onChangeText={(userEmail) => { setEmail(userEmail); validate(userEmail) }}
         isvalue={isvalue}
         placeholderText="Email"
-
         iconType="user"
         keyboardType="email-address"
         autoCapitalize="none"
@@ -96,25 +148,25 @@ const LoginScreen = ({ navigation }) => {
       />
 
       <FormInput
-        // labelValue={password}
-        onChangeText={(userPassword) => validatepass(userPassword)}
+        labelValue={password}
+        onChangeText={(userPassword) => { setPassword(userPassword); validatepass(userPassword) }}
         isvalue={isvaluepass}
-
         placeholderText="Password"
         iconType="lock"
         secureTextEntry={true}
       />
-      <Text style={styles.button}></Text>
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          value={isSelected}
+          onValueChange={setSelection}
+          style={styles.checkbox}
+        />
+        <Text style={styles.label}>Save for next time</Text>
+      </View>
       <FormButton
         buttonTitle="Sign In"
         onPress={() => handleLogin(email, password)}
-
-      // onPress={() => [isvalue & isvaluepass ? handleLogin(email, password) : null]}
       />
-
-      {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity> */}
     </ScrollView>
   );
 };
@@ -129,10 +181,17 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     height: '100%',
   },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
   logo: {
     height: 100,
     width: 100,
     resizeMode: 'cover',
+  },
+  label: {
+    margin: 7,
   },
   text: {
     fontFamily: 'TimesNewRomanPSMT',

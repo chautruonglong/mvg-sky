@@ -25,7 +25,7 @@ import DocumentPicker from 'react-native-document-picker'
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import HTMLView from "react-native-htmlview";
 import Popover from 'react-native-popover-view';
-
+import translate from 'translate-google-api';
 import {
   actions,
   RichEditor,
@@ -46,7 +46,7 @@ import { element } from 'prop-types';
 // );
 const ChatScreen = ({ title }) => {
   const bodyFormData = new FormData();
-
+  const [translatemessage, setTranslatemessage] = useState("")
   const { stompClient } = useContext(AuthContext);
   const { user, profile, chats, setMyRooms, contact } = useContext(AuthContext)
   const yourRef = useRef(null);
@@ -218,7 +218,6 @@ const ChatScreen = ({ title }) => {
     return item.accountId === user.account.id;
   }
   const onPress = () => {
-    console.log(message)
     if (!message) {
       onMicrophonePress();
     } else {
@@ -230,22 +229,23 @@ const ChatScreen = ({ title }) => {
     bs.current.snapTo(1);
   }
   const SendMessageAfter = (second) => {
-    console.log(second);
     onSendReply(second)
     bss.current.snapTo(1);
   }
 
-  renderInner = () => (
-    <View style={styles.panel}>
-      <TouchableOpacity
-        style={styles.panelButton}
-        onPress={ReplyMessage}
-      >
-        <Text style={styles.panelButtonTitle}>Reply</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const Translate = async () => {
+    bs.current.snapTo(1);
+    tmp = currentUser.content
+    const regex = /(<([^>]+)>)/ig
+    var result = tmp.replace(regex, '')
 
+    var trans = await translate(`${result}`, {
+      tld: "cn",
+      to: "vi",
+    });
+    setTranslatemessage(trans)
+    bstran.current.snapTo(0);
+  }
   renderInner = () => (
     <View
       style={styles.panel}
@@ -255,6 +255,28 @@ const ChatScreen = ({ title }) => {
         onPress={ReplyMessage}
       >
         <Text style={styles.panelButtonTitle}>Reply</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={Translate}
+      >
+        <Text style={styles.panelButtonTitle}>Translate</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  renderInnerTranslate = () => (
+    <View
+      style={styles.panel}
+    >
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.panelSubtitle}>{translatemessage}</Text>
+      </View>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => bstran.current.snapTo(1)}
+      >
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
       </TouchableOpacity>
     </View>
   );
@@ -322,7 +344,6 @@ const ChatScreen = ({ title }) => {
         currentimage = element.avatar ? `http://api.mvg-sky.com${element.avatar}` : imagedefaul
       }
     })
-    console.log(currentimage)
     return currentimage || `Toan`
   }
 
@@ -330,6 +351,8 @@ const ChatScreen = ({ title }) => {
   fall = new Animated.Value(1);
   bss = React.createRef();
   fallsend = new Animated.Value(1);
+  bstran = React.createRef();
+  falltran = new Animated.Value(1);
   return (
     <View style={styles.container}>
       <BottomSheet
@@ -344,6 +367,19 @@ const ChatScreen = ({ title }) => {
       <Animated.View
         style={{
           opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}></Animated.View>
+      <BottomSheet
+        ref={bstran}
+        snapPoints={[330, -5]}
+        renderContent={renderInnerTranslate}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={falltran}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View
+        style={{
+          opacity: Animated.add(0.1, Animated.multiply(falltran, 1.0)),
         }}></Animated.View>
       <BottomSheet
         ref={bss}
@@ -373,7 +409,6 @@ const ChatScreen = ({ title }) => {
             <>
               <TouchableOpacity style={styles.container1} onLongPress={() => {
                 bs.current.snapTo(0)
-                // setIsShowDropdown(true)
                 setCurrentUser({ userName: item?.accountId, content: customMessage || item?.content })
               }}>
 
@@ -494,7 +529,7 @@ const ChatScreen = ({ title }) => {
       {/* <InputBox chatRoomID={route.params.id} /> */}
       {
         isShowReply && <View style={{ height: 60, width: '100%', paddingLeft: 10, paddingTop: 4, borderTopWidth: 1, borderTopColor: '#CCCCCC' }}>
-          <Text style={{ fontSize: 10 }}>Reply to {currentUser?.userName}</Text>
+          <Text style={{ fontSize: 10 }}>Reply to {getname(currentUser?.userName)}</Text>
           <HTMLView value={currentUser?.content} stylesheet={styles.message} />
           <TouchableOpacity
             onPress={() => setIsShowReply(false)}

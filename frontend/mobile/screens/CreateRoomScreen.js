@@ -94,7 +94,6 @@ const AddMailScreen = ({ navigation }) => {
                     }
                 }
             )
-            console.log(`/rooms/avatar/${response.id}`)
             try {
                 const response1 = await apiRequest.patch(`/rooms/avatar/${response.id}`,
                     bodyFormData,
@@ -150,11 +149,9 @@ const AddMailScreen = ({ navigation }) => {
                 type: image.mime,
                 uri: Platform.OS === 'android' ? image.path : image.path.replace('file://', ''),
             })
-            console.log(bodyFormData)
             // handleUploadimage()
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
             setImage(imageUri);
-            console.log(imageUri)
         });
     };
     return (
