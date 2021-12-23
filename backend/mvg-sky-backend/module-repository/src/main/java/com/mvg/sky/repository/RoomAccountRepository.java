@@ -1,7 +1,6 @@
 package com.mvg.sky.repository;
 
 import com.mvg.sky.repository.dto.query.MemberDto;
-import com.mvg.sky.repository.entity.AccountEntity;
 import com.mvg.sky.repository.entity.RoomAccountEntity;
 import java.util.Collection;
 import java.util.List;

@@ -2,6 +2,8 @@
 
 set -x
 
+export JAVA_HOME=/root/.sdkman/candidates/java/17.0.1-oracle
+
 ./mvnw clean
 
 ./mvnw package -Dmaven.test.skip=true \

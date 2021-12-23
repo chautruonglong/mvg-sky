@@ -6,7 +6,6 @@ import com.mvg.sky.chat.dto.request.MediaMessageRequest;
 import com.mvg.sky.chat.enumeration.PayloadEnumeration;
 import com.mvg.sky.chat.scheduler.MessagingScheduler;
 import com.mvg.sky.common.enumeration.MessageEnumeration;
-import com.mvg.sky.common.util.file.FileUtil;
 import com.mvg.sky.repository.MessageRepository;
 import com.mvg.sky.repository.dto.query.MessageDto;
 import com.mvg.sky.repository.entity.MessageEntity;

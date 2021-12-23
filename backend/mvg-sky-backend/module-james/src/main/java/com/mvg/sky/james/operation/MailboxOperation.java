@@ -25,16 +25,16 @@ public class MailboxOperation {
         return "org.apache.james:type=component,name=mailboxmanagerbean";
     }
 
-    public List<?> listMailBoxes(String username) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
+    public List<?> listMailboxes(String username) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         Object[] params = {username};
         String[] signature = {String.class.getName()};
-        return (List<?>) mBeanServerConnection.invoke(domainBean, "listMailBoxes", params, signature);
+        return (List<?>) mBeanServerConnection.invoke(domainBean, "listMailboxes", params, signature);
     }
 
-    public void createMailBbox(String namespace, String username, String name) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
+    public void createMailbox(String namespace, String username, String name) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         Object[] params = {namespace, username, name};
         String[] signature = {String.class.getName(), String.class.getName(), String.class.getName()};
-        mBeanServerConnection.invoke(domainBean, "createMailBbox", params, signature);
+        mBeanServerConnection.invoke(domainBean, "createMailbox", params, signature);
     }
 
     public void deleteMailbox(String namespace, String username, String name) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {

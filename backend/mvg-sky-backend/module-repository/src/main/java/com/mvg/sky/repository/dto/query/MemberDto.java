@@ -1,7 +1,6 @@
 package com.mvg.sky.repository.dto.query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mvg.sky.repository.entity.ProfileEntity;
 import com.mvg.sky.repository.entity.RoomAccountEntity;
 import java.time.LocalDate;

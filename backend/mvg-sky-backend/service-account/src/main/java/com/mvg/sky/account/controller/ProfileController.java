@@ -8,7 +8,6 @@ import com.mvg.sky.common.response.SimpleResponseEntity;
 import com.mvg.sky.repository.entity.ProfileEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;

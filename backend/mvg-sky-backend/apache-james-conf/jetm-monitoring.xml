@@ -22,13 +22,11 @@
  */
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:jetm="http://jetm.void.fm/schema/jetm_spring_config_1_2"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-  http://jetm.void.fm/schema/jetm_spring_config_1_2 http://jetm.void.fm/schema/jetm_spring_config_1_2.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!--
-    Jetm performance monitoring - you can report performance metrics via: 
+    Jetm performance monitoring - you can report performance metrics via:
     console, HTTP console and JMX. Please see http://jetm.void.fm/doc.html for details
     -->
     <bean id="etmMonitor" class="etm.core.monitor.NestedMonitor"

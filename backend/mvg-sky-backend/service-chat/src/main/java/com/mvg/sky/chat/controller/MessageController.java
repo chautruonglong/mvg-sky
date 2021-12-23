@@ -5,7 +5,6 @@ import com.mvg.sky.chat.service.message.MessageService;
 import com.mvg.sky.common.enumeration.MessageEnumeration;
 import com.mvg.sky.common.exception.RequestException;
 import com.mvg.sky.common.response.SimpleResponseEntity;
-import com.mvg.sky.repository.entity.MessageEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import javax.validation.Valid;
