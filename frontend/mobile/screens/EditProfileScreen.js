@@ -107,7 +107,6 @@ const EditProfileScreen = () => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then((image) => {
-      console.log(image)
       bodyFormData.append('avatar', {
         name: image.path.split('/').pop(),
         type: image.mime,

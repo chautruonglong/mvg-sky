@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
         stompClient.subscribe(
           `/room/${room.id}`,
           (payload) => {
-            console.log(JSON.parse(payload.body).data)
             const chatMessage = {
               accountId: JSON.parse(payload.body).data.accountId,
               content: JSON.parse(payload.body).data.content,
