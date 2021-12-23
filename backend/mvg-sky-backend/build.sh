@@ -9,6 +9,7 @@ export JAVA_HOME=/root/.sdkman/candidates/java/17.0.1-oracle
 ./mvnw package -Dmaven.test.skip=true \
   -pl module-common \
   -pl module-repository \
+  -pl module-james \
   -pl service-discovery \
   -pl service-gateway \
   -pl service-account \
