@@ -25,7 +25,7 @@ public class MailMapper {
 
         jamesMails.stream()
             .parallel()
-            .forEach(jamesMail -> {
+            .forEachOrdered(jamesMail -> {
                 try {
                     byte[] mailBytes = ArrayUtils.addAll(jamesMail.getHeaderBytes(), jamesMail.getMailBytes());
                     InputStream inputStream = new ByteArrayInputStream(mailBytes);
