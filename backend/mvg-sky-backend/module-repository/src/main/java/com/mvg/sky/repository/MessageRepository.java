@@ -1,6 +1,7 @@
 package com.mvg.sky.repository;
 
 import com.mvg.sky.common.enumeration.MessageEnumeration;
+import com.mvg.sky.repository.dto.query.MessageDto;
 import com.mvg.sky.repository.entity.MessageEntity;
 import java.util.Collection;
 import java.util.List;
@@ -20,11 +21,12 @@ public interface MessageRepository extends JpaRepository<MessageEntity, UUID> {
     Integer deleteByIdAndIsDeletedFalse(UUID messageId);
 
     @Query("""
-        select m
+        select new com.mvg.sky.repository.dto.query.MessageDto(m, _m)
         from MessageEntity m
-        where m.isDeleted = false and m.isInSchedule = false
+        left join MessageEntity _m on m.id = _m.threadId and _m.threadId is not null and _m.isDeleted = false
+        where m.isDeleted = false and m.isInSchedule = false and m.threadId is null
             and (:roomIds is null or cast(m.roomId as org.hibernate.type.UUIDCharType) in :roomIds)
             and (:types is null or m.type in :types)
     """)
-    List<MessageEntity> findALlMessages(Collection<UUID> roomIds, Collection<MessageEnumeration> types, Pageable pageable);
+    List<MessageDto> findALlMessages(Collection<UUID> roomIds, Collection<MessageEnumeration> types, Pageable pageable);
 }

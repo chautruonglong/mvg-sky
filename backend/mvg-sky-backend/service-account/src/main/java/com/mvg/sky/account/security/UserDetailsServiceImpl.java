@@ -14,10 +14,9 @@ public record UserDetailsServiceImpl(AccountRepository accountRepository) implem
     @Override
     public UserDetails loadUserByUsername(String email) throws RuntimeException {
         int at = email.indexOf('@');
-        String username = email.substring(0, at);
         String domain = email.substring(at + 1);
 
-        AccountDomainDto accountDomainDto = accountRepository.findAccountByEmail(username, domain);
+        AccountDomainDto accountDomainDto = accountRepository.findAccountDomainByEmail(email, domain);
 
         if(accountDomainDto == null) {
             throw new UsernameNotFoundException("User do not exists or unactivated");

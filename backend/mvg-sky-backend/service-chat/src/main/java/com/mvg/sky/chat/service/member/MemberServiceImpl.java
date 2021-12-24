@@ -2,11 +2,11 @@ package com.mvg.sky.chat.service.member;
 
 import com.mvg.sky.chat.dto.request.MemberAddingRequest;
 import com.mvg.sky.repository.RoomAccountRepository;
+import com.mvg.sky.repository.dto.query.MemberDto;
 import com.mvg.sky.repository.entity.RoomAccountEntity;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -43,20 +43,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Collection<RoomAccountEntity> getAllMembersByRoomIds(List<String> roomIds, List<String> sorts, Integer offset, Integer limit) {
+    public Collection<MemberDto> getAllMembersByRoomIds(List<String> roomIds, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        Collection<RoomAccountEntity> roomAccountEntities;
 
-        if(roomIds == null) {
-            roomAccountEntities = roomAccountRepository.findAllByIsDeletedFalse(pageable);
-        }
-        else {
-            roomAccountEntities = roomAccountRepository.findAllByRoomIdInAndIsDeletedFalse(
-                roomIds.stream().map(UUID::fromString).collect(Collectors.toList()),
-                pageable
-            );
-        }
+        List<UUID> roomUuids = roomIds != null ? roomIds.stream().map(UUID::fromString).toList() : null;
+        Collection<MemberDto> roomAccountEntities = roomAccountRepository.findAllMembers(roomUuids, pageable);
+
 
         log.info("find {} members", roomAccountEntities == null ? 0 : roomAccountEntities.size());
         return roomAccountEntities;

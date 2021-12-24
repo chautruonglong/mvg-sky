@@ -22,6 +22,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+@Setter
 @Getter
 @ToString
 @NoArgsConstructor
@@ -50,7 +51,6 @@ public class BaseEntity {
     @Column(name = "updatedAt", columnDefinition = "timestamp default now()")
     private Date updatedAt = new Date();
 
-    @Setter
     @Builder.Default
     @Column(name = "isDeleted", columnDefinition = "boolean default false")
     private Boolean isDeleted = false;

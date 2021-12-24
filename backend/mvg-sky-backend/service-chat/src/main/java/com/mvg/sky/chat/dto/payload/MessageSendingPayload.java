@@ -3,17 +3,9 @@ package com.mvg.sky.chat.dto.payload;
 import com.mvg.sky.common.enumeration.MessageEnumeration;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class MessageSendingPayload {
     private String threadId;
 

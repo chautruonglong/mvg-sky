@@ -56,7 +56,6 @@ public class SessionServiceImpl implements SessionService {
             .setIssuedAt(new Date())
             .setExpiration(new Date(new Date().getTime() + accessTokenExpiration))
             .setId(accountEntity.getId().toString() + "@" + domainEntity.getId())
-            .setSubject(accountEntity.getUsername() + "@" + domainEntity.getName())
             .claim("username", accountEntity.getUsername())
             .claim("domain", domainEntity.getName())
             .claim("roles", accountEntity.getRoles())
@@ -78,7 +77,6 @@ public class SessionServiceImpl implements SessionService {
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
             .setId(accountEntity.getId().toString() + "@" + domainEntity.getId())
-            .setSubject(accountEntity.getUsername() + "@" + domainEntity.getName())
             .claim("username", accountEntity.getUsername())
             .claim("domain", domainEntity.getName())
             .compact();
@@ -99,7 +97,7 @@ public class SessionServiceImpl implements SessionService {
         ObjectMapper objectMapper = new ObjectMapper();
         Jws<Claims> jwtRefreshToken = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(refreshToken);
         JwtRefreshTokenBody jwtRefreshTokenBody = objectMapper.convertValue(jwtRefreshToken.getBody(), JwtRefreshTokenBody.class);
-        AccountDomainDto accountDomainDto = accountRepository.findAccountByEmail(jwtRefreshTokenBody.getUsername(), jwtRefreshTokenBody.getDomain());
+        AccountDomainDto accountDomainDto = accountRepository.findAccountDomainByEmail(jwtRefreshTokenBody.getUsername(), jwtRefreshTokenBody.getDomain());
 
         log.info("renew accessToken {}", accountDomainDto);
         return createAccessToken(accountDomainDto);

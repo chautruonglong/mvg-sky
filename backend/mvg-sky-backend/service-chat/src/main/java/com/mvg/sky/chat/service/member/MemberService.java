@@ -1,6 +1,7 @@
 package com.mvg.sky.chat.service.member;
 
 import com.mvg.sky.chat.dto.request.MemberAddingRequest;
+import com.mvg.sky.repository.dto.query.MemberDto;
 import com.mvg.sky.repository.entity.RoomAccountEntity;
 import java.util.Collection;
 import java.util.List;
@@ -10,8 +11,8 @@ public interface MemberService {
 
     Integer deleteMember(String roomAccountId);
 
-    Collection<RoomAccountEntity> getAllMembersByRoomIds(List<String> roomIds,
-                                                         List<String> sorts,
-                                                         Integer offset,
-                                                         Integer limit);
+    Collection<MemberDto> getAllMembersByRoomIds(List<String> roomIds,
+                                                 List<String> sorts,
+                                                 Integer offset,
+                                                 Integer limit);
 }

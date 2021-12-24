@@ -35,19 +35,6 @@ create table domains
     primary key (id)
 );
 
-create table emails
-(
-    id        uuid      default uuid_generate_v4() not null,
-    createdAt timestamp default now(),
-    isDeleted boolean   default false,
-    updatedAt timestamp default now(),
-    accountId uuid                                 not null,
-    fileName  text                                 not null,
-    flag      text,
-    folderId  uuid                                 not null,
-    primary key (id)
-);
-
 create table folders
 (
     id        uuid      default uuid_generate_v4() not null,
@@ -57,6 +44,19 @@ create table folders
     accountId uuid                                 not null,
     name      text,
     parentId  uuid,
+    primary key (id)
+);
+
+create table mails
+(
+    id        uuid      default uuid_generate_v4() not null,
+    createdAt timestamp default now(),
+    isDeleted boolean   default false,
+    updatedAt timestamp default now(),
+    accountId uuid                                 not null,
+    fileName  text                                 not null,
+    flag      text,
+    folderId  uuid                                 not null,
     primary key (id)
 );
 
@@ -132,3 +132,12 @@ alter table accounts
 
 alter table domains
     add constraint UK_tk9464twe96cda0qy7xej44bj unique (name);
+create index IDXf7xgne6q7xrel0oexo859ta8a on messages (accountId);
+create index IDXi1gy0xmnigc33p0vcusb03u3t on messages (roomId);
+create index IDXo8oorv1a7hbp46sb06scmicud on messages (threadId);
+create index IDXk5jbmt5wxur9y79hbvmuye2nu on messages (content);
+create index IDXpannn898ys3vmns3mumkm6aq6 on messages (type);
+create index IDXobyijaxhkkmaocm48kd2d90ya on messages (isDeleted);
+create index IDX5jcu6xggr5b6jkaax89uvjona on messages (isInSchedule);
+create index IDXrvx02gxa1objwobqnjjqap2k0 on messages (createdAt);
+create index IDXmei47johyjala1iktl74mrsod on messages (updatedAt);
