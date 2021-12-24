@@ -5,12 +5,13 @@ import com.mvg.sky.james.entity.JamesMail;
 import com.mvg.sky.james.repository.JamesMailRepository;
 import com.mvg.sky.mail.component.MimeMessageBuilder;
 import com.mvg.sky.mail.dto.request.MailSendingRequest;
+import com.mvg.sky.mail.dto.request.MailboxCreationRequest;
 import com.mvg.sky.mail.dto.request.MailsDeletingRequest;
 import com.mvg.sky.mail.dto.response.MailResponse;
 import com.mvg.sky.mail.mapper.MailMapper;
+import com.mvg.sky.mail.service.mailbox.MailboxService;
 import com.mvg.sky.mail.task.MailSendingTask;
 import com.mvg.sky.repository.AccountRepository;
-import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
 import java.io.IOException;
 import java.util.Collection;
@@ -18,6 +19,9 @@ import java.util.List;
 import java.util.UUID;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
+import javax.management.ReflectionException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -35,14 +39,25 @@ public class MailServiceImpl implements MailService {
     private final AccountRepository accountRepository;
     private final JamesMailRepository jamesMailRepository;
     private final MailMapper mailMapper;
+    private final MailboxService mailboxService;
 
     @Override
-    public String sendMail(MailSendingRequest mailSendingRequest) throws MessagingException, IOException {
+    public String sendMail(MailSendingRequest mailSendingRequest) throws MessagingException, IOException, ReflectionException, InstanceNotFoundException, MBeanException {
         AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(mailSendingRequest.getAccountId()));
 
         if(accountEntity == null) {
             log.error("Not found account in database");
             throw new RuntimeException("Not found account in database");
+        }
+
+        try {
+            MailboxCreationRequest mailboxCreationRequest = new MailboxCreationRequest();
+            mailboxCreationRequest.setAccountId(mailSendingRequest.getAccountId());
+            mailboxCreationRequest.setName("Sent");
+            mailboxService.createMailbox(mailboxCreationRequest);
+        }
+        catch(RuntimeException exception) {
+            log.warn("mailbox is exists {}", exception.getMessage());
         }
 
         MimeMessage mimeMessage = mimeMessageBuilder.buildMimeMessage(accountEntity.getUsername(), mailSendingRequest);
