@@ -39,6 +39,7 @@ const EditProfileScreen = () => {
           headers: { "Content-type": "multipart/form-data" }
         }
       )
+      console.log(bodyFormData)
       setProfile(response)
       Toast.show({
         type: 'success',
@@ -107,7 +108,6 @@ const EditProfileScreen = () => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then((image) => {
-      console.log(image)
       bodyFormData.append('avatar', {
         name: image.path.split('/').pop(),
         type: image.mime,

@@ -14,6 +14,7 @@ import MailScreen from '../screens/MailScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import DisplayMailScreen from '../screens/DisplayMailScreen';
 import CreateRoomScreen from '../screens/CreateRoomScreen'
+import SendMailScreen from '../screens/SendMailScreen'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -64,23 +65,61 @@ const MessageStack = ({ navigation }) => (
 
 const MailStack = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Mail" component={MailScreen}
+    <Stack.Screen name="Inbox" component={MailScreen}
+      options={{
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <FontAwesome5.Button
+              name="paper-plane"
+              size={22}
+              backgroundColor="#fff"
+              color="#2e64e5"
+              onPress={() => navigation.navigate('Sent')}
+            />
+          </View>
+        ),
+      }}
     />
     <Stack.Screen
-      name="DisplayMail"
-      component={DisplayMailScreen}
+      name="Display Mail"
+      component={({ route }) =>
+        <DisplayMailScreen mail={route.params} />
+      }
       options={({ route }) => ({
+        // headerShown: false,
         headerBackTitleVisible: false,
       })
       }
     />
     <Stack.Screen
-      name="AddMail"
+      name="Sent"
+      component={SendMailScreen}
+      options={({ route }) => ({
+        headerBackTitleVisible: false,
+        headerLeft: null,
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <FontAwesome5.Button
+              name="inbox"
+              size={22}
+              backgroundColor="#fff"
+              color="#2e64e5"
+              onPress={() => navigation.navigate('Inbox')}
+            />
+          </View>
+        ),
+      })
+      }
+    />
+
+    <Stack.Screen
+      name="New Mail"
       component={AddMailScreen}
       // options={{ header: () => null }}
       options={({ route }) => ({
         headerBackTitleVisible: false,
-      })}
+      })
+      }
     />
   </Stack.Navigator>
 );
