@@ -1,4 +1,4 @@
-package com.mvg.sky.mail.component;
+package com.mvg.sky.mail.heper;
 
 import com.mvg.sky.mail.dto.request.MailSendingRequest;
 import java.io.IOException;

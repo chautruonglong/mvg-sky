@@ -46,4 +46,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
     AccountEntity findByUsernameAndIsDeletedTrue(String username);
 
     AccountEntity findByIdAndIsDeletedFalseAndIsActiveTrue(UUID accountId);
+
+    List<AccountEntity> findAllByUsernameInAndIsDeletedFalseAndIsActiveTrue(Collection<String> usernames);
 }
