@@ -168,7 +168,11 @@ services:
             - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_DATASOURCE_URL=${PG_URL}
+            - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
+            - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - COM_MVG_SKY_SERVICECHAT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/mail/
             - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-document:
