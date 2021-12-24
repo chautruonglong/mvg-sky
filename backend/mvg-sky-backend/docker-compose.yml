@@ -172,6 +172,8 @@ services:
 #        networks:
 #            - mvg-sky-net
         network_mode: host
+        volumes:
+            - ${EXTERNAL_RESOURCES}/mail:${DOCKER_EXTERNAL_RESOURCES}/mail
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
