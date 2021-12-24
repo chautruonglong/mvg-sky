@@ -26,16 +26,24 @@ public class DomainServiceImpl implements DomainService {
 
     @Override
     public DomainEntity createDomain(String name) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
-        DomainEntity domainEntity = DomainEntity.builder()
-            .name(name)
-            .build();
-
-        domainEntity = domainRepository.save(domainEntity);
-
         // Create domain on Apache James
         if(!domainOperation.containsDomain(name)) {
             domainOperation.addDomain(name);
         }
+
+        // Create domain on MVG Sky
+        DomainEntity domainEntity = domainRepository.findByNameAndIsDeletedTrue(name);
+
+        if(domainEntity != null) {
+            domainEntity.setIsDeleted(false);
+        }
+        else {
+            domainEntity = DomainEntity.builder()
+                .name(name)
+                .build();
+        }
+
+        domainEntity = domainRepository.save(domainEntity);
 
         log.info("save new domain {}", domainEntity);
         return domainEntity;
@@ -57,7 +65,7 @@ public class DomainServiceImpl implements DomainService {
         DomainEntity domainEntity = domainRepository.findById(UUID.fromString(domainId))
             .orElseThrow(() -> new RuntimeException("Domain not found in database"));
 
-        domainRepository.delete(domainEntity);
+        domainRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(domainId));
 
         // Delete domain on Apache James
         if(domainOperation.containsDomain(domainEntity.getName())) {

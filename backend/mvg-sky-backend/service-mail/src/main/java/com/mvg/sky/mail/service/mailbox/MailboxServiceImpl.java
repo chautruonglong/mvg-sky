@@ -4,6 +4,7 @@ import com.mvg.sky.james.operation.MailboxOperation;
 import com.mvg.sky.mail.dto.request.MailboxCreationRequest;
 import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.dto.query.AccountDomainDto;
+import com.mvg.sky.repository.entity.AccountEntity;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
@@ -23,27 +24,26 @@ public class MailboxServiceImpl implements MailboxService {
 
     @Override
     public Collection<?> getMailboxes(String accountId) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
-        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(accountId));
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(accountId));
 
-        if(accountDomainDto == null) {
+        if(accountEntity == null) {
             log.error("Not found account in database");
             throw new RuntimeException("Not found account in database");
         }
 
-        String email = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
-        return mailboxOperation.listMailboxes(email);
+        return mailboxOperation.listMailboxes(accountEntity.getUsername());
     }
 
     @Override
     public Collection<?> createMailbox(MailboxCreationRequest mailboxCreationRequest) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
-        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(mailboxCreationRequest.getAccountId()));
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(mailboxCreationRequest.getAccountId()));
 
-        if(accountDomainDto == null) {
+        if(accountEntity == null) {
             log.error("Not found account in database");
             throw new RuntimeException("Not found account in database");
         }
 
-        String email = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
+        String email = accountEntity.getUsername();
         String mailboxName = mailboxCreationRequest.getName();
 
         if(mailboxCreationRequest.getNamespace() != null) {
@@ -56,14 +56,14 @@ public class MailboxServiceImpl implements MailboxService {
 
     @Override
     public Collection<?> deleteMailbox(String accountId, String mailbox) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
-        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(accountId));
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(accountId));
 
-        if(accountDomainDto == null) {
+        if(accountEntity == null) {
             log.error("Not found account in database");
             throw new RuntimeException("Not found account in database");
         }
 
-        String email = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
+        String email = accountEntity.getUsername();
 
         if(mailbox == null) {
             mailboxOperation.deleteMailboxes(email);

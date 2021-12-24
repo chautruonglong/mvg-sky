@@ -11,6 +11,7 @@ import com.mvg.sky.mail.mapper.MailMapper;
 import com.mvg.sky.mail.task.MailSendingTask;
 import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.dto.query.AccountDomainDto;
+import com.mvg.sky.repository.entity.AccountEntity;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -37,15 +38,14 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public String sendMail(MailSendingRequest mailSendingRequest) throws MessagingException, IOException {
-        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(mailSendingRequest.getAccountId()));
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(mailSendingRequest.getAccountId()));
 
-        if(accountDomainDto == null) {
+        if(accountEntity == null) {
             log.error("Not found account in database");
             throw new RuntimeException("Not found account in database");
         }
 
-        String from = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
-        MimeMessage mimeMessage = mimeMessageBuilder.buildMimeMessage(from, mailSendingRequest);
+        MimeMessage mimeMessage = mimeMessageBuilder.buildMimeMessage(accountEntity.getUsername(), mailSendingRequest);
 
         if(mailSendingRequest.getEnableThread()) {
             MailSendingTask mailSendingTask = new MailSendingTask(javaMailSender, mimeMessage);
@@ -64,16 +64,14 @@ public class MailServiceImpl implements MailService {
     public Collection<MailResponse> fetchMails(String accountId, String mailbox, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.DESC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
-        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(accountId));
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(accountId));
 
-        if(accountDomainDto == null) {
+        if(accountEntity == null) {
             log.error("Not found account in database");
             throw new RuntimeException("Not found account in database");
         }
 
-        String email = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
-
-        List<JamesMail> jamesMails = jamesMailRepository.fetchMails(email, mailbox, pageable);
+        List<JamesMail> jamesMails = jamesMailRepository.fetchMails(accountEntity.getUsername(), mailbox, pageable);
 
         log.info("find {} emails", jamesMails.size());
         return mailMapper.fromJamesMails(jamesMails);

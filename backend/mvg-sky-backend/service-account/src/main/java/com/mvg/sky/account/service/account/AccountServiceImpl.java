@@ -76,7 +76,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountEntity createAccount(String email, String password, RoleEnumeration[] roles) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         int at = email.indexOf('@');
-        String username = email.substring(0, at);
         String domain = email.substring(at + 1);
 
         DomainEntity domainEntity = domainRepository.findByNameAndIsDeletedFalse(domain);
@@ -85,19 +84,28 @@ public class AccountServiceImpl implements AccountService {
             throw new RuntimeException("Domain of account do not exist!");
         }
 
-        AccountEntity accountEntity = AccountEntity.builder()
-            .username(username)
-            .password(passwordEncoder.encode(password))
-            .roles(roles)
-            .domainId(domainEntity.getId())
-            .build();
-
-        accountEntity = accountRepository.save(accountEntity);
-
         // Create account on Apache James
         if(!userOperation.verifyExists(email)) {
             userOperation.addUser(email);
         }
+
+        AccountEntity accountEntity = accountRepository.findByUsernameAndIsDeletedTrue(email);
+
+        if(accountEntity != null) {
+            accountEntity.setIsDeleted(false);
+            accountEntity.setPassword(passwordEncoder.encode(password));
+            accountEntity.setRoles(roles);
+        }
+        else {
+            accountEntity = AccountEntity.builder()
+                .username(email)
+                .password(passwordEncoder.encode(password))
+                .roles(roles)
+                .domainId(domainEntity.getId())
+                .build();
+        }
+
+        accountEntity = accountRepository.save(accountEntity);
 
         log.info("Save new account {}", accountEntity);
         return accountEntity;
@@ -146,16 +154,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Integer deleteAccountById(String accountId) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
-        AccountDomainDto accountDomainDto = accountRepository.findAccountById(UUID.fromString(accountId));
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(accountId));
 
-        if(accountDomainDto == null) {
-            log.error("Account not found in database");
-            throw new RuntimeException("Account not found in database");
+        if(accountEntity == null) {
+            log.error("Not found account in database");
+            throw new RuntimeException("Not found account in database");
         }
 
-        accountRepository.delete(accountDomainDto.getAccountEntity());
+        accountRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(accountId));
 
-        String email = accountDomainDto.getAccountEntity().getUsername() + "@" + accountDomainDto.getDomainEntity().getName();
+        String email = accountEntity.getUsername();
 
         if(userOperation.verifyExists(email)) {
             userOperation.deleteUser(email);

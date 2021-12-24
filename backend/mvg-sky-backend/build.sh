@@ -21,7 +21,6 @@ export JAVA_HOME=/root/.sdkman/candidates/java/17.0.1-oracle
   -pl service-document \
   -pl admin-portal
 
-export REGISTRY=http://mvg-sky-service-discovery:8000/eureka/
 export PROFILE=local
 export CLOUD_CONFIG=false
 
@@ -32,6 +31,9 @@ export PG_PASSWORD=Ctlbi@0775516337
 
 export DOCKER_EXTERNAL_RESOURCES=/mvg-sky/resources
 export EXTERNAL_RESOURCES=/home/chautruonglong/Desktop/resources
+
+export REGISTRY=http://mvg-sky-service-discovery:8000/eureka/
+export JMX_JAMES=service:jmx:rmi:///jndi/rmi://mvg-sky.com:9999/jmxrmi
 
 docker-compose build --no-cache
 docker-compose up -d
