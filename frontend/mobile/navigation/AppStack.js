@@ -82,7 +82,9 @@ const MailStack = ({ navigation }) => (
     />
     <Stack.Screen
       name="Display Mail"
-      component={DisplayMailScreen}
+      component={({ route }) =>
+        <DisplayMailScreen mail={route.params} />
+      }
       options={({ route }) => ({
         // headerShown: false,
         headerBackTitleVisible: false,

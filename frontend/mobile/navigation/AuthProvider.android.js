@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   const [isConnnected, setIsConnnected] = useState(false)
   const [stompClient, setStompClient] = useState(Stomp.over(sockJS))
   const [contact, setContact] = useState(null)
+  const [inboxmail, setInboxmail] = useState()
 
 
   useEffect(() => {
@@ -56,6 +57,33 @@ export const AuthProvider = ({ children }) => {
     if (user?.domain?.id) {
       const values = await apiRequest.get(`/contacts?domainIds=${user.domain.id}`)
       setContact(values)
+      // const mailbox = await apiRequest.get(`/mailboxes?accountId=${user.domain.id}`)
+      // if (mailbox.length === 0) {
+      const inbox = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=INBOX`, {
+        accountId: user?.domain?.id,
+        mailbox: "INBOX",
+      },
+        {
+          headers: {
+            accept: 'application/json',
+            // Authorization: `${user.accessToken}`
+          }
+        }
+      )
+      setInboxmail(inbox)
+      //   const send = await apiRequest.post('/mailboxes', {
+      //     accountId: user?.domain?.id,
+      //     namespace: "SEND",
+      //     name: "SEND"
+      //   },
+      //     {
+      //       headers: {
+      //         accept: 'application/json',
+      //         // Authorization: `${user.accessToken}`
+      //       }
+      //     }
+      //   )
+      // }
     }
   }
 
@@ -96,7 +124,8 @@ export const AuthProvider = ({ children }) => {
         stompClient,
         setChats,
         setMyRooms,
-        contact
+        contact,
+        inboxmail
       }}>
       {children}
     </AuthContext.Provider>
