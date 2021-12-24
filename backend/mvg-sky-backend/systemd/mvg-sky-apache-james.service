@@ -1,0 +1,14 @@
+[Unit]
+Description=mvg-sky-apache-james
+After=syslog.target
+
+[Service]
+User=root
+WorkingDirectory=/root/james/mvg-sky-apache-james/james-server-app-3.3.0/bin
+ExecStart=./run.sh
+StandardOutput=journal
+StandardError=journal
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
