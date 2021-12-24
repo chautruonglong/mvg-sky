@@ -15,7 +15,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class SimpleResponseEntity {
     private String message;
+
     private String status;
+
     private Integer code;
 
     @Builder.Default

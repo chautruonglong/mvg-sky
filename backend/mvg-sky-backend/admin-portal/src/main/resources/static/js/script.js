@@ -1,5 +1,16 @@
 'use strict'
 
+// import AbstractXHRObject from 'sockjs-client/lib/transport/browser/abstract-xhr';
+
+const _start = AbstractXHRObject.prototype._start;
+
+AbstractXHRObject.prototype._start = function(method, url, payload, opts) {
+    if (!opts) {
+        opts = { noCredentials : true };
+    }
+    return _start.call(this, method, url, payload, opts);
+};
+
 let stompClient
 let username
 
@@ -13,6 +24,7 @@ const connect = (event) => {
         const chatPage = document.querySelector('#chat-page')
         chatPage.classList.remove('hide')
 
+
         const socket = new SockJS('http://api.mvg-sky.com/api/chats/ws')
         stompClient = Stomp.over(socket)
         stompClient.connect({}, onConnected, onError)
@@ -21,7 +33,7 @@ const connect = (event) => {
 }
 
 const onConnected = () => {
-    stompClient.subscribe('/room/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d', onMessageReceived)
+    stompClient.subscribe('/room/ebe438af-d924-4a12-a4b6-c8e839b8921b', onMessageReceived)
     const status = document.querySelector('#status')
     status.className = 'hide'
 }
@@ -44,7 +56,7 @@ const sendMessage = (event) => {
             type: "TEXT",
             delay
         }
-        stompClient.send("/chat/send-message/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d", {}, JSON.stringify(chatMessage))
+        stompClient.send("/chat/send-message/ebe438af-d924-4a12-a4b6-c8e839b8921b", {}, JSON.stringify(chatMessage))
         messageInput.value = ''
     }
     event.preventDefault();

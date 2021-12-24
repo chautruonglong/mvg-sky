@@ -1,10 +1,15 @@
 package com.mvg.sky.account.service.domain;
 
+import com.mvg.sky.james.operation.DomainOperation;
 import com.mvg.sky.repository.DomainRepository;
 import com.mvg.sky.repository.entity.DomainEntity;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
+import javax.management.ReflectionException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +21,27 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class DomainServiceImpl implements DomainService {
-    private DomainRepository domainRepository;
+    private final DomainRepository domainRepository;
+    private final DomainOperation domainOperation;
 
     @Override
-    public DomainEntity createDomain(String name) {
-        DomainEntity domainEntity = DomainEntity.builder()
-            .name(name)
-            .build();
+    public DomainEntity createDomain(String name) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
+        // Create domain on Apache James
+        if(!domainOperation.containsDomain(name)) {
+            domainOperation.addDomain(name);
+        }
+
+        // Create domain on MVG Sky
+        DomainEntity domainEntity = domainRepository.findByNameAndIsDeletedTrue(name);
+
+        if(domainEntity != null) {
+            domainEntity.setIsDeleted(false);
+        }
+        else {
+            domainEntity = DomainEntity.builder()
+                .name(name)
+                .build();
+        }
 
         domainEntity = domainRepository.save(domainEntity);
 
@@ -42,11 +61,19 @@ public class DomainServiceImpl implements DomainService {
     }
 
     @Override
-    public Integer deleteDomainById(String domainId) {
-        int num = domainRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(domainId));
+    public Integer deleteDomainById(String domainId) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
+        DomainEntity domainEntity = domainRepository.findById(UUID.fromString(domainId))
+            .orElseThrow(() -> new RuntimeException("Domain not found in database"));
 
-        log.info("delete domain {}, {} updated", domainId, num);
-        return num;
+        domainRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(domainId));
+
+        // Delete domain on Apache James
+        if(domainOperation.containsDomain(domainEntity.getName())) {
+            domainOperation.removeDomain(domainEntity.getName());
+        }
+
+        log.info("delete domain {}, {} updated", domainId, 1);
+        return 1;
     }
 
     @Override

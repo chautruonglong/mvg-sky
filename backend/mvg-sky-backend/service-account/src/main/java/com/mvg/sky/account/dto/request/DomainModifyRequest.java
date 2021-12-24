@@ -1,6 +1,7 @@
 package com.mvg.sky.account.dto.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -11,5 +12,6 @@ public class DomainModifyRequest {
         message = "domain do not match to the format"
     )
     @NotBlank
+    @NotNull
     private String name;
 }

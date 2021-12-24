@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,117 +15,76 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FormButton from '../components/FormButton';
-
+import Toast from 'react-native-toast-message';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import apiRequest from "../utils/apiRequest"
 import { AuthContext } from '../navigation/AuthProvider';
 // import firestore from '@react-native-firebase/firestore';
 // import storage from '@react-native-firebase/storage';
 
 const EditProfileScreen = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { profile, setProfile, user } = useContext(AuthContext);
   const [image, setImage] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [transferred, setTransferred] = useState(0);
   const [userData, setUserData] = useState(null);
+  var bodyFormData = new FormData();
 
-  const getUser = async () => {
-    // const currentUser = await firestore()
-    //   .collection('users')
-    //   .doc(user.uid)
-    //   .get()
-    //   .then((documentSnapshot) => {
-    //     if (documentSnapshot.exists) {
-    //       console.log('User Data', documentSnapshot.data());
-    //       setUserData(documentSnapshot.data());
-    //     }
-    //   })
+  const handleUploadimage = async () => {
+    try {
+      const response = await apiRequest.patch(`/profiles/avatar/${profile.id}`,
+        bodyFormData
+        ,
+        {
+          headers: { "Content-type": "multipart/form-data" }
+        }
+      )
+      console.log(bodyFormData)
+      setProfile(response)
+      Toast.show({
+        type: 'success',
+        text1: 'Avatar change successfully!'
+      });
+    } catch (error) {
+      console.log(error)
+      Toast.show({
+        type: 'error',
+        text1: 'Avatar change failed.'
+      });
+    }
   }
 
   const handleUpdate = async () => {
-    // let imgUrl = await uploadImage();
-
-    // if (imgUrl == null && userData.userImg) {
-    //   imgUrl = userData.userImg;
-    // }
-
-    // firestore()
-    //   .collection('users')
-    //   .doc(user.uid)
-    //   .update({
-    //     fname: userData.fname,
-    //     lname: userData.lname,
-    //     about: userData.about,
-    //     phone: userData.phone,
-    //     country: userData.country,
-    //     city: userData.city,
-    //     userImg: imgUrl,
-    //   })
-    //   .then(() => {
-    //     console.log('User Updated!');
-    //     Alert.alert(
-    //       'Profile Updated!',
-    //       'Your profile has been updated successfully.'
-    //     );
-    //   })
-  }
-
-  const uploadImage = async () => {
-    if (image == null) {
-      return null;
-    }
-    const uploadUri = image;
-    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-
-    // Add timestamp to File Name
-    const extension = filename.split('.').pop();
-    const name = filename.split('.').slice(0, -1).join('.');
-    filename = name + Date.now() + '.' + extension;
-
-    setUploading(true);
-    setTransferred(0);
-
-    const storageRef = storage().ref(`photos/${filename}`);
-    const task = storageRef.putFile(uploadUri);
-
-    // Set transferred state
-    task.on('state_changed', (taskSnapshot) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-      );
-
-      setTransferred(
-        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-        100,
-      );
-    });
-
     try {
-      await task;
+      const response = await apiRequest.put(`/profiles/${profile.id}`,
+        {
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          title: profile.title,
+          mobile: profile.mobile,
+          birthday: profile.birthday,
+          location: profile.location
+        },
+        {
+          headers: {
+            accept: 'application/json',
+            // Authorization: `${user.accessToken}`
+          }
+        }
+      )
+      Toast.show({
+        type: 'success',
+        text1: 'Profile change successfully!'
+      });
 
-      const url = await storageRef.getDownloadURL();
-
-      setUploading(false);
-      setImage(null);
-
-      // Alert.alert(
-      //   'Image uploaded!',
-      //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
-      // );
-      return url;
-
-    } catch (e) {
-      console.log(e);
-      return null;
+    } catch (error) {
+      console.log(error)
+      Toast.show({
+        type: 'error',
+        text1: 'Profile change failed.'
+      });
     }
-
-  };
-
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
+  }
 
   const takePhotoFromCamera = () => {
     ImagePicker.openCamera({
@@ -133,9 +93,10 @@ const EditProfileScreen = () => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then((image) => {
-      console.log(image);
+      bodyFormData.append('avatar', image)
+      handleUploadimage()
       const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-      setImage(imageUri);
+      setImage(image);
       bs.current.snapTo(1);
     });
   };
@@ -147,7 +108,12 @@ const EditProfileScreen = () => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then((image) => {
-      console.log(image);
+      bodyFormData.append('avatar', {
+        name: image.path.split('/').pop(),
+        type: image.mime,
+        uri: Platform.OS === 'android' ? image.path : image.path.replace('file://', ''),
+      })
+      handleUploadimage()
       const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
       setImage(imageUri);
       bs.current.snapTo(1);
@@ -186,156 +152,145 @@ const EditProfileScreen = () => {
     </View>
   );
 
-  bs = React.createRef();
-  fall = new Animated.Value(1);
+
+  const bs = React.createRef();
+  const fall = new Animated.Value(1);
 
   return (
-    <View style={styles.container}>
-      <BottomSheet
-        ref={bs}
-        snapPoints={[330, -5]}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={1}
-        callbackNode={fall}
-        enabledGestureInteraction={true}
-      />
-      <Animated.View
-        style={{
-          margin: 20,
-          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-        }}>
-        <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity
-            onPress={() => bs.current.snapTo(0)}
-          >
-            <View
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <ImageBackground
-                source={{
-                  uri: image
-                    ? image
-                    : userData
-                      ? userData.userImg ||
-                      'https://shorturl.at/cdeC8'
-                      : 'https://shorturl.at/cdeC8',
-                }}
-                style={{ height: 100, width: 100 }}
-                imageStyle={{ borderRadius: 15 }}>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons
-                    name="camera"
-                    size={35}
-                    color="#fff"
-                    style={{
-                      opacity: 0.7,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: '#fff',
-                      borderRadius: 10,
-                    }}
-                  />
-                </View>
-              </ImageBackground>
-            </View>
-          </TouchableOpacity>
-          <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>
-            {userData ? userData.fname : ''} {userData ? userData.lname : ''}
-          </Text>
-          {/* <Text>{user.uid}</Text> */}
-        </View>
-
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color="#333333" size={20} />
-          <TextInput
-            placeholder="First Name"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            value={userData ? userData.fname : ''}
-            onChangeText={(txt) => setUserData({ ...userData, fname: txt })}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color="#333333" size={20} />
-          <TextInput
-            placeholder="Last Name"
-            placeholderTextColor="#666666"
-            value={userData ? userData.lname : ''}
-            onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <Ionicons name="ios-clipboard-outline" color="#333333" size={20} />
-          <TextInput
-            multiline
-            numberOfLines={3}
-            placeholder="About Me"
-            placeholderTextColor="#666666"
-            value={userData ? userData.about : ''}
-            onChangeText={(txt) => setUserData({ ...userData, about: txt })}
-            autoCorrect={true}
-            style={[styles.textInput, { height: 40 }]}
-          />
-        </View>
-        <View style={styles.action}>
-          <Feather name="phone" color="#333333" size={20} />
-          <TextInput
-            placeholder="Phone"
-            placeholderTextColor="#666666"
-            keyboardType="number-pad"
-            autoCorrect={false}
-            value={userData ? userData.phone : ''}
-            onChangeText={(txt) => setUserData({ ...userData, phone: txt })}
-            style={styles.textInput}
-          />
-        </View>
-
-        <View style={styles.action}>
-          <FontAwesome name="globe" color="#333333" size={20} />
-          <TextInput
-            placeholder="Country"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            value={userData ? userData.country : ''}
-            onChangeText={(txt) => setUserData({ ...userData, country: txt })}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <MaterialCommunityIcons
-            name="map-marker-outline"
-            color="#333333"
-            size={20}
-          />
-          <TextInput
-            placeholder="City"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            value={userData ? userData.city : ''}
-            onChangeText={(txt) => setUserData({ ...userData, city: txt })}
-            style={styles.textInput}
-          />
-        </View>
-        <FormButton buttonTitle="Update"
-        // onPress={handleUpdate} 
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+      <View style={styles.container}>
+        <BottomSheet
+          ref={bs}
+          snapPoints={[330, -5]}
+          renderContent={renderInner}
+          renderHeader={renderHeader}
+          initialSnap={1}
+          callbackNode={fall}
+          enabledGestureInteraction={true}
         />
-      </Animated.View>
-    </View>
+        <Animated.View
+          style={{
+            margin: 20,
+            opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+          }}>
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => bs.current.snapTo(0)}
+            >
+              <View
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: 15,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ImageBackground
+                  style={styles.userImg}
+                  source={{ uri: 'http://api.mvg-sky.com' + profile?.avatar }}
+                  style={{ height: 100, width: 100 }}
+                  imageStyle={{ borderRadius: 15 }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialCommunityIcons
+                      name="camera"
+                      size={35}
+                      color="#fff"
+                      style={{
+                        opacity: 0.7,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: '#fff',
+                        borderRadius: 10,
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
+              </View>
+            </TouchableOpacity>
+            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold', color: "#FFFFFF" }}>
+              {userData ? userData.fname : ''} {userData ? userData.lname : ''}
+            </Text>
+          </View>
+
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color="#FFFFFF" size={20} />
+            <TextInput
+              selectTextOnFocus={false}
+              placeholder="First Name"
+              placeholderTextColor="#FFFFFF"
+              autoCorrect={false}
+              value={profile ? profile.firstName : ''}
+              onChangeText={(txt) => setProfile({ ...profile, firstName: txt })}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color="#FFFFFF" size={20} />
+            <TextInput
+              selectTextOnFocus={false}
+              placeholder="Last Name"
+              placeholderTextColor="#FFFFFF"
+              onChangeText={(txt) => setProfile({ ...profile, lastName: txt })}
+              autoCorrect={false}
+              value={profile ? profile.lastName : ''}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.action}>
+            <Ionicons name="ios-clipboard-outline" color="#FFFFFF" size={20} />
+            <TextInput
+              selectTextOnFocus={false}
+              multiline
+              numberOfLines={3}
+              placeholder="Title Me"
+              placeholderTextColor="#FFFFFF"
+              value={profile ? profile.title : ''}
+              onChangeText={(txt) => setProfile({ ...profile, title: txt })}
+              autoCorrect={true}
+              style={[styles.textInput, { height: 40 }]}
+            />
+          </View>
+          <View style={styles.action}>
+            <Feather name="phone" color="#FFFFFF" size={20} />
+            <TextInput
+              selectTextOnFocus={false}
+              placeholder="Mobile"
+              placeholderTextColor="#FFFFFF"
+              keyboardType="number-pad"
+              autoCorrect={false}
+              value={profile ? profile.mobile : ''}
+              onChangeText={(txt) => setProfile({ ...profile, mobile: txt })}
+              style={styles.textInput}
+            />
+          </View>
+          <View style={styles.action}>
+            <MaterialCommunityIcons
+              name="map-marker-outline"
+              color="#FFFFFF"
+              size={20}
+            />
+            <TextInput
+              selectTextOnFocus={false}
+              placeholder="City"
+              placeholderTextColor="#FFFFFF"
+              autoCorrect={false}
+              value={profile ? profile.location : ''}
+              onChangeText={(txt) => setProfile({ ...profile, location: txt })}
+              style={styles.textInput}
+            />
+          </View>
+          <FormButton buttonTitle="Update"
+            onPress={handleUpdate}
+          />
+        </Animated.View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -344,7 +299,7 @@ export default EditProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#1A1D21',
   },
   commandButton: {
     padding: 15,
@@ -361,7 +316,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#FFFFFF',
-    shadowColor: '#333333',
+    shadowColor: '#FFFFFF',
     shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
     shadowOpacity: 0.4,
@@ -420,6 +375,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: '#333333',
+    color: '#FFFFFF',
   },
 });

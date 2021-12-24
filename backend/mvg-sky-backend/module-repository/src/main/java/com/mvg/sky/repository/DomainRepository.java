@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 public interface DomainRepository extends JpaRepository<DomainEntity, UUID> {
     DomainEntity findByNameAndIsDeletedFalse(String name);
 
+    DomainEntity findByNameAndIsDeletedTrue(String name);
+
     DomainEntity findByIdAndIsDeletedFalse(UUID id);
 
     @Transactional

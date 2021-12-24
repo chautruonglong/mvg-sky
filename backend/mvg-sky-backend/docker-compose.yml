@@ -3,6 +3,7 @@ services:
     mvg-sky-nginx:
         container_name: mvg-sky-nginx
         image: nginx:alpine
+        restart: always
         network_mode: host
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/mvg-sky.conf
@@ -10,6 +11,7 @@ services:
     mvg-sky-postgres:
         container_name: mvg-sky-postgres
         image: postgres:14.1-alpine3.14
+        restart: always
         ports:
             - "5432:5432"
         networks:
@@ -25,6 +27,7 @@ services:
     mvg-sky-service-account:
         container_name: mvg-sky-service-account
         image: mvg-sky-service-account-jdk-17
+        restart: always
         build: ./service-account
         ports:
             - "8002:8002"
@@ -32,16 +35,23 @@ services:
             - mvg-sky-net
         volumes:
             - ${EXTERNAL_RESOURCES}/account:${DOCKER_EXTERNAL_RESOURCES}/account
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
             - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - COM_MVG_SKY_SERVICEACCOUNT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/account/
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
+            - COM_MVG_SKY_JAMES_URL=${JMX_JAMES}
 
     mvg-sky-service-chat:
         container_name: mvg-sky-service-chat
         image: mvg-sky-service-chat-jdk-17
+        restart: always
         build: ./service-chat
         ports:
             - "8001:8001"
@@ -49,104 +59,159 @@ services:
             - mvg-sky-net
         volumes:
             - ${EXTERNAL_RESOURCES}/chat:${DOCKER_EXTERNAL_RESOURCES}/chat
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
             - SPRING_DATASOURCE_URL=${PG_URL}
             - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
             - COM_MVG_SKY_SERVICECHAT_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/chat/
-
-    mvg-sky-service-smtp:
-        container_name: mvg-sky-service-smtp
-        image: mvg-sky-service-smtp-jdk-17
-        build: ./service-smtp
-        ports:
-            - "8025:8025"
-        networks:
-            - mvg-sky-net
-        environment:
-            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
-            - SPRING_DATASOURCE_URL=${PG_URL}
-            - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
-            - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
-
-    mvg-sky-service-imap:
-        container_name: mvg-sky-service-imap
-        image: mvg-sky-service-imap-jdk-17
-        build: ./service-imap
-        ports:
-            - "8143:8143"
-        networks:
-            - mvg-sky-net
-        environment:
-            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
-            - SPRING_DATASOURCE_URL=${PG_URL}
-            - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
-            - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
-
-    mvg-sky-service-discovery:
-        container_name: mvg-sky-service-discovery
-        image: mvg-sky-service-discovery-jdk-17
-        build: ./service-discovery
-        ports:
-            - "8000:8000"
-        networks:
-            - mvg-sky-net
-
-    mvg-sky-service-gateway:
-        container_name: mvg-sky-service-gateway
-        image: mvg-sky-service-gateway-jdk-17
-        build: ./service-gateway
-        ports:
-            - "8080:8080"
-        networks:
-            - mvg-sky-net
-        environment:
-            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
-
-    mvg-sky-service-configuration:
-        container_name: mvg-sky-service-configuration
-        image: mvg-sky-service-configuration-jdk-17
-        build: ./service-configuration
-        ports:
-            - "8003:8003"
-        networks:
-            - mvg-sky-net
-        environment:
-            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-service-mail:
         container_name: mvg-sky-service-mail
         image: mvg-sky-service-mail-jdk-17
+        restart: always
         build: ./service-mail
         ports:
             - "8004:8004"
         networks:
             - mvg-sky-net
+        volumes:
+            - ${EXTERNAL_RESOURCES}/mail:${DOCKER_EXTERNAL_RESOURCES}/mail
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_DATASOURCE_URL=${PG_URL}
+            - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
+            - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - COM_MVG_SKY_SERVICEMAIL_EXTERNALRESOURCE=file:${DOCKER_EXTERNAL_RESOURCES}/mail/
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
+            - COM_MVG_SKY_JAMES_URL=${JMX_JAMES}
+
+    mvg-sky-service-smtp:
+        container_name: mvg-sky-service-smtp
+        image: mvg-sky-service-smtp-jdk-17
+        restart: always
+        build: ./service-smtp
+        ports:
+            - "8025:8025"
+        networks:
+            - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
+        environment:
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_DATASOURCE_URL=${PG_URL}
+            - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
+            - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
+
+    mvg-sky-service-imap:
+        container_name: mvg-sky-service-imap
+        image: mvg-sky-service-imap-jdk-17
+        restart: always
+        build: ./service-imap
+        ports:
+            - "8143:8143"
+        networks:
+            - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
+        environment:
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_DATASOURCE_URL=${PG_URL}
+            - SPRING_DATASOURCE_USERNAME=${PG_USERNAME}
+            - SPRING_DATASOURCE_PASSWORD=${PG_PASSWORD}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
+
+    mvg-sky-service-discovery:
+        container_name: mvg-sky-service-discovery
+        image: mvg-sky-service-discovery-jdk-17
+        restart: always
+        build: ./service-discovery
+        ports:
+            - "8000:8000"
+        networks:
+            - mvg-sky-net
+        environment:
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+
+    mvg-sky-service-gateway:
+        container_name: mvg-sky-service-gateway
+        image: mvg-sky-service-gateway-jdk-17
+        restart: always
+        build: ./service-gateway
+        ports:
+            - "8080:8080"
+        networks:
+            - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
+        environment:
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
+
+    mvg-sky-service-configuration:
+        container_name: mvg-sky-service-configuration
+        image: mvg-sky-service-configuration-jdk-17
+        restart: always
+        build: ./service-configuration
+        ports:
+            - "8003:8003"
+        networks:
+            - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+        environment:
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}, native
 
     mvg-sky-service-document:
         container_name: mvg-sky-service-document
         image: mvg-sky-service-document-jdk-17
+        restart: always
         build: ./service-document
         ports:
             - "8005:8005"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
     mvg-sky-admin-portal:
         container_name: mvg-sky-admin-portal
         image: mvg-sky-admin-portal-jdk-17
+        restart: always
         build: ./admin-portal
         ports:
             - "3000:3000"
         networks:
             - mvg-sky-net
+        depends_on:
+            - mvg-sky-service-discovery
+            - mvg-sky-service-configuration
         environment:
             - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${REGISTRY}
+            - SPRING_PROFILES_ACTIVE=${PROFILE}
+            - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
 networks:
     mvg-sky-net:

@@ -1,66 +1,131 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import apiRequest from "../utils/apiRequest"
 import Toast from 'react-native-toast-message';
-
-
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
+import AbstractXHRObject from "sockjs-client/lib/transport/browser/abstract-xhr";
 export const AuthContext = createContext();
+const _start = AbstractXHRObject.prototype._start;
 
+AbstractXHRObject.prototype._start = function (method, url, payload, opts) {
+  if (!opts) {
+    opts = { noCredentials: true };
+  }
+  return _start.call(this, method, url, payload, opts);
+};
+const sockJS = new SockJS('http://api.mvg-sky.com/api/chats/ws');
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [chats, setChats] = useState(null);
+  const [myrooms, setMyRooms] = useState(null);
+  const [iduser, setIduser] = useState(null)
+  const [isConnnected, setIsConnnected] = useState(false)
+  const [stompClient, setStompClient] = useState(Stomp.over(sockJS))
+  const [contact, setContact] = useState(null)
+  const [inboxmail, setInboxmail] = useState()
+
+
+  useEffect(() => {
+    stompClient.connect({}, () => {
+      setIsConnnected(true);
+    });
+  }, [])
+  const fetchRoom = async () => {
+    const rooms = await apiRequest.get(`/rooms?accountId=${user.account.id}`)
+    setMyRooms(rooms)
+    if (isConnnected) {
+      rooms.forEach(room => {
+        stompClient.subscribe(
+          `/room/${room.id}`,
+          (payload) => {
+            const chatMessage = {
+              accountId: JSON.parse(payload.body).data.accountId,
+              content: JSON.parse(payload.body).data.content,
+              threadId: JSON.parse(payload.body).data.threadId,
+              type: JSON.parse(payload.body).data.type,
+              delay: 0
+            }
+            setChats(chatMessage)
+          }
+        );
+      })
+    }
+  }
+
+  const fetchContact = async () => {
+    if (user?.domain?.id) {
+      const values = await apiRequest.get(`/contacts?domainIds=${user.domain.id}`)
+      setContact(values)
+      // const mailbox = await apiRequest.get(`/mailboxes?accountId=${user.domain.id}`)
+      // if (mailbox.length === 0) {
+      const inbox = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=INBOX`, {
+        accountId: user?.domain?.id,
+        mailbox: "INBOX",
+      },
+        {
+          headers: {
+            accept: 'application/json',
+            // Authorization: `${user.accessToken}`
+          }
+        }
+      )
+      setInboxmail(inbox)
+      //   const send = await apiRequest.post('/mailboxes', {
+      //     accountId: user?.domain?.id,
+      //     namespace: "SEND",
+      //     name: "SEND"
+      //   },
+      //     {
+      //       headers: {
+      //         accept: 'application/json',
+      //         // Authorization: `${user.accessToken}`
+      //       }
+      //     }
+      //   )
+      // }
+    }
+  }
+
+  useEffect(() => {
+    fetchContact()
+  }, [user])
+
+  useEffect(() => {
+    fetchRoom()
+  }, [user])
+
+  useEffect(() => {
+    if (user?.account?.id) {
+      handleGetProfile(user?.account?.id)
+    }
+  }, [user])
+
+
+  const handleGetProfile = async (userId) => {
+    const res = await apiRequest.get(`/profiles`, {
+      params: {
+        accountId: userId
+      },
+      // headers: { Authorization: `${user.accessToken}` } 
+    })
+    setProfile(res[0])
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
-        login: async (email, password) => {
-          try {
-            const response = await apiRequest.post('/accounts/login', {
-              email: email,
-              password: password
-            })
-            setUser(response)
-            Toast.show({
-              type: 'success',
-              text2: 'Login successfully!'
-            });
-          } catch (error) {
-            console.log(error)
-            setUser(null)
-            Toast.show({
-              type: 'error',
-              text1: 'Wrong username or password.'
-            });
-          }
-
-        },
-
-        logout: async () => {
-          try {
-            // const response = await apiRequest.delete(`/accounts/${user.accountEntity.id}/logout`)
-            // const response = await apiRequest.delete(`/accounts/${user.accountEntity.id}/logout`, {
-            //   refreshToken: "string"
-            // })
-            const response = await apiRequest.delete(`/accounts/${user.accountEntity.id}/logout`, {
-              data: {
-                refreshToken: "string"
-              }
-            })
-
-            console.log(response)
-            Toast.show({
-              type: 'success',
-              text2: 'Logout successfully!'
-            });
-            setUser(null)
-          } catch (error) {
-            console.log("vien")
-            console.log(error)
-            Toast.show({
-              type: 'error',
-              text1: 'Logout failed.'
-            });
-          }
-        },
+        myrooms,
+        profile,
+        setProfile,
+        chats,
+        stompClient,
+        setChats,
+        setMyRooms,
+        contact,
+        inboxmail
       }}>
       {children}
     </AuthContext.Provider>

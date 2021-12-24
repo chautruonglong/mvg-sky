@@ -13,4 +13,9 @@ public class FileUtil {
         int index = file.lastIndexOf('.');
         return file.replace(file.substring(0, index), name);
     }
+
+    public static String concatMediaMessage(String file, String suffix) {
+        int index = file.lastIndexOf('.');
+        return file.replace(file.substring(0, index), file.substring(0, index) + "_" + suffix);
+    }
 }

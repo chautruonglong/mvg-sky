@@ -14,6 +14,16 @@
       "name": "com.mvg.sky.service-account.refresh.expiration",
       "type": "java.lang.Long",
       "description": "service-account refresh token expiration time."
+    },
+    {
+      "name": "com.mvg.sky.james-url",
+      "type": "java.lang.String",
+      "description": "Manage apache james using JMX url."
+    },
+    {
+      "name": "com.mvg.sky.james.common-password",
+      "type": "java.lang.String",
+      "description": "Common password for all users of Apache James."
     }
   ]
 }

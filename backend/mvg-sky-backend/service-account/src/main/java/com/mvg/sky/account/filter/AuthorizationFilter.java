@@ -49,7 +49,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 Arrays.stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role.name())));
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    jwtAccessTokenBody.getUsername() + "@" + jwtAccessTokenBody.getDomain(),
+                    jwtAccessTokenBody.getUsername(),
                     null,
                     authorities
                 );

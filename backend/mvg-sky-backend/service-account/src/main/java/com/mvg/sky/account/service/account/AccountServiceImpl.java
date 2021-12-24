@@ -8,6 +8,7 @@ import com.mvg.sky.account.security.UserPrincipal;
 import com.mvg.sky.account.service.session.SessionService;
 import com.mvg.sky.account.util.mapper.MapperUtil;
 import com.mvg.sky.common.enumeration.RoleEnumeration;
+import com.mvg.sky.james.operation.UserOperation;
 import com.mvg.sky.repository.AccountRepository;
 import com.mvg.sky.repository.DomainRepository;
 import com.mvg.sky.repository.SessionRepository;
@@ -16,9 +17,13 @@ import com.mvg.sky.repository.entity.AccountEntity;
 import com.mvg.sky.repository.entity.DomainEntity;
 import com.mvg.sky.repository.entity.ProfileEntity;
 import com.mvg.sky.repository.entity.SessionEntity;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
+import javax.management.ReflectionException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final MapperUtil mapperUtil;
+    private final UserOperation userOperation;
 
     @Override
     public LoginResponse authenticate(String email, String password) {
@@ -68,9 +74,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountEntity createAccount(String email, String password, RoleEnumeration[] roles) {
+    public AccountEntity createAccount(String email, String password, RoleEnumeration[] roles) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         int at = email.indexOf('@');
-        String username = email.substring(0, at);
         String domain = email.substring(at + 1);
 
         DomainEntity domainEntity = domainRepository.findByNameAndIsDeletedFalse(domain);
@@ -79,17 +84,31 @@ public class AccountServiceImpl implements AccountService {
             throw new RuntimeException("Domain of account do not exist!");
         }
 
-        AccountEntity accountEntity = AccountEntity.builder()
-            .username(username)
-            .password(passwordEncoder.encode(password))
-            .roles(roles)
-            .domainId(domainEntity.getId())
-            .build();
+        // Create account on Apache James
+        if(!userOperation.verifyExists(email)) {
+            userOperation.addUser(email);
+        }
 
-        AccountEntity savedAccountEntity = accountRepository.save(accountEntity);
+        AccountEntity accountEntity = accountRepository.findByUsernameAndIsDeletedTrue(email);
 
-        log.info("Save new account {}", savedAccountEntity);
-        return savedAccountEntity;
+        if(accountEntity != null) {
+            accountEntity.setIsDeleted(false);
+            accountEntity.setPassword(passwordEncoder.encode(password));
+            accountEntity.setRoles(roles);
+        }
+        else {
+            accountEntity = AccountEntity.builder()
+                .username(email)
+                .password(passwordEncoder.encode(password))
+                .roles(roles)
+                .domainId(domainEntity.getId())
+                .build();
+        }
+
+        accountEntity = accountRepository.save(accountEntity);
+
+        log.info("Save new account {}", accountEntity);
+        return accountEntity;
     }
 
     @Override
@@ -98,6 +117,7 @@ public class AccountServiceImpl implements AccountService {
             .orElseThrow(() -> new RuntimeException("Account do not exists"));
 
         mapperUtil.updatePartialAccountFromDto(accountUpdateRequest, accountEntity);
+        accountEntity.setPassword(passwordEncoder.encode(accountEntity.getPassword()));
         accountEntity = accountRepository.save(accountEntity);
 
         log.info("update account {}", accountEntity);
@@ -133,15 +153,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Integer deleteAccountById(String accountId) {
-        int num = accountRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(accountId));
+    public Integer deleteAccountById(String accountId) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
+        AccountEntity accountEntity = accountRepository.findByIdAndIsDeletedFalseAndIsActiveTrue(UUID.fromString(accountId));
 
-        log.info("delete account successfully, {} records updated", num);
-        return num;
+        if(accountEntity == null) {
+            log.error("Not found account in database");
+            throw new RuntimeException("Not found account in database");
+        }
+
+        accountRepository.deleteByIdAndIsDeletedFalse(UUID.fromString(accountId));
+
+        String email = accountEntity.getUsername();
+
+        if(userOperation.verifyExists(email)) {
+            userOperation.deleteUser(email);
+        }
+
+        log.info("delete account successfully, {} records updated", 1);
+        return 1;
     }
 
     @Override
-    public AccountProfileCreationResponse createAccountProfile(AccountProfileCreationRequest accountProfileCreationRequest) {
+    public AccountProfileCreationResponse createAccountProfile(AccountProfileCreationRequest accountProfileCreationRequest) throws ReflectionException, InstanceNotFoundException, MBeanException, IOException {
         AccountEntity accountEntity = createAccount(
             accountProfileCreationRequest.getAccount().getEmail(),
             accountProfileCreationRequest.getAccount().getPassword(),

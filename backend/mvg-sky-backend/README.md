@@ -60,6 +60,11 @@
 - Exception Handlers
 - Test Port: *10001*
 
+> #### 3. module-james
+
+- Manage MBeans: domains, users
+- Test Port: *10002*
+
 ## Build system
 
 ```shell

@@ -8,16 +8,86 @@ import {
     StyleSheet,
     Alert,
 } from 'react-native';
-
+import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FormButton from '../components/FormButton';
-
+import DocumentPicker from 'react-native-document-picker'
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
+import apiRequest from '../utils/apiRequest';
+import { AuthContext } from '../navigation/AuthProvider';
 
-const AddMailScreen = () => {
+const AddMailScreen = ({ navigation }) => {
+    const [to, setTo] = useState("")
+    const [bcc, setBcc] = useState("")
+    const [cc, setCc] = useState("")
+    const [subject, setSubject] = useState("")
+    const [body, setBody] = useState("")
+    const [namefile, setNamefile] = useState("")
+    const [res, setRes] = useState()
+    const { user } = useContext(AuthContext);
+    const datamail = new FormData();
+
+    const handleAttachment = async () => {
+
+        try {
+            const res = await DocumentPicker.pickSingle({
+                type: [DocumentPicker.types.allFiles],
+            })
+
+            if (res)
+                setRes(res)
+
+            setNamefile(res.name)
+            console.log(datamail)
+
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    const handleSend = async () => {
+        try {
+            datamail.append('accountId', user.account.id)
+            datamail.append('to', to)
+            if (cc)
+                datamail.append('cc', cc)
+            if (bcc)
+                datamail.append('bcc', bcc)
+            if (subject)
+                datamail.append('subject', subject)
+            if (body)
+                datamail.append('body', body)
+            datamail.append('attachments', {
+                name: res.name,
+                type: res.type,
+                uri: Platform.OS === 'ios' ?
+                    res.uri.replace('file://', '')
+                    : res.uri,
+            })
+            datamail.append('enableThread ', true)
+            const response = await apiRequest.post(`/mails/send`,
+                datamail,
+                {
+                    headers: { "Content-type": "multipart/form-data" }
+                }
+            )
+            console.log(datamail)
+            navigation.navigate('Sent');
+            setNamefile("")
+            setTo("")
+            setBcc("")
+            setCc("")
+            setSubject("")
+            setBody("")
+            setRes("")
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <View style={styles.container}>
             <View style={styles.container}>
@@ -33,7 +103,6 @@ const AddMailScreen = () => {
 
                         <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>
                         </Text>
-                        {/* <Text>{user.uid}</Text> */}
                     </View>
 
                     <View style={styles.action}>
@@ -42,18 +111,29 @@ const AddMailScreen = () => {
                             placeholder="To"
                             placeholderTextColor="#666666"
                             autoCorrect={false}
-                            // value={userData ? userData.fname : ''}
-                            // onChangeText={(txt) => setUserData({ ...userData, fname: txt })}
+                            value={to}
+                            onChangeText={(txt) => setTo(txt)}
                             style={styles.textInput}
                         />
                     </View>
                     <View style={styles.action}>
                         <FontAwesome name="user-o" color="#333333" size={20} />
                         <TextInput
-                            placeholder="Cc/Bcc"
+                            placeholder="Cc"
                             placeholderTextColor="#666666"
-                            // value={userData ? userData.lname : ''}
-                            // onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
+                            value={cc}
+                            onChangeText={(txt) => setCc(txt)}
+                            autoCorrect={false}
+                            style={styles.textInput}
+                        />
+                    </View>
+                    <View style={styles.action}>
+                        <FontAwesome name="user-o" color="#333333" size={20} />
+                        <TextInput
+                            placeholder="Bcc"
+                            placeholderTextColor="#666666"
+                            value={bcc}
+                            onChangeText={(txt) => setBcc(txt)}
                             autoCorrect={false}
                             style={styles.textInput}
                         />
@@ -65,8 +145,8 @@ const AddMailScreen = () => {
                             numberOfLines={3}
                             placeholder="Subject"
                             placeholderTextColor="#666666"
-                            // value={userData ? userData.about : ''}
-                            // onChangeText={(txt) => setUserData({ ...userData, about: txt })}
+                            value={subject}
+                            onChangeText={(txt) => setSubject(txt)}
                             autoCorrect={true}
                             style={[styles.textInput, { height: 40 }]}
                         />
@@ -76,18 +156,31 @@ const AddMailScreen = () => {
                         <TextInput
                             placeholder="Body"
                             placeholderTextColor="#666666"
-                            keyboardType="number-pad"
+
                             autoCorrect={false}
-                            // value={userData ? userData.phone : ''}
-                            // onChangeText={(txt) => setUserData({ ...userData, phone: txt })}
+                            value={body}
+                            onChangeText={(txt) => setBody(txt)}
 
                             multiline={true}
                             numberOfLines={5}
                             style={styles.textInput1}
                         />
+                        <View style={{ position: 'absolute', bottom: 10, left: 0, flexDirection: "row" }} >
+
+                            <TouchableOpacity
+                                onPress={() => { handleAttachment() }}
+                            >
+                                <Entypo name="attachment" size={24} color="grey" style={styles.icon} />
+                            </TouchableOpacity>
+                            {namefile ?
+                                <Text style={styles.namefile}>{namefile}</Text>
+                                :
+                                <></>
+                            }
+                        </View>
                     </View>
                     <FormButton buttonTitle="Send"
-                    // onPress={handleUpdate} 
+                        onPress={handleSend}
                     />
                 </Animated.View>
             </View>
@@ -100,7 +193,11 @@ export default AddMailScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000000',
+    },
+    namefile: {
+        marginLeft: 20,
+        color: "#fff"
     },
     commandButton: {
         padding: 15,
@@ -111,12 +208,12 @@ const styles = StyleSheet.create({
     },
     panel: {
         padding: 20,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#000000',
         paddingTop: 20,
         width: '100%',
     },
     header: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#000000',
         shadowColor: '#333333',
         shadowOffset: { width: -1, height: -3 },
         shadowRadius: 2,
@@ -172,7 +269,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
         paddingBottom: 5,
-        height: 200
+        height: 200,
+        paddingBottom: 30
     },
 
     actionError: {
@@ -186,14 +284,17 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
-        color: '#333333',
+        color: '#fff',
     },
     textInput1: {
-        color: '#333333',
+        color: '#fff',
         paddingRight: 30,
         lineHeight: 23,
         flex: 1,
         textAlignVertical: 'top',
         marginLeft: 20,
+    },
+    icon: {
+        marginHorizontal: 5,
     },
 });

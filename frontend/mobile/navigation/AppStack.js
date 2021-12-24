@@ -13,11 +13,12 @@ import MessagesScreen from '../screens/MessagesScreen';
 import MailScreen from '../screens/MailScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import DisplayMailScreen from '../screens/DisplayMailScreen';
-
+import CreateRoomScreen from '../screens/CreateRoomScreen'
+import SendMailScreen from '../screens/SendMailScreen'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const FeedStack = ({ navigation }) => (
+const HomeStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="MVG SKY"
@@ -33,60 +34,6 @@ const FeedStack = ({ navigation }) => (
           shadowColor: '#fff',
           elevation: 0,
         },
-        headerRight: () => (
-          <View style={{ marginRight: 10 }}>
-            <FontAwesome5.Button
-              name="plus"
-              size={22}
-              backgroundColor="#fff"
-              color="#2e64e5"
-              onPress={() => navigation.navigate('AddCall')}
-            />
-          </View>
-        ),
-      }}
-    />
-    <Stack.Screen
-      name="AddCall"
-      component={AddCallScreen}
-      options={{
-        title: '',
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#2e64e515',
-          shadowColor: '#2e64e515',
-          elevation: 0,
-        },
-        headerBackTitleVisible: false,
-        headerBackImage: () => (
-          <View style={{ marginLeft: 15 }}>
-            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
-          </View>
-        ),
-      }}
-    />
-    <Stack.Screen
-      name="AddMail"
-      component={AddMailScreen}
-      options={{ header: () => null }}
-    />
-    <Stack.Screen
-      name="HomeProfile"
-      component={ProfileScreen}
-      options={{
-        title: '',
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-        headerBackTitleVisible: false,
-        headerBackImage: () => (
-          <View style={{ marginLeft: 15 }}>
-            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
-          </View>
-        ),
       }}
     />
   </Stack.Navigator>
@@ -105,23 +52,74 @@ const MessageStack = ({ navigation }) => (
         headerBackTitleVisible: false,
       })}
     />
+    <Stack.Screen
+      name="CreateRoomScreen"
+      component={CreateRoomScreen}
+      // options={{ header: () => null }}
+      options={({ route }) => ({
+        headerBackTitleVisible: false,
+      })}
+    />
   </Stack.Navigator>
 );
 
 const MailStack = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Mail" component={MailScreen}
+    <Stack.Screen name="Inbox" component={MailScreen}
+      options={{
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <FontAwesome5.Button
+              name="paper-plane"
+              size={22}
+              backgroundColor="#fff"
+              color="#2e64e5"
+              onPress={() => navigation.navigate('Sent')}
+            />
+          </View>
+        ),
+      }}
     />
     <Stack.Screen
-      name="Chat"
-      component={DisplayMailScreen}
+      name="Display Mail"
+      component={({ route }) =>
+        <DisplayMailScreen mail={route.params} />
+      }
       options={({ route }) => ({
-        // title: route.params.userName,
-        title: "",
+        // headerShown: false,
         headerBackTitleVisible: false,
       })
       }
+    />
+    <Stack.Screen
+      name="Sent"
+      component={SendMailScreen}
+      options={({ route }) => ({
+        headerBackTitleVisible: false,
+        headerLeft: null,
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <FontAwesome5.Button
+              name="inbox"
+              size={22}
+              backgroundColor="#fff"
+              color="#2e64e5"
+              onPress={() => navigation.navigate('Inbox')}
+            />
+          </View>
+        ),
+      })
+      }
+    />
 
+    <Stack.Screen
+      name="New Mail"
+      component={AddMailScreen}
+      // options={{ header: () => null }}
+      options={({ route }) => ({
+        headerBackTitleVisible: false,
+      })
+      }
     />
   </Stack.Navigator>
 );
@@ -153,16 +151,6 @@ const ProfileStack = ({ navigation }) => (
 );
 
 const AppStack = () => {
-  // const getTabBarVisibility = (route) => {
-  //   const routeName = route.state
-  //     ? route.state.routes[route.state.index].name
-  //     : '';
-
-  //   if (routeName === 'Chat') {
-  //     return false;
-  //   }
-  //   return true;
-  // };
 
   return (
     <Tab.Navigator
@@ -171,13 +159,12 @@ const AppStack = () => {
       }}>
       <Tab.Screen
         name="Call"
-        component={FeedStack}
+        component={HomeStack}
         options={({ route }) => ({
-          tabBarLabel: 'Call',
-          // tabBarVisible: route.state && route.state.index === 0,
+          tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons
-              name="call-outline"
+              name="home"
               color={color}
               size={size}
             />
@@ -189,11 +176,6 @@ const AppStack = () => {
         name="Messages"
         component={MessageStack}
         options={({ route }) => ({
-          // tabBarVisible: getTabBarVisibility(route),
-          // Or Hide tabbar when push!
-          // https://github.com/react-navigation/react-navigation/issues/7677
-          // tabBarVisible: route.state && route.state.index === 0,
-          // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="chatbox-ellipses-outline"
@@ -203,13 +185,10 @@ const AppStack = () => {
           ),
         })}
       />
-
-
       <Tab.Screen
         name="Mail"
         component={MailStack}
         options={{
-          // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="mail-outline" color={color} size={size} />
           ),
@@ -219,7 +198,6 @@ const AppStack = () => {
         name="Profile"
         component={ProfileStack}
         options={{
-          // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),
