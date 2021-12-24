@@ -8,6 +8,7 @@ import com.mvg.sky.common.util.file.FileUtil;
 import com.mvg.sky.repository.ProfileRepository;
 import com.mvg.sky.repository.entity.ProfileEntity;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -113,6 +114,8 @@ public class ProfileServiceImpl implements ProfileService {
 
             String path = externalResources.substring("file:".length()) + "/accounts-resources/avatar/";
             Files.createDirectories(Paths.get(path));
+            Files.deleteIfExists(Paths.get(path + profileEntity.getOriginalAvatar()));
+
             avatar.transferTo(new File(path + fileName));
         }
 
