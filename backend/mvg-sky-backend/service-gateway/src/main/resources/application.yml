@@ -25,6 +25,6 @@ spring:
                 -   id: service-mail
                     uri: lb://SERVICE-MAIL
                     predicates:
-                        - Path=/api/mails/**
+                        - Path=/api/mails/**, /api/mailboxes/**
                     filters:
                         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
