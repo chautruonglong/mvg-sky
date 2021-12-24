@@ -4,8 +4,9 @@ After=syslog.target
 
 [Service]
 User=root
+Environment="JAVA_HOME=/root/.sdkman/candidates/java/8.0.292.j9-adpt"
 WorkingDirectory=/root/james/mvg-sky-apache-james/james-server-app-3.3.0/bin
-ExecStart=./run.sh
+ExecStart=/root/james/mvg-sky-apache-james/james-server-app-3.3.0/bin/run.sh
 StandardOutput=journal
 StandardError=journal
 SuccessExitStatus=143

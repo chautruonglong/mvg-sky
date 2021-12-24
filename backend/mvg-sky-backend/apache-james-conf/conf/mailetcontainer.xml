@@ -204,6 +204,29 @@ Regards, Postmaster XXX.YYY
           &listserverConfig;
         -->
 
+        <mailet match="All" class="org.apache.james.jdkim.mailets.ConvertTo7Bit"/>
+
+        <mailet match="All" class="org.apache.james.jdkim.mailets.DKIMSign">
+          <signatureTemplate>v=1; s=mvg; d=mvg-sky.com; c=relaxed/relaxed; h=Message-ID:Date:Subject:From:To:MIME-Version:Content-Type; a=rsa-sha256; bh=; b=;</signatureTemplate>
+          <privateKey>
+-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCromXLu9GgOuza6YT9QHDuJE6mHiQfzgROMJcj9l7LyqGVWy1d
+RgOwPDanur1nl6dLSsJLdoTtQ3m247CnsdBJkUA+eMUBpn39iQpvrZfGlRt20eMq
+1RpGVeSOw9lKH62cGRik+7jeKV1V9JhP3zVndn194bo4hqXmSCkfrEWbtwIDAQAB
+AoGAf99nTinpnSIps1OF9JTdTl+YhSUxrsxz4rlK8c0thVG7nyYmHzb5qoTCB6cW
+VCblyi+xoD11/btm5D6xL89HqT+Ja5rsy4kQXp4NwEi10iTIfkGHk4UF7cA/xoCK
+R0wcj8vdYMo8Y9gvNTX0oYfKM8SrClz4akynIxwQd1LKu6kCQQDSHP/3OMxIBEms
+yADGhg57E5WOxeWfGVEf5F9w+LuOwerU5i/otEwvWn0ZlEoRah0g7NLn3FglX31u
+c5nbM8sDAkEA0R4e+mLizul8KsF61qh3d9HJpccrZtm1vlTrFZ0mA2xd3R5o7vtU
+5dtUGhWoVwabVCvlsT3n50Ccr9nm4QYUPQJAchbxHkqnEgvR/ZH0adftEQOHWCk5
+D/TtSgX1lSBap5/AZa5AIXmVTLkz6KnOtjoKaxBtTR0md9SsBUecKZysBQJAB3Dm
+8UnrgClWvb68vD6qYZ0Za8i2hqZgjTFAXDiHTb/hZyjZ2wcecj9nsrXqk44soMYf
+Gjt1sQjfinJagM9SkQJAKnOa/w+bB4rGZjG1rDCyo611JUwt7NGeOhJnmp7p7gXx
+bf0ZeKkrm3St5RYm10J+RRskFN01diMU4Ehi2nr4fw==
+-----END RSA PRIVATE KEY-----
+          </privateKey>
+        </mailet>
+
        <mailet match="SMTPAuthSuccessful" class="SetMimeHeader">
           <name>X-UserIsAuth</name>
           <value>true</value>
@@ -244,10 +267,12 @@ Regards, Postmaster XXX.YYY
          <mailet match="All" class="RecipientRewriteTable" />
 
          <!-- Place a copy in the user Sent folder -->
+         <!--
          <mailet match="SenderIsLocal" class="ToSenderFolder">
            <folder>Sent</folder>
            <consume>false</consume>
          </mailet>
+         -->
 
        <!-- Is the recipient is for a local account, deliver it locally -->
        <mailet match="RecipientIsLocal" class="Sieve"/>
@@ -282,10 +307,14 @@ Regards, Postmaster XXX.YYY
        <!-- -->
        <!-- If you are using SMTP authentication then you can (and generally -->
        <!-- should) disable this matcher/mailet pair. -->
+       
+       <!--
        <mailet match="RemoteAddrNotInNetwork=127.0.0.1" class="ToProcessor">
           <processor>relay-denied</processor>
           <notice>550 - Requested action not taken: relaying denied</notice>
        </mailet>
+       -->
+       
 
        <!-- Attempt remote delivery using the specified repository for the spool, -->
        <!-- using delay time to retry delivery and the maximum number of retries -->
@@ -330,21 +359,25 @@ Regards, Postmaster XXX.YYY
           <!-- multiple gateway elements, each of which may also have a port -->
           <!-- e.g., mygateway:2525 -->
           <!-- the gatewayPort element is used as a default -->
-          <!--
-          <gateway>otherserver.mydomain.com</gateway>
-          <gatewayPort>25</gatewayPort>
-            -->
+
+		  <!--
+          <gateway>smtp.gmail.com</gateway>
+          <gatewayPort>587</gatewayPort>
+          <startTLS>true</startTLS>
+          -->
+
           <!-- If the gateway requires smtp authentication the following directives -->
           <!-- (gatewayUsername/gatewayPassword) can be used. -->
-          <!--
-          <gatewayUsername>login</gatewayUsername>
-          <gatewayPassword>pass</gatewayPassword>
-            -->
+   
+   		  <!--
+          <gatewayUsername></gatewayUsername>
+          <gatewayPassword></gatewayPassword>
+		  -->
             
           <!-- Set the HELO/EHLO name to use when connectiong to remote SMTP-Server -->
           <!--
-          <mail.smtp.localhost>myMailServer</mail.smtp.localhost>
-            -->
+          <mail.smtp.localhost>mvg-sky.com</mail.smtp.localhost>
+      	  -->
        </mailet>
 
     </processor>

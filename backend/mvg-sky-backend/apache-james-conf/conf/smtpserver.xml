@@ -90,9 +90,8 @@
                some webmail client fails when AUTH is announced but no authentication
                information has been provided
           -->
-	
+
         <authRequired>true</authRequired>
-	
 
 <!-- CHECKME! -->
         <!--  Uncomment this if you want to authorize specific addresses/networks.
