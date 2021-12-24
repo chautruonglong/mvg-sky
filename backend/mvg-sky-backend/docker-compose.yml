@@ -12,10 +12,11 @@ services:
         container_name: mvg-sky-postgres
         image: postgres:14.1-alpine3.14
         restart: always
-        ports:
-            - "5432:5432"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "5432:5432"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         volumes:
             - ./database:/docker-entrypoint-initdb.d
             - ${EXTERNAL_RESOURCES}/postgres:/var/lib/postgresql/data
@@ -29,10 +30,11 @@ services:
         image: mvg-sky-service-account-jdk-17
         restart: always
         build: ./service-account
-        ports:
-            - "8002:8002"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8002:8002"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         volumes:
             - ${EXTERNAL_RESOURCES}/account:${DOCKER_EXTERNAL_RESOURCES}/account
         depends_on:
@@ -52,10 +54,11 @@ services:
         image: mvg-sky-service-chat-jdk-17
         restart: always
         build: ./service-chat
-        ports:
-            - "8001:8001"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8001:8001"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         volumes:
             - ${EXTERNAL_RESOURCES}/chat:${DOCKER_EXTERNAL_RESOURCES}/chat
         depends_on:
@@ -75,10 +78,11 @@ services:
         image: mvg-sky-service-smtp-jdk-17
         restart: always
         build: ./service-smtp
-        ports:
-            - "8025:8025"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8025:8025"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
@@ -95,10 +99,11 @@ services:
         image: mvg-sky-service-imap-jdk-17
         restart: always
         build: ./service-imap
-        ports:
-            - "8143:8143"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8143:8143"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
@@ -115,10 +120,11 @@ services:
         image: mvg-sky-service-discovery-jdk-17
         restart: always
         build: ./service-discovery
-        ports:
-            - "8000:8000"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8000:8000"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         environment:
             - SPRING_PROFILES_ACTIVE=${PROFILE}
 
@@ -127,10 +133,11 @@ services:
         image: mvg-sky-service-gateway-jdk-17
         restart: always
         build: ./service-gateway
-        ports:
-            - "8080:8080"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8080:8080"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
@@ -144,10 +151,11 @@ services:
         image: mvg-sky-service-configuration-jdk-17
         restart: always
         build: ./service-configuration
-        ports:
-            - "8003:8003"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8003:8003"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
         environment:
@@ -159,10 +167,11 @@ services:
         image: mvg-sky-service-mail-jdk-17
         restart: always
         build: ./service-mail
-        ports:
-            - "8004:8004"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8004:8004"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
@@ -180,10 +189,11 @@ services:
         image: mvg-sky-service-document-jdk-17
         restart: always
         build: ./service-document
-        ports:
-            - "8005:8005"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "8005:8005"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
@@ -197,10 +207,11 @@ services:
         image: mvg-sky-admin-portal-jdk-17
         restart: always
         build: ./admin-portal
-        ports:
-            - "3000:3000"
-        networks:
-            - mvg-sky-net
+#        ports:
+#            - "3000:3000"
+#        networks:
+#            - mvg-sky-net
+        network_mode: host
         depends_on:
             - mvg-sky-service-discovery
             - mvg-sky-service-configuration
@@ -209,6 +220,6 @@ services:
             - SPRING_PROFILES_ACTIVE=${PROFILE}
             - SPRING_CLOUD_CONFIG_ENABLED=${CLOUD_CONFIG}
 
-networks:
-    mvg-sky-net:
-        driver: bridge
+#networks:
+#    mvg-sky-net:
+#        driver: bridge

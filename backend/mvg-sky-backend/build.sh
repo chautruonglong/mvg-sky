@@ -21,12 +21,12 @@ export JAVA_HOME=/root/.sdkman/candidates/java/17.0.1-oracle
   -pl service-document \
   -pl admin-portal
 
-export REGISTRY=http://mvg-sky-service-discovery:8000/eureka/
+export REGISTRY=http://localhost:8000/eureka/
 export PROFILE=local
 export CLOUD_CONFIG=false
 
 export PG_DB=mvg-sky
-export PG_URL=jdbc:postgresql://mvg-sky-postgres:5432/${PG_DB}
+export PG_URL=jdbc:postgresql://localhost:5432/${PG_DB}
 export PG_USERNAME=postgres
 export PG_PASSWORD=Ctlbi@0775516337
 
