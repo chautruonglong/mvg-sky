@@ -22,6 +22,8 @@ export const AuthProvider = ({ children }) => {
   const [iduser, setIduser] = useState(null)
   const [isConnnected, setIsConnnected] = useState(false)
   const [stompClient, setStompClient] = useState(Stomp.over(sockJS))
+  const [contact, setContact] = useState(null)
+  const [inboxmail, setInboxmail] = useState()
 
 
   useEffect(() => {
@@ -37,7 +39,6 @@ export const AuthProvider = ({ children }) => {
         stompClient.subscribe(
           `/room/${room.id}`,
           (payload) => {
-            console.log(JSON.parse(payload.body).data)
             const chatMessage = {
               accountId: JSON.parse(payload.body).data.accountId,
               content: JSON.parse(payload.body).data.content,
@@ -51,6 +52,44 @@ export const AuthProvider = ({ children }) => {
       })
     }
   }
+
+  const fetchContact = async () => {
+    if (user?.domain?.id) {
+      const values = await apiRequest.get(`/contacts?domainIds=${user.domain.id}`)
+      setContact(values)
+      // const mailbox = await apiRequest.get(`/mailboxes?accountId=${user.domain.id}`)
+      // if (mailbox.length === 0) {
+      const inbox = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=INBOX`, {
+        accountId: user?.domain?.id,
+        mailbox: "INBOX",
+      },
+        {
+          headers: {
+            accept: 'application/json',
+            // Authorization: `${user.accessToken}`
+          }
+        }
+      )
+      setInboxmail(inbox)
+      //   const send = await apiRequest.post('/mailboxes', {
+      //     accountId: user?.domain?.id,
+      //     namespace: "SEND",
+      //     name: "SEND"
+      //   },
+      //     {
+      //       headers: {
+      //         accept: 'application/json',
+      //         // Authorization: `${user.accessToken}`
+      //       }
+      //     }
+      //   )
+      // }
+    }
+  }
+
+  useEffect(() => {
+    fetchContact()
+  }, [user])
 
   useEffect(() => {
     fetchRoom()
@@ -84,7 +123,9 @@ export const AuthProvider = ({ children }) => {
         chats,
         stompClient,
         setChats,
-        setMyRooms
+        setMyRooms,
+        contact,
+        inboxmail
       }}>
       {children}
     </AuthContext.Provider>

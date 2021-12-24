@@ -25,12 +25,13 @@ import DocumentPicker from 'react-native-document-picker'
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import HTMLView from "react-native-htmlview";
 import Popover from 'react-native-popover-view';
-
+import translate from 'translate-google-api';
 import {
   actions,
   RichEditor,
   RichToolbar,
 } from "react-native-pell-rich-editor";
+import { element } from 'prop-types';
 // const sockJS = new SockJS('http://api.mvg-sky.com/api/chats/ws');
 // const stompClient = Stomp.over(sockJS);
 // let isConnected = false;
@@ -45,9 +46,9 @@ import {
 // );
 const ChatScreen = ({ title }) => {
   const bodyFormData = new FormData();
-
+  const [translatemessage, setTranslatemessage] = useState("")
   const { stompClient } = useContext(AuthContext);
-  const { user, profile, chats, setMyRooms } = useContext(AuthContext)
+  const { user, profile, chats, setMyRooms, contact } = useContext(AuthContext)
   const yourRef = useRef(null);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -61,7 +62,9 @@ const ChatScreen = ({ title }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
   const [isShowReply, setIsShowReply] = useState(false)
-
+  const [name, setName] = useState("")
+  const [avatar, setAvatar] = useState("")
+  const imagedefaul = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU'
   useEffect(() => {
     fetchMessage()
   }, []);
@@ -215,7 +218,6 @@ const ChatScreen = ({ title }) => {
     return item.accountId === user.account.id;
   }
   const onPress = () => {
-    console.log(message)
     if (!message) {
       onMicrophonePress();
     } else {
@@ -227,21 +229,23 @@ const ChatScreen = ({ title }) => {
     bs.current.snapTo(1);
   }
   const SendMessageAfter = (second) => {
-    console.log(second);
     onSendReply(second)
     bss.current.snapTo(1);
   }
-  renderInner = () => (
-    <View style={styles.panel}>
-      <TouchableOpacity
-        style={styles.panelButton}
-        onPress={ReplyMessage}
-      >
-        <Text style={styles.panelButtonTitle}>Reply</Text>
-      </TouchableOpacity>
-    </View>
-  );
 
+  const Translate = async () => {
+    bs.current.snapTo(1);
+    tmp = currentUser.content
+    const regex = /(<([^>]+)>)/ig
+    var result = tmp.replace(regex, '')
+
+    var trans = await translate(`${result}`, {
+      tld: "cn",
+      to: "vi",
+    });
+    setTranslatemessage(trans)
+    bstran.current.snapTo(0);
+  }
   renderInner = () => (
     <View
       style={styles.panel}
@@ -251,6 +255,28 @@ const ChatScreen = ({ title }) => {
         onPress={ReplyMessage}
       >
         <Text style={styles.panelButtonTitle}>Reply</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={Translate}
+      >
+        <Text style={styles.panelButtonTitle}>Translate</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  renderInnerTranslate = () => (
+    <View
+      style={styles.panel}
+    >
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.panelSubtitle}>{translatemessage}</Text>
+      </View>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => bstran.current.snapTo(1)}
+      >
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
       </TouchableOpacity>
     </View>
   );
@@ -301,10 +327,32 @@ const ChatScreen = ({ title }) => {
     </View>
   );
 
+  const getname = (item) => {
+    let currentText = ''
+    contact.forEach(element => {
+      if (element.accountId === item.accountId) {
+        currentText = `${element.firstName} ${element.lastName}`
+      }
+    })
+    return currentText || `Toan`
+  }
+
+  const getavatar = (item) => {
+    let currentimage = ''
+    contact.forEach(element => {
+      if (element.accountId === item.accountId) {
+        currentimage = element.avatar ? `http://api.mvg-sky.com${element.avatar}` : imagedefaul
+      }
+    })
+    return currentimage || `Toan`
+  }
+
   bs = React.createRef();
   fall = new Animated.Value(1);
   bss = React.createRef();
   fallsend = new Animated.Value(1);
+  bstran = React.createRef();
+  falltran = new Animated.Value(1);
   return (
     <View style={styles.container}>
       <BottomSheet
@@ -319,6 +367,19 @@ const ChatScreen = ({ title }) => {
       <Animated.View
         style={{
           opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}></Animated.View>
+      <BottomSheet
+        ref={bstran}
+        snapPoints={[330, -5]}
+        renderContent={renderInnerTranslate}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={falltran}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View
+        style={{
+          opacity: Animated.add(0.1, Animated.multiply(falltran, 1.0)),
         }}></Animated.View>
       <BottomSheet
         ref={bss}
@@ -348,7 +409,6 @@ const ChatScreen = ({ title }) => {
             <>
               <TouchableOpacity style={styles.container1} onLongPress={() => {
                 bs.current.snapTo(0)
-                // setIsShowDropdown(true)
                 setCurrentUser({ userName: item?.accountId, content: customMessage || item?.content })
               }}>
 
@@ -372,15 +432,15 @@ const ChatScreen = ({ title }) => {
                       <Image
                         style={styles.tinyLogo}
                         source={{
-                          uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU',
+                          uri: isMyMessage(item) ? 'http://api.mvg-sky.com' + profile?.avatar : getavatar(item),
                         }}
                       />
                     </View>
                     {item.type === 'TEXT' ?
                       (
                         <View>
-                          {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
-                          {/* <Text style={styles.message}>{item.content}</Text> */}
+                          {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> :
+                            <Text style={styles.name}>{getname(item)}</Text>}
                           <HTMLView value={customMessage || item.content} stylesheet={styles.message} />
                           <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
                             <Text style={styles.time}>{moment(item.createdAt).fromNow()}</Text>
@@ -395,7 +455,7 @@ const ChatScreen = ({ title }) => {
                             <>
                               {isImage(item.content) ?
                                 <View>
-                                  {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>Toan</Text>}
+                                  {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>{getname(item)}</Text>}
                                   <Image
                                     style={styles.userImg}
                                     source={{ uri: 'http://api.mvg-sky.com' + item.content }}
@@ -469,7 +529,7 @@ const ChatScreen = ({ title }) => {
       {/* <InputBox chatRoomID={route.params.id} /> */}
       {
         isShowReply && <View style={{ height: 60, width: '100%', paddingLeft: 10, paddingTop: 4, borderTopWidth: 1, borderTopColor: '#CCCCCC' }}>
-          <Text style={{ fontSize: 10 }}>Reply to {currentUser?.userName}</Text>
+          <Text style={{ fontSize: 10 }}>Reply to {getname(currentUser?.userName)}</Text>
           <HTMLView value={currentUser?.content} stylesheet={styles.message} />
           <TouchableOpacity
             onPress={() => setIsShowReply(false)}
@@ -541,7 +601,9 @@ const ChatScreen = ({ title }) => {
               value={message}
               onChangeText={setMessage}
             ></TextInput> */}
-            <TouchableOpacity onPress={() => { handleSendFile() }}><Entypo name="attachment" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => { handleSendFile() }}>
+              <Entypo name="attachment" size={24} color="grey" style={styles.icon} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => { handleCamera() }}
             ><Fontisto name="camera" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
           </View>
@@ -707,6 +769,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     color: 'white',
+
   },
 });
 

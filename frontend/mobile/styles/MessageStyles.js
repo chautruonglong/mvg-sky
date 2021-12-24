@@ -61,6 +61,13 @@ export const UserName = styled.Text`
   color: #FFFFFF;
 `;
 
+export const NameSendMai = styled.Text`
+  font-size: 17px;
+  font-weight: bold;
+  font-family: 'Lato-Regular';
+  color: #FFFFFF;
+`;
+
 export const UserNameContact = styled.Text`
   font-size: 14px;
   font-weight: bold;

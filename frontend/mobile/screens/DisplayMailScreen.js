@@ -1,102 +1,55 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, ScrollView, Text, Button, StyleSheet } from 'react-native';
-import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {
+  Container,
+  Card,
+  UserInfo,
+  UserImgWrapper,
+  UserImg,
+  UserInfoText,
+  NameSendMai,
+  PostTime,
+  MailText,
+  TextSection,
+} from '../styles/MessageStyles';
+import { AuthContext } from '../navigation/AuthProvider';
 
-const DisplayMailScreen = () => {
+const item = {
+  id: '1',
+  userName: 'Jenny Doe',
+  to: "quoc@acorn.com",
+  userImg: require('../assets/users/mail_1.png'),
+  emailSubject: 'Send mail',
+  mailTime: 'Mar 30',
+  mailBody:
+    'Hey there, this is my test for a post of my social app in React Native.',
+}
+const DisplayMailScreen = ({ mail }) => {
+  const { user } = useContext(AuthContext)
   const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-      {
-        _id: 2,
-        text: 'Hello world',
-        createdAt: new Date(),
-        
-        user: {
-          _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ]);
-  }, []);
-
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
-
-  const renderSend = (props) => {
-    return (
-      <Send {...props}>
-        <View>
-          <MaterialCommunityIcons
-            name="send-circle"
-            style={{ marginBottom: 5, marginRight: 5 }}
-            size={32}
-            color="#2e64e5"
-          />
-        </View>
-      </Send>
-    );
-  };
-
-  const renderBubble = (props) => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          left: {
-            backgroundColor: '#778CAC',
-          },
-          right: {
-            backgroundColor: '#2e64e5',
-          },
-        }}
-        textStyle={{
-          left: {
-            color: '#fff',
-          },
-          right: {
-            color: '#fff',
-          },
-        }}
-      />
-    );
-  };
-
-  const scrollToBottomComponent = () => {
-    return (
-      <FontAwesome name='angle-double-down' size={22} color='#333' />
-    );
-  }
-
+  const to = `${user.account.username}@${user.domain.name}`
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      user={{
-        _id: 1,
-      }}
-      renderBubble={renderBubble}
-      alwaysShowSend
-      renderSend={renderSend}
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
-    />
+    <Container>
+      <View >
+        <UserInfo>
+          <UserImgWrapper>
+            <UserImg source={mail.userImg} />
+          </UserImgWrapper>
+          <TextSection>
+            <UserInfoText>
+              <NameSendMai>
+                {mail.userName}</NameSendMai>
+              <PostTime>{mail.mailTime}</PostTime>
+            </UserInfoText>
+            <MailText numberOfLines={1}>To:  <Text style={styles.to}>{to}</Text>
+            </MailText>
+          </TextSection>
+        </UserInfo>
+        <Text style={styles.subject}>{mail.emailSubject}</Text>
+        <Text style={styles.body}>{mail.mailBody}</Text>
+
+      </View>
+    </Container>
   );
 };
 
@@ -105,7 +58,27 @@ export default DisplayMailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#1A1D21"
   },
+  header: {
+    flexDirection: 'row',
+    width: '100%',
+    borderBottomWidth: 1,
+    borderTopWidth: 1
+  },
+  to: {
+    fontSize: 14,
+    color: "#666",
+  },
+  subject: {
+    // marginLeft: -320,
+    fontSize: 23,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 30,
+    color: "#fff"
+  },
+  body: {
+    color: "#fff"
+  }
 });

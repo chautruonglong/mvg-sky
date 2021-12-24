@@ -15,7 +15,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-native-fontawesome": "^0.2.7",
-    "@react-native-community/async-storage": "^1.12.0",
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.9.2",
     "@react-navigation/native": "^5.7.3",
@@ -63,6 +63,7 @@
     "stompjs": "^2.3.3",
     "stream-chat-react-native": "^3.10.2",
     "styled-components": "^5.2.0",
+    "translate-google-api": "^1.0.4",
     "use-redux-states": "^1.0.2",
     "webstomp-client": "^1.2.6"
   },
