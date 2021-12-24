@@ -39,6 +39,7 @@ const EditProfileScreen = () => {
           headers: { "Content-type": "multipart/form-data" }
         }
       )
+      console.log(bodyFormData)
       setProfile(response)
       Toast.show({
         type: 'success',

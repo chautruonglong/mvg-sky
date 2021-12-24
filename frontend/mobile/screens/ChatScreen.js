@@ -601,7 +601,9 @@ const ChatScreen = ({ title }) => {
               value={message}
               onChangeText={setMessage}
             ></TextInput> */}
-            <TouchableOpacity onPress={() => { handleSendFile() }}><Entypo name="attachment" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => { handleSendFile() }}>
+              <Entypo name="attachment" size={24} color="grey" style={styles.icon} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => { handleCamera() }}
             ><Fontisto name="camera" size={24} color="grey" style={styles.icon} /></TouchableOpacity>
           </View>

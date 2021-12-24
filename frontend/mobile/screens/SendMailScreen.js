@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
@@ -16,80 +16,61 @@ import {
   MailText,
   TextSection,
 } from '../styles/MessageStyles';
+import HTMLView from "react-native-htmlview";
 
-// const validIcon = parseIconFromClassName('angle-double-right')
-
-const Mail = [
-  {
-    id: '1',
-    userName: 'Jenny Doe',
-    userImg: require('../assets/users/mail_1.png'),
-    emailSubject: '[Jira]',
-    mailTime: 'Mar 30',
-    mailBody:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '2',
-    userName: 'John Doe',
-    userImg: require('../assets/users/mail_2.png'),
-    emailSubject: '[Register]',
-    mailTime: 'Mar 30',
-    mailBody:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '3',
-    userName: 'Ken William',
-    userImg: require('../assets/users/mail_3.png'),
-    emailSubject: '[Login]',
-    mailTime: 'Mar 30',
-    mailBody:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '4',
-    userName: 'Selina Paul',
-    userImg: require('../assets/users/mail_4.png'),
-    emailSubject: '[Chat]',
-    mailTime: 'Mar 30',
-    mailBody:
-      'Hey there, this is my test for a post of my social app in React Native.asdadadasdadasdasdasdadadasdadadasdadadadasdadasdadas',
-  }
-];
+const trimNewLines = (text) => {
+  if (!text) return;
+  return text.replace(/(\r\n|\n|\r)/gm, '');
+}
 
 const MessagesScreen = ({ navigation }) => {
+  const { inboxmail, contact } = useContext(AuthContext);
 
+  const getavatar = (item) => {
+    let currentimage = ''
+    contact.forEach(element => {
+      // console.log(element)
+      if (element.username === item) {
+        currentimage = element.avatar ? `http://api.mvg-sky.com${element.avatar}` : imagedefaul
+      }
+    })
+    // console.log(currentimage)
+    return currentimage || `Toan`
+  }
   return (
     <Container>
       <FlatList
-        data={Mail}
+        data={inboxmail}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Card
-            onPress={() => navigation.navigate('Display Mail', { userName: item.userName, mailTime: item.mailTime, emailSubject: item.emailSubject, mailBody: item.mailBody })}
-          >
-            <UserInfo>
-              <UserImgWrapper>
-                <UserImg source={item.userImg} />
-              </UserImgWrapper>
-              <TextSection>
-                <UserInfoText>
-                  <UserName>
-                    <FontAwesomeIcon style={{ color: '#D2691E' }} icon={faAngleDoubleRight} />
-                    {item.userName}</UserName>
-                  <PostTime>{item.mailTime}</PostTime>
-                </UserInfoText>
-                <Text style={{ color: '#f0f8ff' }}>{item.emailSubject}</Text>
+        renderItem={({ item }) => {
 
-                <MailText
-                  numberOfLines={1}
-                >{item.mailBody}</MailText>
+          return (
+            <Card
+              onPress={() => navigation.navigate('Display Mail', { userName: item.userName, mailTime: item.mailTime, emailSubject: item.emailSubject, mailBody: item.mailBody, userImg: item.userImg })}
+            >
+              <UserInfo>
+                <UserImgWrapper>
+                  <UserImg source={getavatar(item.from)} />
+                </UserImgWrapper>
+                <TextSection>
+                  <UserInfoText>
+                    <UserName>
+                      <FontAwesomeIcon style={{ color: '#D2691E' }} icon={faAngleDoubleRight} />
+                      {item.from}</UserName>
+                    <PostTime>{item.mailTime}</PostTime>
+                  </UserInfoText>
+                  <Text style={{ color: '#f0f8ff' }}>{item.subject}</Text>
 
-              </TextSection>
-            </UserInfo>
-          </Card>
-        )}
+                  <MailText
+                    numberOfLines={1}
+                  >
+                    <HTMLView value={`${trimNewLines(item.body?.trim())}`} textComponentProps={{ style: { color: '#fff' } }} stylesheet={styles.message} /></MailText>
+
+                </TextSection>
+              </UserInfo>
+            </Card>
+          )
+        }}
 
       />
       <ActionButton
@@ -116,5 +97,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     position: 'absolute',
     bottom: 35
+  },
+  message: {
+    color: "#fff"
   }
 });

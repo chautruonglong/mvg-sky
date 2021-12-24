@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, ScrollView, Text, Button, StyleSheet } from 'react-native';
 import {
   Container,
@@ -12,6 +12,7 @@ import {
   MailText,
   TextSection,
 } from '../styles/MessageStyles';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const item = {
   id: '1',
@@ -23,29 +24,30 @@ const item = {
   mailBody:
     'Hey there, this is my test for a post of my social app in React Native.',
 }
-const DisplayMailScreen = () => {
+const DisplayMailScreen = ({ mail }) => {
+  const { user } = useContext(AuthContext)
   const [messages, setMessages] = useState([]);
-
+  const to = `${user.account.username}@${user.domain.name}`
   return (
     <Container>
       <View >
         <UserInfo>
           <UserImgWrapper>
-            <UserImg source={item.userImg} />
+            <UserImg source={mail.userImg} />
           </UserImgWrapper>
           <TextSection>
             <UserInfoText>
               <NameSendMai>
-                {item.userName}</NameSendMai>
-              <PostTime>{item.mailTime}</PostTime>
+                {mail.userName}</NameSendMai>
+              <PostTime>{mail.mailTime}</PostTime>
             </UserInfoText>
-            {/* <Text style={{ color: '#f0f8ff' }}>{item.emailSubject}</Text> */}
-            <MailText numberOfLines={1}>To:  <Text style={styles.to}>{item.to}</Text>
+            <MailText numberOfLines={1}>To:  <Text style={styles.to}>{to}</Text>
             </MailText>
           </TextSection>
         </UserInfo>
-        <Text style={styles.subject}>{item.emailSubject}</Text>
-        <Text style={styles.body}>{item.mailBody}</Text>
+        <Text style={styles.subject}>{mail.emailSubject}</Text>
+        <Text style={styles.body}>{mail.mailBody}</Text>
+
       </View>
     </Container>
   );
