@@ -1,6 +1,7 @@
 package com.mvg.sky.mail.service.mail;
 
 import com.mvg.sky.common.enumeration.EmailEnumeration;
+import com.mvg.sky.james.dto.JamesMailDto;
 import com.mvg.sky.james.entity.JamesMail;
 import com.mvg.sky.james.repository.JamesMailRepository;
 import com.mvg.sky.mail.component.MimeMessageBuilder;
@@ -86,18 +87,18 @@ public class MailServiceImpl implements MailService {
             throw new RuntimeException("Not found account in database");
         }
 
-        List<JamesMail> jamesMails = jamesMailRepository.fetchMails(accountEntity.getUsername(), mailbox, pageable);
+        List<JamesMailDto> jamesMailDtos = jamesMailRepository.fetchMails(accountEntity.getUsername(), mailbox, pageable);
 
-        log.info("find {} emails", jamesMails.size());
-        return mailMapper.fromJamesMails(jamesMails);
+        log.info("find {} emails", jamesMailDtos.size());
+        return mailMapper.fromJamesMails(jamesMailDtos);
     }
 
     @Override
     public MailResponse fetchMailById(Long mailId) throws Exception {
-        JamesMail jamesMail = jamesMailRepository.fetchMailById(mailId);
+        JamesMailDto jamesMailDto = jamesMailRepository.fetchMailById(mailId);
 
-        log.info("fetch a email {}", jamesMail);
-        return mailMapper.fromJamesMail(jamesMail);
+        log.info("fetch a email {}", jamesMailDto);
+        return mailMapper.fromJamesMail(jamesMailDto);
     }
 
     @Override

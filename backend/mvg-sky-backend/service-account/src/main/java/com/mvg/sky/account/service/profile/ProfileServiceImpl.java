@@ -105,7 +105,7 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         if(fileName != null && !fileName.equals("")) {
-            fileName = FileUtil.changeFileName(fileName, UUID.randomUUID().toString());
+            fileName = FileUtil.changeFileName(fileName, profileEntity.getAccountId().toString());
 
             if(!FileUtil.isImageFile(fileName)) {
                 throw new RequestException("Avatar file is not an image", HttpStatus.BAD_REQUEST);
