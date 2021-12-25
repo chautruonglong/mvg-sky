@@ -11,7 +11,7 @@ spring:
                 -   id: service-account
                     uri: lb://SERVICE-ACCOUNT
                     predicates:
-                        - Path=/api/accounts/**, /api/profiles/**, /api/sessions/**, /api/domains/**, /api/contacts/**, /api/accounts-resources/**
+                        - Path=/api/accounts/**, /api/profiles/**, /api/sessions/**, /api/domains/**, /api/contacts/**, /api/accounts-profiles/**, /api/accounts-resources/**
                     filters:
                         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 
