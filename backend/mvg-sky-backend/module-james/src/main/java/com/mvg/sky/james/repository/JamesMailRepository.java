@@ -1,6 +1,5 @@
 package com.mvg.sky.james.repository;
 
-import com.mvg.sky.james.dto.JamesMailDto;
 import com.mvg.sky.james.entity.JamesMail;
 import com.mvg.sky.james.entity.JamesMailId;
 import java.util.Collection;
@@ -15,24 +14,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JamesMailRepository extends JpaRepository<JamesMail, JamesMailId> {
     @Query("""
-        select new com.mvg.sky.james.dto.JamesMailDto(m, a.id)
+        select m
         from JamesMail m
         inner join JamesMailbox b on b.id = m.id.mailboxId
         inner join JamesUser u on u.id = b.userName
-        inner join AccountEntity a on a.username = u.id
         where u.id = :username and upper(b.mailboxName) = upper(:mailbox) and m.mailIsDeleted = false
     """)
-    List<JamesMailDto> fetchMails(String username, String mailbox, Pageable pageable);
+    List<JamesMail> fetchMails(String username, String mailbox, Pageable pageable);
 
     @Query("""
-        select new com.mvg.sky.james.dto.JamesMailDto(m, a.id)
+        select m
         from JamesMail m
         inner join JamesMailbox b on b.id = m.id.mailboxId
         inner join JamesUser u on u.id = b.userName
-        inner join AccountEntity a on a.username = u.id
         where m.id.mailUid = :mailId and m.mailIsDeleted = false
     """)
-    JamesMailDto fetchMailById(Long mailId);
+    JamesMail fetchMailById(Long mailId);
 
     @Transactional
     @Modifying

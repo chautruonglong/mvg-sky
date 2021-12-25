@@ -12,8 +12,6 @@ import lombok.Data;
 @Data
 @Builder
 public class MailResponse {
-    private String accountId;
-
     private Long mailId;
 
     private Long mailboxId;

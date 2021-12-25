@@ -1,6 +1,5 @@
 package com.mvg.sky.mail.mapper;
 
-import com.mvg.sky.james.dto.JamesMailDto;
 import com.mvg.sky.james.entity.JamesMail;
 import com.mvg.sky.mail.dto.response.MailResponse;
 import java.io.ByteArrayInputStream;
@@ -21,14 +20,13 @@ public class MailMapper {
     @Value("${com.mvg.sky.service-mail.external-resource}")
     private String externalResources;
 
-    public List<MailResponse> fromJamesMails(List<JamesMailDto> jamesMailDtos) {
+    public List<MailResponse> fromJamesMails(List<JamesMail> jamesMails) {
         List<MailResponse> mailResponses = new ArrayList<>();
 
-        jamesMailDtos.stream()
+        jamesMails.stream()
             .parallel()
-            .forEachOrdered(jamesMailDto -> {
+            .forEachOrdered(jamesMail -> {
                 try {
-                    JamesMail jamesMail = jamesMailDto.getJamesMail();
                     byte[] mailBytes = ArrayUtils.addAll(jamesMail.getHeaderBytes(), jamesMail.getMailBytes());
                     InputStream inputStream = new ByteArrayInputStream(mailBytes);
                     Session session = Session.getDefaultInstance(new Properties(), null);
@@ -40,7 +38,6 @@ public class MailMapper {
 
                     mailResponses.add(
                         MailResponse.builder()
-                            .accountId(jamesMailDto.getAccountId().toString())
                             .mailId(jamesMail.getId().getMailUid())
                             .mailboxId(jamesMail.getId().getMailboxId())
                             .isRecent(jamesMail.getMailIsRecent())
@@ -63,8 +60,7 @@ public class MailMapper {
         return mailResponses;
     }
 
-    public MailResponse fromJamesMail(JamesMailDto jamesMailDto) throws Exception {
-        JamesMail jamesMail = jamesMailDto.getJamesMail();
+    public MailResponse fromJamesMail(JamesMail jamesMail) throws Exception {
         byte[] mailBytes = ArrayUtils.addAll(jamesMail.getHeaderBytes(), jamesMail.getMailBytes());
         InputStream inputStream = new ByteArrayInputStream(mailBytes);
         Session session = Session.getDefaultInstance(new Properties(), null);
@@ -75,7 +71,6 @@ public class MailMapper {
         mailMessageParser.replaceCidWithUrl();
 
         return MailResponse.builder()
-            .accountId(jamesMailDto.getAccountId().toString())
             .mailId(jamesMail.getId().getMailUid())
             .mailboxId(jamesMail.getId().getMailboxId())
             .isRecent(jamesMail.getMailIsRecent())
