@@ -83,7 +83,7 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/accounts-profiles")
+    @PostMapping("/accounts/profile")
     public ResponseEntity<?> createAccountProfileApi(@Valid @RequestBody AccountProfileCreationRequest accountProfileCreationRequest) {
         try {
             AccountProfileCreationResponse accountProfileCreationResponse = accountService.createAccountProfile(accountProfileCreationRequest);
