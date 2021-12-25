@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, ScrollView, Text, Button, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, Image, StyleSheet } from 'react-native';
 import {
   Container,
   Card,
@@ -13,42 +13,46 @@ import {
   TextSection,
 } from '../styles/MessageStyles';
 import { AuthContext } from '../navigation/AuthProvider';
+import HTMLView from "react-native-htmlview";
+import moment from "moment";
 
-const item = {
-  id: '1',
-  userName: 'Jenny Doe',
-  to: "quoc@acorn.com",
-  userImg: require('../assets/users/mail_1.png'),
-  emailSubject: 'Send mail',
-  mailTime: 'Mar 30',
-  mailBody:
-    'Hey there, this is my test for a post of my social app in React Native.',
-}
 const DisplayMailScreen = ({ mail }) => {
   const { user } = useContext(AuthContext)
   const [messages, setMessages] = useState([]);
-  const to = `${user.account.username}@${user.domain.name}`
+  const to = `${user.account.username}`
+
+  const namefile = (a) => {
+    return decodeURI(a[0].split('/')[a[0].split('/').length - 1])
+  }
   return (
     <Container>
-      <View >
+      <ScrollView >
         <UserInfo>
           <UserImgWrapper>
-            <UserImg source={mail.userImg} />
+            <UserImg source={{ uri: `http://api.mvg-sky.com/api/accounts-resources/avatar-by-email/${mail.from.replace("@", "%40")}` }} />
           </UserImgWrapper>
           <TextSection>
             <UserInfoText>
               <NameSendMai>
-                {mail.userName}</NameSendMai>
-              <PostTime>{mail.mailTime}</PostTime>
+                {mail.from}</NameSendMai>
+              <PostTime>{moment(mail.mailTime).fromNow()}</PostTime>
             </UserInfoText>
-            <MailText numberOfLines={1}>To:  <Text style={styles.to}>{to}</Text>
+            <MailText numberOfLines={1}>To:  <Text style={styles.to}>{mail.to}</Text>
             </MailText>
           </TextSection>
         </UserInfo>
         <Text style={styles.subject}>{mail.emailSubject}</Text>
-        <Text style={styles.body}>{mail.mailBody}</Text>
+        <HTMLView value={mail.mailBody} textComponentProps={{ style: { color: '#fff' } }} stylesheet={styles.message} />
+        {mail?.attachments ?
+          <View style={{ marginTop: 50 }}>
+            <Text style={{ color: "#fff" }}>Attachments:</Text>
+            <Image source={require('../assets/file_100px.png')} />
+            <HTMLView value={`<a href=\http://api.mvg-sky.com${mail.attachments}\>${namefile(mail.attachments)}`}></HTMLView>
+          </View> :
+          <></>
+        }
+      </ScrollView>
 
-      </View>
     </Container>
   );
 };
