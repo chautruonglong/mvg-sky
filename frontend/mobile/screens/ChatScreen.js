@@ -344,7 +344,7 @@ const ChatScreen = ({ title }) => {
         currentimage = element.avatar ? `http://api.mvg-sky.com${element.avatar}` : imagedefaul
       }
     })
-    return currentimage || `Toan`
+    return currentimage || `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSWbS3I9NbSTEsVOomPr66VVL38-x1RLajLZQ&usqp=CAU`
   }
 
   bs = React.createRef();
@@ -439,7 +439,7 @@ const ChatScreen = ({ title }) => {
                     {item.type === 'TEXT' ?
                       (
                         <View>
-                          {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> :
+                          {isMyMessage(item) ? <Text style={styles.name}>{`${profile.firstName} ${profile.lastName}`}</Text> :
                             <Text style={styles.name}>{getname(item)}</Text>}
                           <HTMLView value={customMessage || item.content} stylesheet={styles.message} />
                           <View style={{ flexDirection: 'column', justifyContent: 'flex-end', width: 300 }}>
@@ -455,7 +455,7 @@ const ChatScreen = ({ title }) => {
                             <>
                               {isImage(item.content) ?
                                 <View>
-                                  {isMyMessage(item) ? <Text style={styles.name}>{user.account.username}</Text> : <Text style={styles.name}>{getname(item)}</Text>}
+                                  {isMyMessage(item) ? <Text style={styles.name}>{`${profile.firstName} ${profile.lastName}`}</Text> : <Text style={styles.name}>{getname(item)}</Text>}
                                   <Image
                                     style={styles.userImg}
                                     source={{ uri: 'http://api.mvg-sky.com' + item.content }}
