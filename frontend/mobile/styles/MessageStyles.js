@@ -59,6 +59,7 @@ export const UserName = styled.Text`
   font-weight: bold;
   font-family: 'Lato-Regular';
   color: #FFFFFF;
+  width: 180;
 `;
 
 export const NameSendMai = styled.Text`
