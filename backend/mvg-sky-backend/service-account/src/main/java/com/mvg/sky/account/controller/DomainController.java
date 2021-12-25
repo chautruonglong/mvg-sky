@@ -1,5 +1,6 @@
 package com.mvg.sky.account.controller;
 
+import com.mvg.sky.account.dto.request.DomainCreationRequest;
 import com.mvg.sky.account.dto.request.DomainModifyRequest;
 import com.mvg.sky.account.service.domain.DomainService;
 import com.mvg.sky.common.exception.RequestException;
@@ -31,9 +32,9 @@ public class DomainController {
     private final DomainService domainService;
 
     @PostMapping("/domains")
-    public ResponseEntity<?> createDomainApi(@Valid @RequestBody DomainModifyRequest domainModifyRequest) {
+    public ResponseEntity<?> createDomainApi(@Valid @RequestBody DomainCreationRequest domainCreationRequest) {
         try {
-            DomainEntity domainEntity = domainService.createDomain(domainModifyRequest.getName());
+            DomainEntity domainEntity = domainService.createDomain(domainCreationRequest.getName());
 
             return ResponseEntity.created(URI.create("/api/domains/" + domainEntity.getId())).body(domainEntity);
         }

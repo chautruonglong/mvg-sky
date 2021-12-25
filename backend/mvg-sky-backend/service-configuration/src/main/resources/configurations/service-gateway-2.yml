@@ -1,0 +1,30 @@
+spring:
+    cloud:
+        gateway:
+            globalcors:
+                corsConfigurations:
+                    '[/**]':
+                        allowedOrigins: "*"
+                        allowedMethods: "*"
+                        allowedHeaders: "*"
+            routes:
+                -   id: service-account
+                    uri: lb://SERVICE-ACCOUNT
+                    predicates:
+                        - Path=/api/accounts/**, /api/profiles/**, /api/sessions/**, /api/domains/**, /api/contacts/**, /api/accounts-resources/**
+                    filters:
+                        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+                -   id: service-chat
+                    uri: lb://SERVICE-CHAT
+                    predicates:
+                        - Path=/api/chats/**, /api/rooms/**, /api/messages/**, /api/members/**, /api/chats-resources/**
+                    filters:
+                        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+                -   id: service-mail
+                    uri: lb://SERVICE-MAIL
+                    predicates:
+                        - Path=/api/mails/**
+                    filters:
+                        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin

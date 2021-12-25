@@ -44,6 +44,12 @@
             <artifactId>module-repository</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.mvg.sky</groupId>
+            <artifactId>module-james</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -7,6 +7,7 @@ import com.mvg.sky.common.exception.RequestException;
 import com.mvg.sky.common.util.file.FileUtil;
 import com.mvg.sky.repository.RoomAccountRepository;
 import com.mvg.sky.repository.RoomRepository;
+import com.mvg.sky.repository.dto.query.RoomMessageDto;
 import com.mvg.sky.repository.entity.RoomAccountEntity;
 import com.mvg.sky.repository.entity.RoomEntity;
 import java.io.File;
@@ -44,12 +45,12 @@ public class RoomServiceImpl implements RoomService {
     private String externalResources;
 
     @Override
-    public Collection<RoomEntity> getAllRooms(List<String> accountIds, List<String> sorts, Integer offset, Integer limit) {
+    public Collection<RoomMessageDto> getAllRooms(List<String> accountIds, List<String> sorts, Integer offset, Integer limit) {
         Sort sort = Sort.by(Sort.Direction.ASC, sorts.toArray(String[]::new));
         Pageable pageable = PageRequest.of(offset, limit, sort);
 
         List<UUID> accountUuids = accountIds != null ? accountIds.stream().map(UUID::fromString).toList() : null;
-        Collection<RoomEntity> roomEntities = roomRepository.findAllRooms(accountUuids, pageable);
+        Collection<RoomMessageDto> roomEntities = roomRepository.findAllRooms(accountUuids, pageable);
 
         log.info("find {} room entities", roomEntities == null ? 0 : roomEntities.size());
         return roomEntities;

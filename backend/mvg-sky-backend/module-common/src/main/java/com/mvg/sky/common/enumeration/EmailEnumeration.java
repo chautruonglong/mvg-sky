@@ -5,5 +5,6 @@ public enum EmailEnumeration {
     ANSWERED,
     FLAGGED,
     DELETED,
-    DRAFT
+    DRAFT,
+    RECENT
 }
