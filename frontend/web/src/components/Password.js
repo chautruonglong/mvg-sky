@@ -20,7 +20,7 @@ export const Password = ({ subChannel, accountId }) => {
     
     var config = {
       method: 'patch',
-      url: 'http://api.mvg-sky.com/api/accounts/5d0d018d-bee1-4533-aed8-41a980792ebc',
+      url: `http://api.mvg-sky.com/api/accounts/${accountId}`,
       headers: { 
         'Content-Type': 'application/json'
       },

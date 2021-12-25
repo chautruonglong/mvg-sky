@@ -11,6 +11,8 @@ import { Blank } from "./Blank";
 import Popup from "reactjs-popup";
 import { CreateChannel } from "./createChannel/CreateChannel";
 import "./createChannel/createChannel.css";
+import { CreateEmail } from "./createEmail/CreateEmail";
+import MailChannel from "./MailChannel";
 
 export const Home = ({
   status,
@@ -19,6 +21,7 @@ export const Home = ({
   setRoomId,
   accountId,
   setnewMessage,
+  accountList
 }) => {
   const [subChannel, setSubChannel] = useState(1);
   const [channels, setChannels] = useState([]);
@@ -26,7 +29,7 @@ export const Home = ({
   const { id } = useParams();
   const { channelId, setChannelId } = useState(id);
   const [title, setTitle] = useState();
-  // const accountId = "5d0d018d-bee1-4533-aed8-41a980792ebc";
+  const [emailContent, setEmailContent] = useState()
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -37,6 +40,23 @@ export const Home = ({
             url: `http://api.mvg-sky.com/api/rooms?accountId=${accountId}`,
             headers: {},
           };
+
+          const response = await axios(config);
+          return response.data;
+        };
+
+        const result = await fetchChannels();
+        setChannels(result);
+      }
+
+      if(status === 'email'){
+        const fetchChannels = async () => {
+          var config = {
+            method: 'get',
+            url: `http://api.mvg-sky.com/api/mails?accountId=${accountId}&mailbox=inbox`,
+            headers: { }
+          };
+          
 
           const response = await axios(config);
           return response.data;
@@ -73,13 +93,37 @@ export const Home = ({
     history.push("/");
   };
 
+  const HandleChannel = () => {
+    if(status !== 'email'){
+      return channels?.map((channel) => (
+        <Channel
+          accountId={accountId}
+          id={channel.id}
+          status={status}
+          channelName={channel.name}
+          setSubChannel={setSubChannel}
+          setRoomId={setRoomId}
+          setTitle={setTitle}
+        />
+      ))
+    } else {
+      return channels?.map((channel) => (
+        <MailChannel
+          setEmailContent={setEmailContent}
+          mail={channel}
+        />
+      ))
+    }
+       
+    } 
+  
   return (
     <>
       <div className="flex h-screen">
         <div className="flex flex-col space-y-3 bg-[#202225] p-3 min-w-max">
           <div className="server-default hover:bg-app_white">
             <img
-              src="https://scontent.xx.fbcdn.net/v/t1.15752-9/p206x206/259344100_221240166797176_7169315392320620239_n.png?_nc_cat=111&ccb=1-5&_nc_sid=aee45a&_nc_ohc=zqPNQwwlklYAX9X-JZH&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=5530f23c2869d704388b1f8249a048f8&oe=61C022C4"
+              src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.15752-9/259344100_221240166797176_7169315392320620239_n.png?_nc_cat=111&ccb=1-5&_nc_sid=ae9488&_nc_ohc=uqWKb3XP9vsAX-pz-2v&_nc_ht=scontent.fdad1-3.fna&oh=03_AVJEzFiTUqOxGEj1C1uBJx8J7D5VIIf2A3KlRzrGJpSmsw&oe=61EC2F47"
               alt=""
               className="h-12 cursor-pointer rounded-full transition-all duration-100 ease-out hover:rounded-2xl"
             />
@@ -103,7 +147,7 @@ export const Home = ({
           </div>
           <div className="server-default hover:bg-app_white ">
             <img
-              src="https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg"
+              src="https://previews.123rf.com/images/asmati/asmati1706/asmati170606229/80944205-user-avatar-illustration-anonymous-sign-vector-white-icon-with-soft-shadow-on-transparent-background.jpg"
               alt=""
               className="h-9 w-9 rounded-full"
               onClick={() => history.push("/channels/profile")}
@@ -143,38 +187,48 @@ export const Home = ({
                 }
               >
                 {(close) => (
-                  <CreateChannel
+                  status === 'chat' ? (<CreateChannel
                     accountId={accountId}
                     close={close}
                     channels={channels}
                     setChannels={setChannels}
                     setnewMessage={setnewMessage}
-                  />
+                  />) : (status === 'email') ? (<CreateEmail
+                    accountId={accountId}
+                    close={close}
+                    channels={channels}
+                    setChannels={setChannels}
+                    setnewMessage={setnewMessage}
+                  />) : (<></>)
                 )}
               </Popup>
             </div>
             <div className="flex flex-col space-y-2 px-2 mb-4">
-              {channels?.map((channel) => (
-                <Channel
-                  id={channel.id}
-                  status={status}
-                  channelName={channel.name}
-                  setSubChannel={setSubChannel}
-                  setRoomId={setRoomId}
-                  setTitle={setTitle}
-                />
-              ))}
+              {
+                HandleChannel()
+              // channels?.map((channel) => (
+              //   <Channel
+              //     accountId={accountId}
+              //     id={channel.id}
+              //     status={status}
+              //     channelName={channel.name}
+              //     setSubChannel={setSubChannel}
+              //     setRoomId={setRoomId}
+              //     setTitle={setTitle}
+              //   />
+              // ))
+            }
             </div>
           </div>
         </div>
         <div className="bg-[#36393f] flex-grow">
           {
             status === "chat" ? (
-              <Chat roomId={roomId} newMessage={newMessage} title={title} />
+              <Chat roomId={roomId} newMessage={newMessage} title={title} accountId={accountId} accountList={accountList}/>
             ) : status === "profile" ? (
               <Profile accountId={accountId} />
             ) : status === "email" ? (
-              <Email id={channelId} accountId={accountId} />
+              <Email  accountId={accountId} content={emailContent}/>
             ) : status === "password" ? (
               <Password id={channelId} accountId={accountId} />
             ) : (

@@ -10,7 +10,7 @@ export const CreateChannel = ({ close, accountId, channels, setChannels, setnewM
   const [channelName, setChannelName] = useState();
   const [userId, setUserId] = useState();
   const [options, setOptions] = useState();
-  const domainIds = "f0e9ec3a-efe9-45f4-924b-4718445fd5ac";
+  const domainIds = "f3411bb7-5f85-489a-b533-8a2be4002277";
 
   const fetchProfile = async () => {
     var config = {

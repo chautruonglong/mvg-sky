@@ -27,8 +27,9 @@ stompClient.connect({}, () => {
 
 function App() {
   const [accountId, setAccountId] = useState();
-  const [roomId, setRoomId] = useState("e58fe586-a124-4075-ab18-61c907e38725");
+  const [roomId, setRoomId] = useState("");
   const [newMessage, setnewMessage] = useState();
+  const [accountList, setAccountList] = useState();
 
   const fetchChannels = async () => {
     var config = {
@@ -48,8 +49,19 @@ function App() {
     }
   };
 
+  const fetchAccount = async () => {
+    var config = {
+      method: "get",
+      url: `http://api.mvg-sky.com/api/contacts?domainIds=f3411bb7-5f85-489a-b533-8a2be4002277`,
+      headers: {},
+    };
+
+    const response = await axios(config);
+    setAccountList(response.data)
+  }
+
   React.useEffect(() => {
-    accountId && fetchChannels();
+    accountId && fetchChannels() && fetchAccount() ;
   }, [accountId]);
 
   return (
@@ -60,7 +72,7 @@ function App() {
         </Route>
 
         <Route exact path="/channels">
-          <Home accountId={accountId} setnewMessage={setnewMessage}/>
+          <Home accountId={accountId} setnewMessage={setnewMessage} accountList={accountList}/>
         </Route>
 
         <Route exact path="/channels/chat">
@@ -71,13 +83,14 @@ function App() {
             roomId={roomId}
             setRoomId={setRoomId}
             setnewMessage={setnewMessage}
+            accountList={accountList}
           />
         </Route>
         <Route exact path="/channels/profile">
-          <Home status="profile" accountId={accountId} setnewMessage={setnewMessage}/>
+          <Home status="profile" accountId={accountId} setnewMessage={setnewMessage} accountList={accountList}/>
         </Route>
         <Route exact path="/channels/email">
-          <Home status="email" accountId={accountId} setnewMessage={setnewMessage}/>
+          <Home status="email" accountId={accountId} setnewMessage={setnewMessage} accountList={accountList}/>
         </Route>
 
         <Route exact path="/channels/chat/:id">
@@ -88,19 +101,20 @@ function App() {
             roomId={roomId}
             setRoomId={setRoomId}
             setnewMessage={setnewMessage}
+            accountList={accountList}
           />
         </Route>
 
         <Route exact path="/channels/profile/:id">
-          <Home status="profile" accountId={accountId} setnewMessage={setnewMessage}/>
+          <Home status="profile" accountId={accountId} setnewMessage={setnewMessage} accountList={accountList}/>
         </Route>
 
         <Route exact path="/channels/email/:id">
-          <Home status="email" accountId={accountId} setnewMessage={setnewMessage}/>
+          <Home status="email" accountId={accountId} setnewMessage={setnewMessage} accountList={accountList}/>
         </Route>
 
         <Route exact path="/channels/change-password">
-          <Home status="password" accountId={accountId} setnewMessage={setnewMessage}/>
+          <Home status="password" accountId={accountId} setnewMessage={setnewMessage} accountList={accountList}/>
         </Route>
       </Switch>
     </Router>
