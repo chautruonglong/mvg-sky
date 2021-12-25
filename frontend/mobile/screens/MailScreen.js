@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../navigation/AuthProvider';
 import ActionButton from 'react-native-action-button';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {
   Container,
   Card,
@@ -17,6 +19,8 @@ import {
   TextSection,
 } from '../styles/MessageStyles';
 import HTMLView from "react-native-htmlview";
+import moment from "moment";
+import apiRequest from '../utils/apiRequest';
 
 const trimNewLines = (text) => {
   if (!text) return;
@@ -26,16 +30,12 @@ const trimNewLines = (text) => {
 const MessagesScreen = ({ navigation }) => {
   const { inboxmail, contact } = useContext(AuthContext);
 
-  const getavatar = (item) => {
-    let currentimage = ''
-    contact.forEach(element => {
-      // console.log(element)
-      if (element.username === item) {
-        currentimage = element.avatar ? `http://api.mvg-sky.com${element.avatar}` : imagedefaul
+  const handlesetstatus = async (id) => {
+    const values = await apiRequest.patch(`/mails/change-status/${id}`,
+      {
+        "status": "SEEN"
       }
-    })
-    // console.log(currentimage)
-    return currentimage || `Toan`
+    )
   }
   return (
     <Container>
@@ -46,25 +46,44 @@ const MessagesScreen = ({ navigation }) => {
 
           return (
             <Card
-              onPress={() => navigation.navigate('Display Mail', { userName: item.userName, mailTime: item.mailTime, emailSubject: item.emailSubject, mailBody: item.mailBody, userImg: item.userImg })}
+              onPress={() => {
+                handlesetstatus(item.mailId)
+                navigation.navigate('Display Mail', {
+                  from: item.from,
+                  to: item.to,
+                  mailTime: item.sendDate,
+                  emailSubject:
+                    item.subject,
+                  mailBody: item.body,
+                  userImg: item.userImg,
+                  attachments: item.attachments,
+                })
+              }}
             >
               <UserInfo>
                 <UserImgWrapper>
-                  <UserImg source={getavatar(item.from)} />
+                  <UserImg source={{ uri: `http://api.mvg-sky.com/api/accounts-resources/avatar-by-email/${item.from.replace("@", "%40")}` }} />
                 </UserImgWrapper>
                 <TextSection>
                   <UserInfoText>
-                    <UserName>
-                      <FontAwesomeIcon style={{ color: '#D2691E' }} icon={faAngleDoubleRight} />
-                      {item.from}</UserName>
-                    <PostTime>{item.mailTime}</PostTime>
+                    <UserName numberOfLines={1}>
+                      {!item.isSeen ?
+                        < FontAwesome
+                          name="circle"
+                          style={{ color: '#00b5ec', }}
+                        />
+                        :
+                        < FontAwesome
+                          name="circle"
+                          style={{ color: '#1D2229', }}
+                        />}  {item.from}</UserName>
+                    <PostTime>{moment(item.sendDate).fromNow()}</PostTime>
                   </UserInfoText>
-                  <Text style={{ color: '#f0f8ff' }}>{item.subject}</Text>
+                  <Text numberOfLines={1} style={{ color: '#f0f8ff' }}>    {item.subject}</Text>
 
-                  <MailText
-                    numberOfLines={1}
-                  >
-                    <HTMLView value={`${trimNewLines(item.body?.trim())}`} textComponentProps={{ style: { color: '#fff' } }} stylesheet={styles.message} /></MailText>
+                  <MailText >
+                    {/* <HTMLView value={item.body} textComponentProps={{ style: { color: '#a9a9a9' } }} stylesheet={styles.message} /></MailText> */}
+                    <HTMLView value={`${trimNewLines(item.body?.trim())}`} textComponentProps={{ style: { color: '#a9a9a9' } }} stylesheet={styles.message} /></MailText>
 
                 </TextSection>
               </UserInfo>

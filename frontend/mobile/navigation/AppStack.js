@@ -41,13 +41,35 @@ const HomeStack = ({ navigation }) => (
 
 const MessageStack = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Messages" component={MessagesScreen} />
+    <Stack.Screen name="Messages" component={MessagesScreen}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }} />
     <Stack.Screen
       name="Chat"
       component={({ route }) =>
         <ChatScreen title={route.params} />
       }
       options={({ route }) => ({
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
         title: route.params.userName,
         headerBackTitleVisible: false,
       })}
@@ -67,6 +89,16 @@ const MailStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen name="Inbox" component={MailScreen}
       options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
         headerRight: () => (
           <View style={{ marginRight: 10 }}>
             <FontAwesome5.Button
@@ -86,7 +118,16 @@ const MailStack = ({ navigation }) => (
         <DisplayMailScreen mail={route.params} />
       }
       options={({ route }) => ({
-        // headerShown: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
         headerBackTitleVisible: false,
       })
       }
@@ -95,6 +136,16 @@ const MailStack = ({ navigation }) => (
       name="Sent"
       component={SendMailScreen}
       options={({ route }) => ({
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
         headerBackTitleVisible: false,
         headerLeft: null,
         headerRight: () => (
@@ -137,9 +188,18 @@ const ProfileStack = ({ navigation }) => (
       name="EditProfile"
       component={EditProfileScreen}
       options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
         headerTitle: 'Edit Profile',
         headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: '#fff',
           shadowColor: '#fff',

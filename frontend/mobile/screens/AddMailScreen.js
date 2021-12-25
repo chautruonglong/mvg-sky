@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import {
     View,
     Text,
@@ -7,6 +7,7 @@ import {
     TextInput,
     StyleSheet,
     Alert,
+    ScrollView
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -18,6 +19,12 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import apiRequest from '../utils/apiRequest';
 import { AuthContext } from '../navigation/AuthProvider';
+import Toast from 'react-native-toast-message';
+import {
+    actions,
+    RichEditor,
+    RichToolbar,
+} from "react-native-pell-rich-editor";
 
 const AddMailScreen = ({ navigation }) => {
     const [to, setTo] = useState("")
@@ -27,8 +34,18 @@ const AddMailScreen = ({ navigation }) => {
     const [body, setBody] = useState("")
     const [namefile, setNamefile] = useState("")
     const [res, setRes] = useState()
-    const { user } = useContext(AuthContext);
+    const { user, setSendmail, sendmail } = useContext(AuthContext);
+    const RichText = useRef();
     const datamail = new FormData();
+
+    function editorInitializedCallback() {
+        RichText.current?.registerToolbar(function (items) {
+            // items contain all the actions that are currently active
+            // console.log(
+            //   items
+            // );
+        });
+    }
 
     const handleAttachment = async () => {
 
@@ -41,12 +58,38 @@ const AddMailScreen = ({ navigation }) => {
                 setRes(res)
 
             setNamefile(res.name)
-            console.log(datamail)
 
 
         } catch (e) {
             console.log(e)
         }
+    }
+
+    const Sendmail = async () => {
+        const send = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=SENT`, {
+            accountId: user?.domain?.id,
+            mailbox: "SENT",
+        },
+            {
+                headers: {
+                    accept: 'application/json',
+                    // Authorization: `${user.accessToken}`
+                }
+            }
+        )
+        setSendmail(send)
+        navigation.navigate('Sent');
+        Toast.show({
+            type: 'success',
+            text1: 'Sent mail successfully!'
+        });
+        setNamefile("")
+        setTo("")
+        setBcc("")
+        setCc("")
+        setSubject("")
+        setBody("")
+        setRes("")
     }
     const handleSend = async () => {
         try {
@@ -60,13 +103,14 @@ const AddMailScreen = ({ navigation }) => {
                 datamail.append('subject', subject)
             if (body)
                 datamail.append('body', body)
-            datamail.append('attachments', {
-                name: res.name,
-                type: res.type,
-                uri: Platform.OS === 'ios' ?
-                    res.uri.replace('file://', '')
-                    : res.uri,
-            })
+            if (res)
+                datamail.append('attachments', {
+                    name: res.name,
+                    type: res.type,
+                    uri: Platform.OS === 'ios' ?
+                        res.uri.replace('file://', '')
+                        : res.uri,
+                })
             datamail.append('enableThread ', true)
             const response = await apiRequest.post(`/mails/send`,
                 datamail,
@@ -74,22 +118,21 @@ const AddMailScreen = ({ navigation }) => {
                     headers: { "Content-type": "multipart/form-data" }
                 }
             )
-            console.log(datamail)
-            navigation.navigate('Sent');
-            setNamefile("")
-            setTo("")
-            setBcc("")
-            setCc("")
-            setSubject("")
-            setBody("")
-            setRes("")
+            Toast.show({
+                type: 'info',
+                text1: "Sending mail",
+            });
+            setTimeout(
+                Sendmail
+                , 2000);
+
 
         } catch (e) {
             console.log(e)
         }
     }
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.container}>
                 <BottomSheet
                     snapPoints={[330, -5]}
@@ -151,6 +194,29 @@ const AddMailScreen = ({ navigation }) => {
                             style={[styles.textInput, { height: 40 }]}
                         />
                     </View>
+                    <View >
+                        {/* < RichToolbar
+                            // style={[styles.richBar]}
+                            editor={RichText}
+                            disabled={false}
+                            selectedIconTint={'#2095F2'}
+                            disabledIconTint={'#bfbfbf'}
+                            // onPressAddImage={onPressAddImage}
+                            actions={
+                                [
+                                    actions.keyboard,
+                                    actions.setBold,
+                                    actions.setItalic,
+                                    actions.insertBulletsList,
+                                    actions.insertOrderedList,
+                                    actions.insertLink,
+                                    actions.setStrikethrough,
+                                    actions.setUnderline,
+                                    actions.checkboxList,
+                                    actions.code,
+                                ]}
+                        /> */}
+                    </View>
                     <View style={styles.action1}>
                         {/* <Feather name="phone" color="#333333" size={20} /> */}
                         <TextInput
@@ -178,13 +244,27 @@ const AddMailScreen = ({ navigation }) => {
                                 <></>
                             }
                         </View>
+
+
                     </View>
+
+                    {/* <RichEditor
+                        placeholder={"Type a message"}
+                        disabled={false}
+                        containerStyle={styles.richEditor}
+                        ref={RichText}
+                        style={styles.rich}
+                        // value={message}
+                        // onChange={(text) => setMessage(text)}
+                        editorInitializedCallback={editorInitializedCallback}
+                    // multiline
+                    /> */}
                     <FormButton buttonTitle="Send"
                         onPress={handleSend}
                     />
                 </Animated.View>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
