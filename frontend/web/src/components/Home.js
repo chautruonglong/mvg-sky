@@ -20,8 +20,7 @@ export const Home = ({
   roomId,
   setRoomId,
   accountId,
-  setnewMessage,
-  accountList
+  setnewMessage
 }) => {
   const [subChannel, setSubChannel] = useState(1);
   const [channels, setChannels] = useState([]);
@@ -30,6 +29,7 @@ export const Home = ({
   const { channelId, setChannelId } = useState(id);
   const [title, setTitle] = useState();
   const [emailContent, setEmailContent] = useState()
+  const [accountList, setAccountList] = useState();
 
   useEffect(() => {
     const fetchdata = async () => {

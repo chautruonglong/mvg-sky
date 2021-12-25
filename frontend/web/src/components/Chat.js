@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { stompClient } from "../App";
 
-export const Chat = ({ id, newMessage, roomId, setRoomId, title, accountId }) => {
+export const Chat = ({ id, newMessage, roomId, setRoomId, title, accountId, accountList }) => {
   const inputRef = useRef("");
   const chatRef = useRef(null);
   const [messages, setMessages] = useState([]);
@@ -85,7 +85,6 @@ export const Chat = ({ id, newMessage, roomId, setRoomId, title, accountId }) =>
                 message={content}
                 timestamp={createdAt}
                 type={type}
-                
                 // photoURL={photoURL}
               />
             );
