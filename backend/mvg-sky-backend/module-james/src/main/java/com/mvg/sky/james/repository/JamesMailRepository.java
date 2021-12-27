@@ -23,7 +23,11 @@ public interface JamesMailRepository extends JpaRepository<JamesMail, JamesMailI
     List<JamesMail> fetchMails(String username, String mailbox, Pageable pageable);
 
     @Query("""
-        select m from JamesMail m where m.id.mailUid = :mailId and m.mailIsDeleted = false
+        select m
+        from JamesMail m
+        inner join JamesMailbox b on b.id = m.id.mailboxId
+        inner join JamesUser u on u.id = b.userName
+        where m.id.mailUid = :mailId and m.mailIsDeleted = false
     """)
     JamesMail fetchMailById(Long mailId);
 

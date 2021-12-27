@@ -1,10 +1,9 @@
-import {
-  ArrowRightIcon,
-  HashtagIcon,
-} from "@heroicons/react/outline";
+import { ArrowRightIcon, HashtagIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { useEffect } from "react/cjs/react.development";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { toastError, toastSuccess } from "./Toast";
 
 export const Profile = ({ subChannel, accountId }) => {
   const [firstName, setFirstName] = useState("");
@@ -13,13 +12,13 @@ export const Profile = ({ subChannel, accountId }) => {
   const [mobile, setMobile] = useState("");
   const [birthday, setBirthday] = useState("");
   const [location, setLocation] = useState("");
-  const [profileId, setProfileId] = useState('')
+  const [profileId, setProfileId] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       var config = {
         method: "get",
-        url: "http://api.mvg-sky.com/api/profiles?accountId=5d0d018d-bee1-4533-aed8-41a980792ebc",
+        url: `http://api.mvg-sky.com/api/profiles?accountId=${accountId}`,
         headers: {},
       };
 
@@ -31,21 +30,13 @@ export const Profile = ({ subChannel, accountId }) => {
       setMobile(result.mobile);
       setBirthday(result.birthday);
       setLocation(result.location);
-      setProfileId(result.id)
+      setProfileId(result.id);
     };
 
     fetchData();
   }, []);
 
-  const handleClickUpdate = async ()=>{
-    const obj = {
-      firstName,
-      lastName,
-      title,
-      mobile,
-      birthday,
-      location
-    }
+  const handleClickUpdate = async () => {
 
     var data = JSON.stringify({
       firstName,
@@ -53,27 +44,26 @@ export const Profile = ({ subChannel, accountId }) => {
       title,
       mobile,
       birthday,
-      location
+      location,
     });
-    
-    
+
     var config = {
-      method: 'patch',
-      url: 'http://api.mvg-sky.com/api/profiles/24fdc0da-082d-4b19-a055-34e3c2c15399',
-      headers: { 
-        'Access-Control-Allow-Origin': '*', 
-        'Content-Type': 'application/json'
+      method: "patch",
+      url: `http://api.mvg-sky.com/api/profiles/${profileId}`,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
       },
-      data : data
+      data: data,
     };
-    
+
     try {
-      const {result} = await axios(config);
+      await axios(config);
+      toastSuccess("Profile successfully updated.")
     } catch (error) {
-      console.log('update profile unsuccessfully')
+      toastError("Profile unsuccessfully updated.")
     }
-    
-  }
+  };
 
   return (
     <>
@@ -212,7 +202,14 @@ export const Profile = ({ subChannel, accountId }) => {
                 paddingTop: "10px",
               }}
             >
-              <button type="button" className="text-white" style={{backgroundColor: '#808080', padding: "5px"}} onClick={async ()=> await handleClickUpdate()}>Update </button>
+              <button
+                type="button"
+                className="text-white"
+                style={{ backgroundColor: "#808080", padding: "5px" }}
+                onClick={async () => await handleClickUpdate()}
+              >
+                Update{" "}
+              </button>
             </div>
           </div>
         </main>

@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
   const [stompClient, setStompClient] = useState(Stomp.over(sockJS))
   const [contact, setContact] = useState(null)
   const [inboxmail, setInboxmail] = useState()
-
-
+  const [sendmail, setSendmail] = useState()
+  const [count, setCount] = useState(0)
   useEffect(() => {
     stompClient.connect({}, () => {
       setIsConnnected(true);
@@ -53,15 +53,30 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const fetchInbox = async () => {
+    const inbox = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=INBOX`, {
+      accountId: user?.domain?.id,
+      mailbox: "INBOX",
+    },
+      {
+        headers: {
+          accept: 'application/json',
+          // Authorization: `${user.accessToken}`
+        }
+      }
+    )
+    // console.log("okkkkkkkkkkkk")
+    setInboxmail(inbox)
+  }
   const fetchContact = async () => {
+
     if (user?.domain?.id) {
       const values = await apiRequest.get(`/contacts?domainIds=${user.domain.id}`)
       setContact(values)
-      // const mailbox = await apiRequest.get(`/mailboxes?accountId=${user.domain.id}`)
-      // if (mailbox.length === 0) {
-      const inbox = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=INBOX`, {
+
+      const send = await apiRequest.get(`/mails?accountId=${user.account.id}&mailbox=SENT`, {
         accountId: user?.domain?.id,
-        mailbox: "INBOX",
+        mailbox: "SENT",
       },
         {
           headers: {
@@ -70,26 +85,28 @@ export const AuthProvider = ({ children }) => {
           }
         }
       )
-      setInboxmail(inbox)
-      //   const send = await apiRequest.post('/mailboxes', {
-      //     accountId: user?.domain?.id,
-      //     namespace: "SEND",
-      //     name: "SEND"
-      //   },
-      //     {
-      //       headers: {
-      //         accept: 'application/json',
-      //         // Authorization: `${user.accessToken}`
-      //       }
-      //     }
-      //   )
-      // }
+      setSendmail(send)
+      setCount(1)
     }
   }
 
   useEffect(() => {
     fetchContact()
   }, [user])
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await fetchInbox();
+    }, 2000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [user])
+
+  // useEffect(() => {
+  //   fetchInbox()
+  // }, [count])
 
   useEffect(() => {
     fetchRoom()
@@ -125,7 +142,9 @@ export const AuthProvider = ({ children }) => {
         setChats,
         setMyRooms,
         contact,
-        inboxmail
+        inboxmail,
+        sendmail,
+        setSendmail
       }}>
       {children}
     </AuthContext.Provider>

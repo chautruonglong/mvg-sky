@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.14.3</version>
+            <version>1.10.2</version>
         </dependency>
 
         <dependency>
@@ -62,7 +62,6 @@
             <artifactId>apache-james-mailbox-api</artifactId>
             <version>3.3.0</version>
         </dependency>
-
     </dependencies>
 
 </project>

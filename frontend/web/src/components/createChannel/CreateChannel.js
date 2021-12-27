@@ -3,12 +3,14 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
 import Select from "react-select";
+import { toastError, toastSuccess } from "../Toast";
+import { stompClient } from "../../App";
 
-export const CreateChannel = ({ close, accountId,notify }) => {
+export const CreateChannel = ({ close, accountId, channels, setChannels, setnewMessage }) => {
   const [channelName, setChannelName] = useState();
   const [userId, setUserId] = useState();
   const [options, setOptions] = useState();
-  const domainIds = "f0e9ec3a-efe9-45f4-924b-4718445fd5ac";
+  const domainIds = "f3411bb7-5f85-489a-b533-8a2be4002277";
 
   const fetchProfile = async () => {
     var config = {
@@ -18,7 +20,7 @@ export const CreateChannel = ({ close, accountId,notify }) => {
     };
 
     const response = await axios(config);
-    return response.data[0].id;
+    return response?.data[0]?.id;
   };
 
   const fetchContact = async () => {
@@ -65,10 +67,19 @@ export const CreateChannel = ({ close, accountId,notify }) => {
     };
 
     try {
-      await axios(config);
+      const {data} = await axios(config);
+      toastSuccess("Channel successfully created.");
+      close();
+      stompClient.subscribe(`/room/${data.id}`, (payload) => {
+        setnewMessage(JSON.parse(payload.body).data);
+      });
       
+      const newChannel = [...channels, data]
+      setChannels(newChannel)
+
     } catch (error) {
       console.log("create channel unsuccessfully");
+      toastError("Channel unsuccessfully created.");
     }
   };
 

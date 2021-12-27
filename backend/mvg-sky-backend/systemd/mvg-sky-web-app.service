@@ -1,0 +1,16 @@
+[Unit]
+Description=mvg-sky-web-app
+After=syslog.target
+
+[Service]
+User=root
+Environment=PORT=5000
+Environment=PATH=$PATH:/root/.nvm/versions/node/v16.13.0/bin
+WorkingDirectory=/root/mvg-sky-web/mvg-sky/frontend/web
+ExecStart=/root/.nvm/versions/node/v16.13.0/bin/yarn start
+StandardOutput=journal
+StandardError=journal
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

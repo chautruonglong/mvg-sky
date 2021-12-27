@@ -3,7 +3,6 @@ package com.mvg.sky.mail.service.mailbox;
 import com.mvg.sky.james.operation.MailboxOperation;
 import com.mvg.sky.mail.dto.request.MailboxCreationRequest;
 import com.mvg.sky.repository.AccountRepository;
-import com.mvg.sky.repository.dto.query.AccountDomainDto;
 import com.mvg.sky.repository.entity.AccountEntity;
 import java.io.IOException;
 import java.util.Collection;
