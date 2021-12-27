@@ -126,7 +126,7 @@ public class RoomServiceImpl implements RoomService {
         }
 
         if(fileName != null && !fileName.equals("")) {
-            fileName = FileUtil.changeFileName(fileName, UUID.randomUUID().toString());
+            fileName = FileUtil.changeFileName(fileName, roomEntity.getId().toString());
 
             if(!FileUtil.isImageFile(fileName)) {
                 throw new RequestException("Avatar file is not an image", HttpStatus.BAD_REQUEST);

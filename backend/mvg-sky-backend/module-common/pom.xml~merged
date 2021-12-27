@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+<<<<<<< HEAD
+<<<<<<< HEAD:backend/mvg-sky-backend/module-common/pom.xml
+    <artifactId>module-common</artifactId>
+=======
+    <artifactId>service-imap</artifactId>
+>>>>>>> 82d7122 (Develop: domains, vps, deploy microservices backend (#12)):backend/mvg-sky-backend/service-imap/pom.xml
+=======
+    <artifactId>module-common</artifactId>
+>>>>>>> 82d7122 (Develop: domains, vps, deploy microservices backend (#12))
+    <packaging>jar</packaging>
+
+
+    <parent>
+        <artifactId>mvg-sky-backend</artifactId>
+        <groupId>com.mvg.sky</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+</project>

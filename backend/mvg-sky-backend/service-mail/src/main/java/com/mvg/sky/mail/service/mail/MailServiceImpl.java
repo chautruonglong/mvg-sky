@@ -3,11 +3,11 @@ package com.mvg.sky.mail.service.mail;
 import com.mvg.sky.common.enumeration.EmailEnumeration;
 import com.mvg.sky.james.entity.JamesMail;
 import com.mvg.sky.james.repository.JamesMailRepository;
-import com.mvg.sky.mail.component.MimeMessageBuilder;
 import com.mvg.sky.mail.dto.request.MailSendingRequest;
 import com.mvg.sky.mail.dto.request.MailboxCreationRequest;
 import com.mvg.sky.mail.dto.request.MailsDeletingRequest;
 import com.mvg.sky.mail.dto.response.MailResponse;
+import com.mvg.sky.mail.heper.MimeMessageBuilder;
 import com.mvg.sky.mail.mapper.MailMapper;
 import com.mvg.sky.mail.service.mailbox.MailboxService;
 import com.mvg.sky.mail.task.MailSendingTask;
@@ -65,12 +65,10 @@ public class MailServiceImpl implements MailService {
         if(mailSendingRequest.getEnableThread()) {
             MailSendingTask mailSendingTask = new MailSendingTask(javaMailSender, mimeMessage);
             mailSendingTask.start();
-
             return "Sending email...";
         }
         else {
             javaMailSender.send(mimeMessage);
-
             return "Sent email";
         }
     }

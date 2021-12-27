@@ -267,12 +267,12 @@ bf0ZeKkrm3St5RYm10J+RRskFN01diMU4Ehi2nr4fw==
          <mailet match="All" class="RecipientRewriteTable" />
 
          <!-- Place a copy in the user Sent folder -->
-         <!--
+        
          <mailet match="SenderIsLocal" class="ToSenderFolder">
            <folder>Sent</folder>
            <consume>false</consume>
          </mailet>
-         -->
+        
 
        <!-- Is the recipient is for a local account, deliver it locally -->
        <mailet match="RecipientIsLocal" class="Sieve"/>

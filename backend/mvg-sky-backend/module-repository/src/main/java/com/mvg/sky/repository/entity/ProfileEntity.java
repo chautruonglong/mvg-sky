@@ -1,6 +1,7 @@
 package com.mvg.sky.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.net.UrlEscapers;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -55,5 +56,10 @@ public class ProfileEntity extends BaseEntity {
             return UrlEscapers.urlFragmentEscaper().escape("/api/accounts-resources/avatar/" + avatar);
         }
         return null;
+    }
+
+    @JsonIgnore
+    public String getOriginalAvatar() {
+        return avatar;
     }
 }
