@@ -4,18 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { stompClient } from "../App";
 
-export const Chat = ({ id, newMessage, roomId, setRoomId, title }) => {
+export const Chat = ({ id, newMessage, roomId, setRoomId, title, accountId, accountList }) => {
   const inputRef = useRef("");
   const chatRef = useRef(null);
-  const idSender = "5d0d018d-bee1-4533-aed8-41a980792ebc";
-  const photoURL =
-    "https://cdn3.vectorstock.com/i/1000x1000/38/17/male-face-avatar-logo-template-pictograph-vector-11333817.jpg";
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const addMessage = () => {
       if (newMessage) {
-        console.log('send message');
+        console.log("send message");
         setMessages([...messages, newMessage]);
       }
     };
@@ -32,12 +29,12 @@ export const Chat = ({ id, newMessage, roomId, setRoomId, title }) => {
     const fetchRoom = async () => {
       var config = {
         method: "get",
-        url: `http://api.mvg-sky.com/api/messages?roomId=${roomId}&type=TEXT&limit=10`,
+        url: `http://api.mvg-sky.com/api/messages?roomId=${roomId}&limit=30`,
         headers: {},
       };
 
       const values = await axios(config);
-      values.data.reverse()
+      values.data.reverse();
       setMessages(values.data);
     };
 
@@ -49,8 +46,9 @@ export const Chat = ({ id, newMessage, roomId, setRoomId, title }) => {
     e.preventDefault();
 
     if (inputRef.current.value !== "") {
+      console.log('xxx----===', accountId)
       const chatMessage = {
-        accountId: idSender,
+        accountId: accountId,
         content: inputRef.current.value,
         threadId: null,
         type: "TEXT",
@@ -79,14 +77,14 @@ export const Chat = ({ id, newMessage, roomId, setRoomId, title }) => {
         </header>
         <main className="flex-grow overflow-y-scroll scrollbar-hide">
           {messages?.map((data) => {
-            const { content, createdAt, accountId } = data;
-
+            const { content, createdAt, accountId, type } = data;
             return (
               <Message
                 key={Math.random()}
                 id={accountId}
                 message={content}
                 timestamp={createdAt}
+                type={type}
                 // photoURL={photoURL}
               />
             );
