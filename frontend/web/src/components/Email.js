@@ -2,16 +2,23 @@ import { HashtagIcon, ArrowCircleRightIcon } from "@heroicons/react/outline";
 import Message from "./Message";
 import {  useRef, useState } from "react";
 
-export const Email = () => {
+export const Email = ({content}) => {
   const inputRef = useRef("");
   const chatRef = useRef(null);
 
-    const scrollToBottom = () => {
-      chatRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-    }
+   
+
+    function convertToPlain(html){
+
+      // Create a new div element
+      var tempDivElement = document.createElement("div");
+  
+      // Set the HTML content with the given value
+      tempDivElement.innerHTML = html;
+  
+      // Retrieve the text property of the element 
+      return tempDivElement.textContent || tempDivElement.innerText || "";
+  }
     
     return (
       <>
@@ -21,6 +28,7 @@ export const Email = () => {
                 <HashtagIcon className="h-6 text-[#72767d]" />
                 <h4 className="text-white font-semibold">Subject</h4>
                 <input
+                    value={content?.subject}
                     type="text"
                     className="bg-transparent focus:outline-none text-[#dcddde] w-full placeholder-[#72767d] text-sm"
                     ref={inputRef}
@@ -32,8 +40,9 @@ export const Email = () => {
             <div className="flex items-center justify-between space-x-5 border-b border-gray-800 p-4 -mt-1">
               <div className="flex items-center space-x-1">
                 <HashtagIcon className="h-6 text-[#72767d]" />
-                <h4 className="text-white font-semibold">To</h4>
+                <h4 className="text-white font-semibold">From</h4>
                 <input
+                    value={content?.from}
                     type="text"
                     className="bg-transparent focus:outline-none text-[#dcddde] w-full placeholder-[#72767d] text-sm"
                     ref={inputRef}
@@ -47,6 +56,7 @@ export const Email = () => {
                     {/* <ArrowCircleRightIcon className="icon mr-4" /> */}
                     <form className="flex-grow">
                     <textarea
+                        value={convertToPlain(content?.body)}
                         type="text"
                         rows="10"
                         className="bg-transparent focus:outline-none text-[#dcddde] w-full placeholder-[#72767d] text-sm"
@@ -57,9 +67,9 @@ export const Email = () => {
                     </button>
                     </form>
                 </div>
-                <div className="flex items-center p-2.5 bg-[#40444b] mx-5 mb-7 rounded-lg">
+                {/* <div className="flex items-center p-2.5 bg-[#40444b] mx-5 mb-7 rounded-lg">
                     <button className="text-white font-semibold">Send</button>     
-                </div>
+                </div> */}
             </main>
 
         </div>
